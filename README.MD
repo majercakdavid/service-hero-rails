@@ -1,0 +1,1 @@
+Repository contains the bare-bone and basic representation of the database model of the ServiceHero web app.
