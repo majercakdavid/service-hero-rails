@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @document.owner %>
+</p>
+
+<p>
+  <strong>Belongs to:</strong>
+  <%= @document.belongs_to %>
+</p>
+
+<p>
+  <strong>Label:</strong>
+  <%= @document.label %>
+</p>
+
+<p>
+  <strong>Data:</strong>
+  <%= @document.data %>
+</p>
+
+<p>
+  <strong>Dataurl:</strong>
+  <%= @document.dataurl %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @document.description %>
+</p>
+
+<%= link_to 'Edit', edit_document_path(@document) %> |
+<%= link_to 'Back', documents_path %>

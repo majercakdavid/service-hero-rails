@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>References:</strong>
+  <%= @business_owner.references %>
+</p>
+
+<p>
+  <strong>References:</strong>
+  <%= @business_owner.references %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @business_owner.email %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @business_owner.name %>
+</p>
+
+<%= link_to 'Edit', edit_business_owner_path(@business_owner) %> |
+<%= link_to 'Back', business_owners_path %>

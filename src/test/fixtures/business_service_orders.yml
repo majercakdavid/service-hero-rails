@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  business_service: one
+  order: one
+  label: MyString
+  description: MyText
+  date_created: 2017-03-19 13:53:29
+
+two:
+  business_service: two
+  order: two
+  label: MyString
+  description: MyText
+  date_created: 2017-03-19 13:53:29

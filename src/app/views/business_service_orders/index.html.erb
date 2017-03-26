@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Business Service Orders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Business service</th>
+      <th>Order</th>
+      <th>Label</th>
+      <th>Description</th>
+      <th>Date created</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @business_service_orders.each do |business_service_order| %>
+      <tr>
+        <td><%= business_service_order.business_service %></td>
+        <td><%= business_service_order.order %></td>
+        <td><%= business_service_order.label %></td>
+        <td><%= business_service_order.description %></td>
+        <td><%= business_service_order.date_created %></td>
+        <td><%= link_to 'Show', business_service_order %></td>
+        <td><%= link_to 'Edit', edit_business_service_order_path(business_service_order) %></td>
+        <td><%= link_to 'Destroy', business_service_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Business Service Order', new_business_service_order_path %>
