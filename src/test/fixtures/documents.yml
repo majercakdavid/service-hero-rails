@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  owner: one
+  belongs_to: 
+  label: MyString
+  data: 
+  dataurl: MyText
+  description: MyText
+
+two:
+  owner: two
+  belongs_to: 
+  label: MyString
+  data: 
+  dataurl: MyText
+  description: MyText

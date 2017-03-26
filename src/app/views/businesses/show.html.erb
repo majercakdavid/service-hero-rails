@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Primary address:</strong>
+  <%= @business.primary_address_id %>
+</p>
+
+<p>
+  <strong>Secondary address:</strong>
+  <%= @business.secondary_address_id %>
+</p>
+
+<p>
+  <strong>Administrator:</strong>
+  <%= @business.administrator %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @business.name %>
+</p>
+
+<p>
+  <strong>Date joined:</strong>
+  <%= @business.date_joined %>
+</p>
+
+<%= link_to 'Edit', edit_business_path(@business) %> |
+<%= link_to 'Back', businesses_path %>
