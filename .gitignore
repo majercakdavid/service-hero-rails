@@ -5,17 +5,15 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 .idea
-log
-development.log
 
 # Ignore bundler config.
 /.bundle
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+src/log/
+#!src/log/.keep
+src/tmp/
+#!src/tmp/.keep
 
 # Ignore Byebug command history file.
 .byebug_history

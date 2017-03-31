@@ -107,12 +107,6 @@ ActiveRecord::Schema.define(version: 20170319125328) do
     t.index ["shipping_address_id"], name: "index_customers_on_shipping_address_id", using: :btree
   end
 
-  create_table "document_owner_types", force: :cascade do |t|
-    t.string   "label"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "documents", force: :cascade do |t|
     t.string   "documentable_type"
     t.integer  "documentable_id"

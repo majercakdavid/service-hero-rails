@@ -5,8 +5,8 @@
 <table>
   <thead>
     <tr>
-      <th>References</th>
-      <th>References</th>
+      <th>Shipping Address:</th>
+      <th>Billing Address:</th>
       <th>Email</th>
       <th>Name</th>
       <th colspan="3"></th>
@@ -16,8 +16,8 @@
   <tbody>
     <% @business_owners.each do |business_owner| %>
       <tr>
-        <td><%= business_owner.references %></td>
-        <td><%= business_owner.references %></td>
+        <td><%= business_owner.billing_address %></td>
+        <td><%= business_owner.shipping_address %></td>
         <td><%= business_owner.email %></td>
         <td><%= business_owner.name %></td>
         <td><%= link_to 'Show', business_owner %></td>
