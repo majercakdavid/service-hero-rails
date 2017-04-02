@@ -25,9 +25,10 @@ class AdministratorsController < ApplicationController
   # POST /administrators.json
   def create
     @administrator = Administrator.new(administrator_params)
-
     respond_to do |format|
       if @administrator.save
+        log_in @administrator
+        flash[:success] = 'Administrator was successfully created.'
         format.html { redirect_to @administrator, notice: 'Administrator was successfully created.' }
         format.json { render :show, status: :created, location: @administrator }
       else
@@ -42,6 +43,7 @@ class AdministratorsController < ApplicationController
   def update
     respond_to do |format|
       if @administrator.update(administrator_params)
+        flash[:success] = 'Administrator was successfully updated.'
         format.html { redirect_to @administrator, notice: 'Administrator was successfully updated.' }
         format.json { render :show, status: :ok, location: @administrator }
       else
@@ -56,6 +58,7 @@ class AdministratorsController < ApplicationController
   def destroy
     @administrator.destroy
     respond_to do |format|
+      flash[:success] = 'Administrator was successfully destroyed.'
       format.html { redirect_to administrators_url, notice: 'Administrator was successfully destroyed.' }
       format.json { head :no_content }
     end
@@ -69,6 +72,6 @@ class AdministratorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def administrator_params
-      params.require(:administrator).permit(:email, :string, :name, :string)
+      params.require(:administrator).permit(:email, :name, :password, :password_confirmation)
     end
 end
