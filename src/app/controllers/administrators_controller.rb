@@ -1,5 +1,5 @@
 class AdministratorsController < ApplicationController
-  before_action :set_administrator, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_administrator, only: [:show, :edit, :update, :destroy]
 
   # GET /administrators
   # GET /administrators.json
@@ -25,12 +25,19 @@ class AdministratorsController < ApplicationController
   # POST /administrators.json
   def create
     @administrator = Administrator.new(administrator_params)
+    @user = User.new(administrator_user_params)
+    @user.role_type = @administrator.class.name
     respond_to do |format|
       if @administrator.save
-        log_in @administrator
-        flash[:success] = 'Administrator was successfully created.'
-        format.html { redirect_to @administrator, notice: 'Administrator was successfully created.' }
-        format.json { render :show, status: :created, location: @administrator }
+        @user.role_id = @administrator.id
+        if @user.save
+          flash[:success] = 'Administrator was successfully created.'
+          format.html { redirect_to dashboard_path, notice: 'Administrator was successfully created.' }
+          format.json { render :show, status: :created, location: @administrator }
+        else
+          format.html { render :new }
+          format.json { render json: @administrator.errors, status: :unprocessable_entity }
+        end
       else
         format.html { render :new }
         format.json { render json: @administrator.errors, status: :unprocessable_entity }
@@ -65,13 +72,17 @@ class AdministratorsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_administrator
-      @administrator = Administrator.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_administrator
+    @administrator = Administrator.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def administrator_params
-      params.require(:administrator).permit(:email, :name, :password, :password_confirmation)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def administrator_params
+    params.require(:administrator).permit(:name)
+  end
+
+  def administrator_user_params
+    params.require(:administrator).require(:user).permit(:email, :password, :password_confirmation)
+  end
 end

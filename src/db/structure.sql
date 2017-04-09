@@ -77,8 +77,6 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 CREATE TABLE administrators (
     id integer NOT NULL,
-    email character varying,
-    password_digest character varying,
     name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

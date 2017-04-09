@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+=begin
 doc_owner_types=['BusinessOwner', 'Business', 'Administrator', 'Employee', 'Business_Service', 'Business_Service_Order', 'Customer', 'Service']
 admin = Administrator.first
 
@@ -268,3 +268,33 @@ doc_count.times do
       description: Faker::Lorem.paragraph
   )
 end
+=end
+
+connection = ActiveRecord::Base.connection.raw_connection
+connection.prepare('create_user', 'INSERT INTO "users" ("id" ,"email", "encrypted_password", "role_id", "role_type", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"')
+#Administrator.all.select(:id, :email, :password_digest, :created_at, :updated_at).each {
+#    |admin|
+#  connection.exec_prepared('create_user', [ admin.email, admin.password_digest, admin.id,
+#                                                 'Administrator', admin.created_at, admin.updated_at ])
+#}
+connection.exec_prepared('create_user', [ 4, "admin@test.com", '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm', 2,
+                                          'Administrator', Time.now, Time.now ])
+connection.exec_prepared('create_user', [ 5, "davidmajercak@hotmail.com", '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm', 3,
+                                               'Administrator', Time.now, Time.now ])
+=begin
+BusinessOwner.all.select(:id, :email, :password_digest, :created_at, :updated_at).each {
+    |business_owner|
+  connection.exec_prepared('create_user', [ business_owner.email, business_owner.password_digest, business_owner.id,
+                                            'BusinessOwner', business_owner.created_at, business_owner.updated_at ])
+}
+Employee.all.select(:id, :email, :password_digest, :created_at, :updated_at).each {
+    |employee|
+  connection.exec_prepared('create_user', [ employee.email, employee.password_digest, employee.id,
+                                            'Employee', employee.created_at, employee.updated_at ])
+}
+Customer.all.select(:id, :email, :password_digest, :created_at, :updated_at).each {
+    |customer|
+  connection.exec_prepared('create_user', [ customer.email, customer.password_digest, customer.id,
+                                            'Customer', customer.created_at, customer.updated_at ])
+}
+=end

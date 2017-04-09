@@ -1,0 +1,81 @@
+<% provide(:title, "Register") %>
+<h2>Sign up <%= resource.role.class.name.humanize %></h2>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= devise_error_messages! %>
+
+        <%= f.label :email %><br/>
+        <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+
+        <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
+        <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+        <% if @minimum_password_length %>
+            <br/>
+            <em><%= @minimum_password_length %> characters minimum</em>
+        <% end %>
+
+        <%= f.label :password_confirmation %><br/>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+
+        <% if resource.role.class.name != Administrator.name %>
+            <%= f.fields_for :role do |r| %>
+                <%= r.label :name %>
+                <%= r.text_field :name, class: 'form-control' %>
+
+                <h3>Shipping Address: </h3>
+                <%= r.fields_for :shipping_address do |a| %>
+                    <%= a.label :name %>
+                    <%= a.text_field :name, class: 'form-control' %>
+
+                    <%= a.label :street %>
+                    <%= a.text_field :street, class: 'form-control' %>
+
+                    <%= a.label :city %>
+                    <%= a.text_field :city, class: 'form-control' %>
+
+                    <%= a.label :ZIP %>
+                    <%= a.text_field :ZIP, class: 'form-control' %>
+
+                    <%= a.label :state %>
+                    <%= a.text_field :state, class: 'form-control' %>
+
+                    <%= a.label :country %>
+                    <%= a.text_field :country, class: 'form-control' %>
+
+                    <%= a.label :phone %>
+                    <%= a.text_field :phone, class: 'form-control' %>
+                <% end %>
+
+                <h3>Billing Address: </h3>
+                <%= r.fields_for :billing_address do |a| %>
+                    <%= a.label :name %>
+                    <%= a.text_field :name, class: 'form-control' %>
+
+                    <%= a.label :street %>
+                    <%= a.text_field :street, class: 'form-control' %>
+
+                    <%= a.label :city %>
+                    <%= a.text_field :city, class: 'form-control' %>
+
+                    <%= a.label :ZIP %>
+                    <%= a.text_field :ZIP, class: 'form-control' %>
+
+                    <%= a.label :state %>
+                    <%= a.text_field :state, class: 'form-control' %>
+
+                    <%= a.label :country %>
+                    <%= a.text_field :country, class: 'form-control' %>
+
+                    <%= a.label :phone %>
+                    <%= a.text_field :phone, class: 'form-control' %>
+                <% end %>
+            <% end %>
+        <% end %>
+
+        <%= f.submit "Sign up", class: "btn btn-primary" %>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

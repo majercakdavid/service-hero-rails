@@ -1,5 +1,5 @@
 class BusinessesController < ApplicationController
-  before_action :set_business, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_business, only: [:show, :edit, :update, :destroy]
 
   # GET /businesses
   # GET /businesses.json

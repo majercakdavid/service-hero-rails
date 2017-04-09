@@ -1,10 +1,10 @@
 class BusinessOwnersController < ApplicationController
-  before_action :set_business_owner, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_business_owner, only: [:show, :edit, :update, :destroy]
 
   # GET /business_owners
   # GET /business_owners.json
   def index
-    @business_owners = BusinessOwner.all
+    @business_owners = BusinessOwner.all.includes(:billing_address, :shipping_address).limit(10)
   end
 
   # GET /business_owners/1

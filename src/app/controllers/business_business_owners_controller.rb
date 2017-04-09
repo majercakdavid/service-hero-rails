@@ -1,5 +1,5 @@
 class BusinessBusinessOwnersController < ApplicationController
-  before_action :set_business_business_owner, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_business_business_owner, only: [:show, :edit, :update, :destroy]
 
   # GET /business_business_owners
   # GET /business_business_owners.json

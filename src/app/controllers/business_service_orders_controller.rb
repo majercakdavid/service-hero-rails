@@ -1,5 +1,5 @@
 class BusinessServiceOrdersController < ApplicationController
-  before_action :set_business_service_order, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_business_service_order, only: [:show, :edit, :update, :destroy]
 
   # GET /business_service_orders
   # GET /business_service_orders.json

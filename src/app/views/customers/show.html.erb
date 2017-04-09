@@ -2,12 +2,12 @@
 
 <p>
   <strong>Billing address:</strong>
-  <%= @customer.billing_address %>
+  <%= render 'addresses/display', address: @customer.billing_address %>
 </p>
 
 <p>
   <strong>Shipping address:</strong>
-  <%= @customer.shipping_address %>
+  <%= render 'addresses/display', address: @customer.billing_address %>
 </p>
 
 <p>
