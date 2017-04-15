@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   get '/business_owners/invite_employee', to: 'business_owners#new_employee'
   post '/business_owners/invite_employee', to: 'business_owners#invite_employee'
 
+  get '/employees/register', to: 'employees#new'
+  post '/employees/register', to: 'employees#create'
+
   #resources :business_service_orders
   #resources :business_services
   #resources :orders

@@ -3,7 +3,6 @@ class CreateBusinesses < ActiveRecord::Migration[5.0]
     create_table :businesses do |t|
       t.references :billing_address, foreign_key: { to_table: :addresses }
       t.references :shipping_address, foreign_key: { to_table: :addresses }
-      t.belongs_to :administrator, foreign_key: true
       t.string :name
       t.datetime :date_joined
 

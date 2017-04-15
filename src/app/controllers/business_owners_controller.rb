@@ -52,8 +52,8 @@ class BusinessOwnersController < ApplicationController
       BusinessOwner.transaction do
         User.transaction do
           Address.transaction do
-            format.html { redirect_to @business_owner, notice: 'Account was successfully updated.' }
-            format.json { render :show, status: :ok, location: @business_owner }
+            format.html { redirect_to dashboard_path, notice: 'Account was successfully updated.' }
+            format.json { render :show, status: :ok, location: dashboard_path }
             @responded = true
           end
         end
@@ -77,12 +77,35 @@ class BusinessOwnersController < ApplicationController
 
   # POST /business_owners/new_employee
   def new_employee
-    @credentials = ApplicationRecord.new
+    if current_user.role.businesses.none?
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: 'Business must be created before employee.' }
+        format.json { render json: @business_owner.errors, status: :unprocessable_entity }
+      end
+    end
+
+    @invite = Invite.new
+    @invite.sender = current_user
   end
 
   # POST /business_owners/invite_employee
   def invite_employee
-    redirect_to dashboard_path
+    @invite = Invite.new(invite_params)
+    #@invite.business = Business.find(invite_params[:id])
+    @invite.token = generate_token
+    @invite.sender = current_user
+    @invite.recipient_id = nil
+
+    respond_to do |format|
+      if @invite.save!
+        InvitationMailer.new_employee_invite(@invite, employees_register_url(:invite_token => @invite.token)).deliver
+        format.html { redirect_to dashboard_path, notice: 'Employee was successfully invited.' }
+        format.json { render :show, status: :ok, location: dashboard_path }
+      else
+        format.html { render :new_employee }
+        format.json { render json: @business_owner.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -109,5 +132,13 @@ class BusinessOwnersController < ApplicationController
   def billing_address_params
     params.require(:business_owner).require(:billing_address_attributes)
         .permit(:name, :street, :city, :ZIP, :state, :country, :phone)
+  end
+
+  def invite_params
+    params.require(:invite).permit(:email, :business_id)
+  end
+
+  def generate_token
+    Digest::SHA2.new(512).hexdigest([current_user.role.id, Time.now, rand].join)
   end
 end

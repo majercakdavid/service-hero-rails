@@ -3,9 +3,14 @@
 
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
-    <%= form_for(@credentials, url: business_owners_invite_employee_path) do |e| %>
-        <%= e.label :email %>
-        <%= e.text_field :email, class: 'form-control' %>
+    <%= form_for(@invite, url: business_owners_invite_employee_path) do |f| %>
+        <%= f.label :email %>
+        <%= f.text_field :email, class: 'form-control' %>
+
+        <%= f.label :business %>
+        <%= f.select :business_id, options_for_select(@invite.sender.role.businesses.map{|b|[b.name, b.id]}), class: 'form-control' %>
+
+        <%= f.submit :class => 'btn btn-primary' %>
     <% end %>
   </div>
 </div>

@@ -1,52 +1,94 @@
-<%= form_for(employee) do |f| %>
-  <% if employee.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <%= form_for(employee, url: employees_register_path) do |f| %>
+        <% if @token != nil %>
+            <%= hidden_field_tag :invite_token, @token %>
+        <% end %>
+        <% if employee.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(employee.errors.count, "error") %> prohibited this customer from being saved:</h2>
+              <ul>
+                <% employee.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
 
-      <ul>
-      <% employee.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+        <%= f.fields_for :user do |u| %>
+            <%= u.label :email %><br/>
+            <%= u.email_field :email, autofocus: true, class: 'form-control' %>
 
-  <div class="field">
-    <%= f.label :business_id %>
-    <%= f.text_field :business_id %>
+            <%= u.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
+            <%= u.password_field :password, autocomplete: "off", class: 'form-control' %>
+            <% if @minimum_password_length %>
+                <br/>
+                <em><%= @minimum_password_length %> characters minimum</em>
+            <% end %>
+
+            <%= u.label :password_confirmation %><br/>
+            <%= u.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+        <% end %>
+
+
+        <%= f.label :name %>
+        <%= f.text_field :name, class: 'form-control' %>
+
+        <section class="col-md-6">
+          <h2><%= :shipping_address.to_s.humanize %></h2>
+          <%= f.fields_for :billing_address do |a| %>
+              <%= a.label :name %>
+              <%= a.text_field :name, class: 'form-control' %>
+
+              <%= a.label :street %>
+              <%= a.text_field :street, class: 'form-control' %>
+
+              <%= a.label :city %>
+              <%= a.text_field :city, class: 'form-control' %>
+
+              <%= a.label :ZIP %>
+              <%= a.text_field :ZIP, class: 'form-control' %>
+
+              <%= a.label :state %>
+              <%= a.text_field :state, class: 'form-control' %>
+
+              <%= a.label :country %>
+              <%= a.text_field :country, class: 'form-control' %>
+
+              <%= a.label :phone %>
+              <%= a.text_field :phone, class: 'form-control' %>
+          <% end %>
+        </section>
+
+        <section class="col-md-6">
+          <h2><%= :billing_address.to_s.humanize %></h2>
+          <%= f.fields_for :shipping_address do |a| %>
+              <%= a.label :name %>
+              <%= a.text_field :name, class: 'form-control' %>
+
+              <%= a.label :street %>
+              <%= a.text_field :street, class: 'form-control' %>
+
+              <%= a.label :city %>
+              <%= a.text_field :city, class: 'form-control' %>
+
+              <%= a.label :ZIP %>
+              <%= a.text_field :ZIP, class: 'form-control' %>
+
+              <%= a.label :state %>
+              <%= a.text_field :state, class: 'form-control' %>
+
+              <%= a.label :country %>
+              <%= a.text_field :country, class: 'form-control' %>
+
+              <%= a.label :phone %>
+              <%= a.text_field :phone, class: 'form-control' %>
+          <% end %>
+        </section>
+
+        <div class="actions">
+          <%= f.submit :class => 'btn btn-primary' %>
+        </div>
+    <% end %>
   </div>
-
-  <div class="field">
-    <%= f.label :billing_address_id %>
-    <%= f.text_field :billing_address_id %>
-  </div>
-
-  <div class="field">
-    <%= f.label :shipping_address_id %>
-    <%= f.text_field :shipping_address_id %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.text_field :email %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

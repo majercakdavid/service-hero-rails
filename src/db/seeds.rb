@@ -5,95 +5,121 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-=begin
-doc_owner_types=['BusinessOwner', 'Business', 'Administrator', 'Employee', 'Business_Service', 'Business_Service_Order', 'Customer', 'Service']
-admin = Administrator.first
 
-#document_owner_types = []
-#doc_owner_types.each {
-#    |doc_owner_t|
-#  document_owner_types.append(DocumentOwnerType.create!(
-#      label: doc_owner_t
-#  ))
-#}
+connection = ActiveRecord::Base.connection.raw_connection
+connection.prepare('create_user', 'INSERT INTO "users" ("email", "encrypted_password", "role_id", "role_type", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"')
+connection.prepare('create_administrator', 'INSERT INTO "administrators" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"')
+connection.prepare('create_businessowner', 'INSERT INTO "business_owners" ("name", "billing_address_id", "shipping_address_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"')
+connection.prepare('create_customer', 'INSERT INTO "customers" ("name", "billing_address_id", "shipping_address_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"')
+connection.prepare('create_employee', 'INSERT INTO "employees" ("name", "business_id", "billing_address_id", "shipping_address_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"')
+connection.prepare('create_address', 'INSERT INTO "addresses" ("name", "street", "city", "ZIP", "state", "country", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"')
+connection.prepare('create_business_businessowner', 'INSERT INTO "business_business_owners" ("business_id", "business_owner_id", "date_from", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"')
+connection.prepare('create_business_service_order', 'INSERT INTO "business_service_orders" ("business_service_id", "order_id", "label", "description", "date_created", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"')
+connection.prepare('create_business_service', 'INSERT INTO "business_services" ("business_id", "service_id", "price", "date_added", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"')
+connection.prepare('create_business', 'INSERT INTO "businesses" ("billing_address_id", "shipping_address_id", "name", "date_joined", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"')
+connection.prepare('create_document', 'INSERT INTO "documents" ("documentable_type", "documentable_id", "label", "data", "dataurl", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"')
+connection.prepare('create_order', 'INSERT INTO "orders" ("customer_id", "date_created", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"')
+connection.prepare('create_service', 'INSERT INTO "services" ("label", "description", "date_added", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"')
+
+doc_owner_types=['BusinessOwner', 'Business', 'Administrator', 'Employee', 'Business_Service', 'Business_Service_Order', 'Customer', 'Service']
 
 customers =[]
 addresses = []
 businesses = []
 business_owners = []
 services = []
+users = []
 
 100000.times do
   # GENERATE CUSTOMERS AND RELATIONSHIPS
 
   # Create addresses for the customer
-  address_customer1 = Address.create!(
-      name: Faker::Name.name_with_middle,
-      street: Faker::Address.street_address,
-      city: Faker::Address.city,
-      ZIP: Faker::Address.zip_code,
-      state: Faker::Address.state,
-      country: Faker::Address.country,
-      phone: Faker::PhoneNumber.cell_phone
-  )
+  address_customer1 = connection.exec_prepared('create_address', [
+      Faker::Name.name_with_middle,
+      Faker::Address.street_address,
+      Faker::Address.city,
+      Faker::Address.zip_code,
+      Faker::Address.state,
+      Faker::Address.country,
+      Faker::PhoneNumber.cell_phone,
+      Time.now,
+      Time.now
+  ])
   addresses.append(address_customer1)
 
-  address_customer2 = Address.create!(
-      name: Faker::Name.name_with_middle,
-      street: Faker::Address.street_address,
-      city: Faker::Address.city,
-      ZIP: Faker::Address.zip_code,
-      state: Faker::Address.state,
-      country: Faker::Address.country,
-      phone: Faker::PhoneNumber.cell_phone
-  )
+  address_customer2 = connection.exec_prepared('create_address', [
+      Faker::Name.name_with_middle,
+      Faker::Address.street_address,
+      Faker::Address.city,
+      Faker::Address.zip_code,
+      Faker::Address.state,
+      Faker::Address.country,
+      Faker::PhoneNumber.cell_phone,
+      Time.now,
+      Time.now
+  ])
   addresses.append(address_customer2)
 
   customer_name = Faker::Name.name_with_middle
-  customers.append(Customer.create!(
-      billing_address_id: address_customer1.id,
-      shipping_address_id: address_customer2.id,
-      email: Faker::Internet.email(customer_name),
-      password_digest: Faker::Internet.password,
-      name: customer_name,
-      date_joined: Faker::Date.between(10.year.ago, Date.today)
-  ))
+  customer = connection.exec_prepared('create_customer',[
+      customer_name,
+      address_customer1,
+      address_customer2,
+      Time.now,
+      Time.now
+  ])
+  customers.append(customer)
+
+  users.append(connection.exec_prepared('create_user',[
+      Faker::Internet.email(customer_name),
+      '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm',
+      customer,
+      Customer.name,
+      Time.now,
+      Time.now
+  ]))
 end
 
 1000.times do
   # GENERATE BUSINESS
 
   # Create addresses for the business
-  address_business1 = Address.create!(
-      name: Faker::Name.name_with_middle,
-      street: Faker::Address.street_address,
-      city: Faker::Address.city,
-      ZIP: Faker::Address.zip_code,
-      state: Faker::Address.state,
-      country: Faker::Address.country,
-      phone: Faker::PhoneNumber.cell_phone
-  )
+  address_business1 = connection.exec_prepared('create_address', [
+      Faker::Name.name_with_middle,
+      Faker::Address.street_address,
+      Faker::Address.city,
+      Faker::Address.zip_code,
+      Faker::Address.state,
+      Faker::Address.country,
+      Faker::PhoneNumber.cell_phone,
+      Time.now,
+      Time.now
+  ])
   addresses.append(address_business1)
 
-  address_business2 = Address.create!(
-      name: Faker::Name.name_with_middle,
-      street: Faker::Address.street_address,
-      city: Faker::Address.city,
-      ZIP: Faker::Address.zip_code,
-      state: Faker::Address.state,
-      country: Faker::Address.country,
-      phone: Faker::PhoneNumber.cell_phone
-  )
+  address_business2 = connection.exec_prepared('create_address', [
+      Faker::Name.name_with_middle,
+      Faker::Address.street_address,
+      Faker::Address.city,
+      Faker::Address.zip_code,
+      Faker::Address.state,
+      Faker::Address.country,
+      Faker::PhoneNumber.cell_phone,
+      Time.now,
+      Time.now
+  ])
   addresses.append(address_business2)
 
   # Create the business
-  business = Business.create!(
-      billing_address_id: address_business1.id,
-      shipping_address_id: address_business2.id,
-      administrator_id: admin.id,
-      name: Faker::Company.name,
-      date_joined: Faker::Date.between(1.year.ago, Date.today)
-  )
+  business_created = Faker::Date.between(10.year.ago, Date.today)
+  business = connection.exec_prepared('create_business', [
+      address_business1,
+      address_business2,
+      Faker::Company.name,
+      business_created,
+      Time.now,
+      Time.now
+  ])
   businesses.append(business)
 
   # GENERATE BUSINESS OWNERS AND RELATIONSHIPS
@@ -103,43 +129,57 @@ end
   business_owners_count.times do
     businesses_owner_name = Faker::Name.name_with_middle
     # Create addresses for the business
-    address_business_owner1 = Address.create!(
-        name: businesses_owner_name,
-        street: Faker::Address.street_address,
-        city: Faker::Address.city,
-        ZIP: Faker::Address.zip_code,
-        state: Faker::Address.state,
-        country: Faker::Address.country,
-        phone: Faker::PhoneNumber.cell_phone
-    )
+    address_business_owner1 = connection.exec_prepared('create_address', [
+        businesses_owner_name,
+        Faker::Address.street_address,
+        Faker::Address.city,
+        Faker::Address.zip_code,
+        Faker::Address.state,
+        Faker::Address.country,
+        Faker::PhoneNumber.cell_phone,
+        Time.now,
+        Time.now
+    ])
     addresses.append(address_business_owner1)
 
-    address_business_owner2 = Address.create!(
-        name: businesses_owner_name,
-        street: Faker::Address.street_address,
-        city: Faker::Address.city,
-        ZIP: Faker::Address.zip_code,
-        state: Faker::Address.state,
-        country: Faker::Address.country,
-        phone: Faker::PhoneNumber.cell_phone
-    )
+    address_business_owner2 = connection.exec_prepared('create_address', [
+        businesses_owner_name,
+        Faker::Address.street_address,
+        Faker::Address.city,
+        Faker::Address.zip_code,
+        Faker::Address.state,
+        Faker::Address.country,
+        Faker::PhoneNumber.cell_phone,
+        Time.now,
+        Time.now
+    ])
     addresses.append(address_business_owner2)
 
-    business_owner = BusinessOwner.create!(
-        billing_address_id: address_business_owner1.id,
-        shipping_address_id: address_business_owner2.id,
-        email: Faker::Internet.email(businesses_owner_name),
-        password_digest: Faker::Internet.password,
-        name: businesses_owner_name
-    )
+    business_owner = connection.exec_prepared('create_businessowner',[
+        businesses_owner_name,
+        address_business_owner1,
+        address_business_owner2,
+        Time.now,
+        Time.now
+    ])
     business_owners.append(business_owner)
 
-    BusinessBusinessOwner.create!(
-        business_id: business.id,
-        business_owner_id: business_owner.id,
-        date_from: Faker::Date.between(10.year.ago, 2.years.ago),
-        date_to: Faker::Date.between(1.year.ago, Date.today)
-    )
+    users.append(connection.exec_prepared('create_user',[
+        Faker::Internet.email(businesses_owner_name),
+        '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm',
+        business_owner,
+        BusinessOwner.name,
+        Time.now,
+        Time.now
+    ]))
+
+    connection.exec_prepared('create_business_businessowner',[
+        business,
+        business_owner,
+        Faker::Date.between(10.year.ago, 2.years.ago),
+        Time.now,
+        Time.now
+    ])
   end
 
   # GENERATE EMPLOYEES AND RELATIONSHIPS
@@ -149,37 +189,50 @@ end
   employees_count.times do
     employee_name = Faker::Name.name_with_middle
     # Create addresses for the business
-    address_employee1 = Address.create!(
-        name: employee_name,
-        street: Faker::Address.street_address,
-        city: Faker::Address.city,
-        ZIP: Faker::Address.zip_code,
-        state: Faker::Address.state,
-        country: Faker::Address.country,
-        phone: Faker::PhoneNumber.cell_phone
-    )
+    address_employee1 = connection.exec_prepared('create_address', [
+        employee_name,
+        Faker::Address.street_address,
+        Faker::Address.city,
+        Faker::Address.zip_code,
+        Faker::Address.state,
+        Faker::Address.country,
+        Faker::PhoneNumber.cell_phone,
+        Time.now,
+        Time.now
+    ])
     addresses.append(address_employee1)
 
-    address_employee2 = Address.create!(
-        name: employee_name,
-        street: Faker::Address.street_address,
-        city: Faker::Address.city,
-        ZIP: Faker::Address.zip_code,
-        state: Faker::Address.state,
-        country: Faker::Address.country,
-        phone: Faker::PhoneNumber.cell_phone
-    )
+    address_employee2 = connection.exec_prepared('create_address', [
+        employee_name,
+        Faker::Address.street_address,
+        Faker::Address.city,
+        Faker::Address.zip_code,
+        Faker::Address.state,
+        Faker::Address.country,
+        Faker::PhoneNumber.cell_phone,
+        Time.now,
+        Time.now
+    ])
     addresses.append(address_employee2)
 
-    employee = Employee.create!(
-        business_id: business.id,
-        billing_address_id: address_employee1.id,
-        shipping_address_id: address_employee2.id,
-        email: Faker::Internet.email(employee_name),
-        password_digest: Faker::Internet.password,
-        name: employee_name
-    )
+    employee = connection.exec_prepared('create_employee', [
+        employee_name,
+        business,
+        address_employee1,
+        address_employee2,
+        Time.now,
+        Time.now
+    ])
     employees.append(employee)
+
+    users.append(connection.exec_prepared('create_user',[
+        Faker::Internet.email(employee_name),
+        '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm',
+        employee,
+        Employee.name,
+        Time.now,
+        Time.now
+    ]))
   end
 
 
@@ -189,19 +242,24 @@ end
   # Randomly generate the number of the business services to create
   businesses_services_count = 100 + Random.rand(1000)
   businesses_services_count.times do
-    service = Service.create!(
-        label: Faker::Company.profession,
-        description: Faker::Lorem.paragraph,
-        date_added: Faker::Date.between(business.date_joined, Date.today)
-    )
+    service_added = Faker::Date.between(business_created, Date.today)
+    service = connection.exec_prepared('create_service', [
+        Faker::Company.profession,
+        Faker::Lorem.paragraph,
+        service_added,
+        Time.now,
+        Time.now
+    ])
     services.append(service)
 
-    business_services.append(BusinessService.create!(
-        business_id: business.id,
-        service_id: service.id,
-        price: Faker::Number.decimal(1 + Random.rand(3)),
-        date_added: service.date_added
-    ))
+    connection.exec_prepared('create_business_service', [
+        business,
+        service,
+        Faker::Number.decimal(1 + Random.rand(3)),
+        service_added,
+        Time.now,
+        Time.now
+    ])
   end
 
   # GENERATE ORDERS AND RELATIONSHIPS
@@ -210,18 +268,21 @@ end
   order_services = []
   orders_count = 100 + Random.rand(100000)
   orders_count.times do
-    order = Order.create!(
-        customer_id: customers[Random.rand(customers.length - 1)].id,
-        date_created: Faker::Date.between(10.year.ago, 2.years.ago)
-    )
-    order_services_count = 1 + Random.rand(11)
+    order_created = Faker::Date.between(10.year.ago, Time.now)
+    order = connection.exec_prepared('create_order',[
+        customers[Random.rand(customers.length - 1)],
+        order_created,
+        Time.now,
+        Time.now
+    ])
+    order_services_count = 1 + Random.rand(99)
     order_services_count.times do
-      order_service = BusinessServiceOrder.create!(
-          business_service_id: business_services[Random.rand(business_services.length - 1)].id,
-          order_id: order.id,
-          label: Faker::Lorem.word,
-          description: Faker::Lorem.paragraph,
-          date_created: Faker::Date.between(order.date_created, 2.years.ago)
+      order_service = connection.exec_prepared('create_business_service_order',
+          business_services[Random.rand(business_services.length - 1)],
+          order,
+          Faker::Lorem.word,
+          Faker::Lorem.paragraph,
+          Faker::Date.between(order_created, Time.now)
       )
       order_services.append(order_service)
     end
@@ -261,17 +322,23 @@ doc_count.times do
   elsif owner_type == 'Service' then
     owner = services[Random.rand(services.length - 1)]
   end
-  owner.documents.create!(
-      label: Faker::Lorem.word,
-      data: "",
-      dataurl: Faker::Avatar.image,
-      description: Faker::Lorem.paragraph
-  )
-end
-=end
 
+  connection.exec_prepared('create_document', [
+      owner_type,
+      owner,
+      Faker::Lorem.word,
+      "",
+      Faker::Avatar.image,
+      Faker::Lorem.paragraph,
+      Time.now,
+      Time.now
+  ])
+end
+
+=begin
 connection = ActiveRecord::Base.connection.raw_connection
-connection.prepare('create_user', 'INSERT INTO "users" ("id" ,"email", "encrypted_password", "role_id", "role_type", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"')
+connection.prepare('create_user', 'INSERT INTO "users" ("email", "encrypted_password", "role_id", "role_type", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"')
+
 #Administrator.all.select(:id, :email, :password_digest, :created_at, :updated_at).each {
 #    |admin|
 #  connection.exec_prepared('create_user', [ admin.email, admin.password_digest, admin.id,
@@ -281,12 +348,13 @@ connection.exec_prepared('create_user', [ 4, "admin@test.com", '$2a$11$Px6tZ8kzu
                                           'Administrator', Time.now, Time.now ])
 connection.exec_prepared('create_user', [ 5, "davidmajercak@hotmail.com", '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm', 3,
                                                'Administrator', Time.now, Time.now ])
-=begin
-BusinessOwner.all.select(:id, :email, :password_digest, :created_at, :updated_at).each {
+
+BusinessOwner.all.select(:id, :email, :created_at, :updated_at).each {
     |business_owner|
-  connection.exec_prepared('create_user', [ business_owner.email, business_owner.password_digest, business_owner.id,
+  connection.exec_prepared('create_user', [ business_owner.email, '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm', business_owner.id,
                                             'BusinessOwner', business_owner.created_at, business_owner.updated_at ])
 }
+
 Employee.all.select(:id, :email, :password_digest, :created_at, :updated_at).each {
     |employee|
   connection.exec_prepared('create_user', [ employee.email, employee.password_digest, employee.id,

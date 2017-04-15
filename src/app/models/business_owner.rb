@@ -10,5 +10,5 @@ class BusinessOwner < ApplicationRecord
 
   has_one :user, :as => :role, dependent: :destroy
 
-  accepts_nested_attributes_for :user, :documents, :shipping_address, :billing_address
+  accepts_nested_attributes_for :billing_address, :businesses, :documents, :shipping_address, :user
 end

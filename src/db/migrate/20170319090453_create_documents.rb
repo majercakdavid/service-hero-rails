@@ -1,7 +1,7 @@
 class CreateDocuments < ActiveRecord::Migration[5.0]
   def change
     create_table :documents do |t|
-      t.belongs_to :documentable, polymorphic: true
+      t.references :documentable, polymorphic: true
       t.string :label
       t.binary :data
       t.text :dataurl

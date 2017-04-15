@@ -2,7 +2,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :users do |t|
       ## Reference user roles
-      t.belongs_to :role,           polymorphic: true
+      t.references :role,           polymorphic: true
 
       ## Database authenticatable
       t.string :email,              null: false, default: ""

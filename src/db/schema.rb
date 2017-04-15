@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407154846) do
+ActiveRecord::Schema.define(version: 20170415060308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20170407154846) do
     t.string   "state"
     t.string   "country"
     t.string   "phone"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -31,6 +33,7 @@ ActiveRecord::Schema.define(version: 20170407154846) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_administrators_on_name", unique: true, using: :btree
   end
 
   create_table "business_business_owners", force: :cascade do |t|
@@ -47,8 +50,6 @@ ActiveRecord::Schema.define(version: 20170407154846) do
   create_table "business_owners", force: :cascade do |t|
     t.integer  "billing_address_id"
     t.integer  "shipping_address_id"
-    t.string   "email"
-    t.string   "password_digest"
     t.string   "name"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
@@ -82,12 +83,10 @@ ActiveRecord::Schema.define(version: 20170407154846) do
   create_table "businesses", force: :cascade do |t|
     t.integer  "billing_address_id"
     t.integer  "shipping_address_id"
-    t.integer  "administrator_id"
     t.string   "name"
     t.datetime "date_joined"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
-    t.index ["administrator_id"], name: "index_businesses_on_administrator_id", using: :btree
     t.index ["billing_address_id"], name: "index_businesses_on_billing_address_id", using: :btree
     t.index ["shipping_address_id"], name: "index_businesses_on_shipping_address_id", using: :btree
   end
@@ -95,8 +94,6 @@ ActiveRecord::Schema.define(version: 20170407154846) do
   create_table "customers", force: :cascade do |t|
     t.integer  "billing_address_id"
     t.integer  "shipping_address_id"
-    t.string   "email"
-    t.string   "password_digest"
     t.string   "name"
     t.datetime "date_joined"
     t.datetime "created_at",          null: false
@@ -122,14 +119,25 @@ ActiveRecord::Schema.define(version: 20170407154846) do
     t.integer  "business_id"
     t.integer  "billing_address_id"
     t.integer  "shipping_address_id"
-    t.string   "email"
-    t.string   "password_digest"
     t.string   "name"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.index ["billing_address_id"], name: "index_employees_on_billing_address_id", using: :btree
     t.index ["business_id"], name: "index_employees_on_business_id", using: :btree
     t.index ["shipping_address_id"], name: "index_employees_on_shipping_address_id", using: :btree
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.string   "email"
+    t.integer  "business_id"
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "token"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["business_id"], name: "index_invites_on_business_id", using: :btree
+    t.index ["recipient_id"], name: "index_invites_on_recipient_id", using: :btree
+    t.index ["sender_id"], name: "index_invites_on_sender_id", using: :btree
   end
 
   create_table "orders", force: :cascade do |t|
@@ -187,11 +195,13 @@ ActiveRecord::Schema.define(version: 20170407154846) do
   add_foreign_key "business_services", "services"
   add_foreign_key "businesses", "addresses", column: "billing_address_id"
   add_foreign_key "businesses", "addresses", column: "shipping_address_id"
-  add_foreign_key "businesses", "administrators"
   add_foreign_key "customers", "addresses", column: "billing_address_id"
   add_foreign_key "customers", "addresses", column: "shipping_address_id"
   add_foreign_key "employees", "addresses", column: "billing_address_id"
   add_foreign_key "employees", "addresses", column: "shipping_address_id"
   add_foreign_key "employees", "businesses"
+  add_foreign_key "invites", "businesses"
+  add_foreign_key "invites", "users", column: "recipient_id"
+  add_foreign_key "invites", "users", column: "sender_id"
   add_foreign_key "orders", "customers"
 end
