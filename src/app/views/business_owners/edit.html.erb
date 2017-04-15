@@ -1,6 +1,16 @@
+<% provide(:title, "Edit") %>
 <h1>Editing Business Owner</h1>
 
-<%= render 'form', business_owner: @business_owner %>
+<%= render 'form', business_owner: @business_owner.role %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <p>
+      Unhappy?
+      <%= button_to "Cancel my account", business_owner_path,
+                    data: {confirm: "Are you sure?"}, method: :delete,
+                    class: "btn btn-sm btn-danger" %>
+    </p>
+  </div>
+</div>
 
-<%= link_to 'Show', @business_owner %> |
-<%= link_to 'Back', business_owners_path %>
+<%= link_to 'Back to Dashboard', dashboard_path %>

@@ -1,6 +1,6 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    <%= link_to "sample app", root_path, id: "logo" %>
+    <%= link_to "Service Hero", root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home", root_path %></li>
@@ -21,7 +21,7 @@
               </ul>
             </li>
         <% else %>
-            <li><%= link_to "Log in", sign_in_path %></li>
+            <li><%= link_to "Log in", new_user_session_path %></li>
         <% end %>
       </ul>
     </nav>

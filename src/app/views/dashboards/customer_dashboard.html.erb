@@ -1,0 +1,15 @@
+<% provide(:title, @user.role.name) %>
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <%= gravatar_for @user%>
+      <h1>
+        <%= @user.role.name %>
+      </h1>
+      <small><%= @user.email %></small><br />
+      <small><%= link_to 'Edit Profile', edit_customer_path(@user.role.id) %></small>
+    </section>
+  </aside>
+</div>

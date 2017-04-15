@@ -4,15 +4,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    build_resource({})
-    if(params[:role] == Administrator.name)
-      resource.role = Administrator.new
-    elsif (params[:role] == BusinessOwner.name)
+    build_resource({role_type: params[:role]})
+    #resource.role = params[:role].constantize.new
+    if (params[:role] == BusinessOwner.name)
       resource.role = BusinessOwner.new
-      resource.role.shipping_address = Address.new
-      resource.role.billing_address = Address.new
-    elsif (params[:role] == Employee.name)
-      resource.role = Employee.new
       resource.role.shipping_address = Address.new
       resource.role.billing_address = Address.new
     elsif (params[:role] == Customer.name)
@@ -20,13 +15,31 @@ class Users::RegistrationsController < Devise::RegistrationsController
       resource.role.shipping_address = Address.new
       resource.role.billing_address = Address.new
     end
+
     yield resource if block_given?
     respond_with resource
   end
 
   # POST /resource
   def create
-    super
+    build_resource(sign_up_params)
+    resource.save
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
   end
 
   # GET /resource/edit
@@ -40,9 +53,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+  def destroy
+    super
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
@@ -62,13 +75,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if params[:role] == BusinessOwner.name
         user_params.permit(:email, :password, :password_confirmation,
                            :role_attributes => [:name,
-                                                :billing_address => [:name, :street, :city, :ZIP, :state, :country, :phone],
-                                                :shipping_address => [:name, :street, :city, :ZIP, :state, :country, :phone]])
+                                                :billing_address_attributes => [:name, :street, :city, :ZIP, :state, :country, :phone],
+                                                :shipping_address_attributes => [:name, :street, :city, :ZIP, :state, :country, :phone]]).merge(role_type: BusinessOwne.name)
       elsif params[:role] == Customer.name
         user_params.permit(:email, :password, :password_confirmation,
                            :role_attributes => [:name,
-                                                :billing_address => [:name, :street, :city, :ZIP, :state, :country, :phone],
-                                                :shipping_address => [:name, :street, :city, :ZIP, :state, :country, :phone]])
+                                                :billing_address_attributes => [:name, :street, :city, :ZIP, :state, :country, :phone],
+                                                :shipping_address_attributes => [:name, :street, :city, :ZIP, :state, :country, :phone]]).merge(role_type: Customer.name)
       end
     end
   end
@@ -95,12 +108,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
                                                 :shipping_address => [:name, :street, :city, :ZIP, :state, :country, :phone]])
       end
     end
-  end
-
-  def configure_role_params
-    params.require(:user).require(:role_attributes).permit(:name, :id,
-                  :billing_address => [:name, :street, :city, :ZIP, :state, :country, :phone],
-                  :shipping_address => [:name, :street, :city, :ZIP, :state, :country, :phone])
   end
 
   # The path used after sign up.

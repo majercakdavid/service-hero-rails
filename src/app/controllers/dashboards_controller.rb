@@ -1,6 +1,7 @@
 class DashboardsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @current_user = current_user
+    @user = current_user
+    render "#{@user.role.class.name.downcase}_dashboard"
   end
 end

@@ -1,5 +1,5 @@
 class AdministratorsController < ApplicationController
-  before_action :authenticate_user!, :set_administrator, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_administrator, only: [:edit, :update, :destroy]
 
   # GET /administrators
   # GET /administrators.json
@@ -64,6 +64,8 @@ class AdministratorsController < ApplicationController
   # DELETE /administrators/1.json
   def destroy
     @administrator.destroy
+    Devise.sign_out_all_scopes ? sign_out : sign_out(User.name)
+    yield @administrator if block_given?
     respond_to do |format|
       flash[:success] = 'Administrator was successfully destroyed.'
       format.html { redirect_to administrators_url, notice: 'Administrator was successfully destroyed.' }

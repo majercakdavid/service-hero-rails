@@ -1,6 +1,16 @@
+<% provide(:title, "Edit") %>
 <h1>Editing Administrator</h1>
 
 <%= render 'form', administrator: @administrator %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <p>
+      Unhappy?
+      <%= button_to "Cancel my account", administrator_path,
+                    data: {confirm: "Are you sure?"}, method: :delete,
+                    class: "btn btn-sm btn-danger" %>
+    </p>
+  </div>
+</div>
 
-<%= link_to 'Show', @administrator %> |
-<%= link_to 'Back', administrators_path %>
+<%= link_to 'Back to Dashboard', dashboard_path %>
