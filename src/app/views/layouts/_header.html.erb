@@ -9,11 +9,30 @@
             <li><%= link_to "Users", dashboard_path %></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                Account <b class="caret"></b>
+                  Account<b class="caret"></b> <%= gravatar_for(current_user, {size: 25, class:'header-gravatar'}) %>
               </a>
               <ul class="dropdown-menu">
-                <li><%= link_to "Profile", dashboard_path %></li>
-                <li><%= link_to "Settings", '#' %></li>
+                <li>
+                  <%= link_to dashboard_path, :action => 'go' do %>
+                      <div class="row">
+                          <%= gravatar_for(current_user, {size: 100, class: 'col-md-8 col-md-offset-2'}) %>
+                      </div>
+                      <div class="row">
+                        <div class="divider"></div>
+                        <bigger><%= current_user.role.name %></bigger>
+                        <br/>
+                        <small><%= current_user.email %></small>
+                      </div>
+                      <div class="divider"></div>
+                      Dashboard
+                  <% end %>
+                </li>
+                <li class="divider"></li>
+                <li><%= link_to "Settings", eval("edit_#{current_user.role.class.table_name.singularize}_path(current_user.role.id)") %></li>
+                <% if current_user.is_business_owner? %>
+                    <li class="divider"></li>
+                    <li><%= link_to 'Add employee', business_owners_invite_employee_path %></li>
+                <% end %>
                 <li class="divider"></li>
                 <li>
                   <%= link_to "Log out", destroy_user_session_path, method: "delete" %>

@@ -1,10 +1,10 @@
 module DashboardsHelper
   # Returns the Gravatar for the given user.
-  def gravatar_for(user, options = {size: 80})
+  def gravatar_for(user, options = {size: 80, class: '', styles: ''})
     gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
     size = options[:size]
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
-    image_tag(gravatar_url, alt: user.role.name, class: "gravatar")
+    image_tag(gravatar_url, alt: user.role.name, class: "gravatar #{options[:class]}", style: options[:styles])
   end
 
   def most_profitable_businesses
@@ -12,5 +12,13 @@ module DashboardsHelper
         .joins("JOIN business_services ON business_services.business_id = businesses.id")
         .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
         .group("businesses.name").limit(5)
+  end
+
+  def business_profit(business)
+    Business.all
+        .joins("JOIN business_services ON business_services.business_id = businesses.id")
+        .joins("JOIN business_service_orders ON business_service_orders. business_service_id = business_services.id")
+        .where("businesses.id = #{business.id}")
+        .sum("business_services.price")
   end
 end

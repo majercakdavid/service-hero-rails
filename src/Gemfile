@@ -10,6 +10,8 @@ end
 gem 'rails', '~> 5.0.2'
 # User Devise for authentication
 gem 'devise', '~> 4.2.1'
+# Use Cancan for authorization
+gem 'cancan', '~> 1.6.10ge'
 # Permit other parameters for user roles
 gem 'strong-parameters', '~> 0.1.0'
 # Use postgresql as the database for Active Record
@@ -36,7 +38,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7', platform: :ruby
+# Use ReactJS for frontend
+gem "react_on_rails", "~> 6"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

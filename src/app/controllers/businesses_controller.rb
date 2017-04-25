@@ -1,4 +1,5 @@
 class BusinessesController < ApplicationController
+  load_and_authorize_resource
   before_action :authenticate_user!, :set_business, only: [:show, :edit, :update, :destroy]
 
   # GET /businesses

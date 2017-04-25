@@ -44,7 +44,8 @@ users = []
       Faker::PhoneNumber.cell_phone,
       Time.now,
       Time.now
-  ])
+  ])[0]['id']
+
   addresses.append(address_customer1)
 
   address_customer2 = connection.exec_prepared('create_address', [
@@ -57,30 +58,30 @@ users = []
       Faker::PhoneNumber.cell_phone,
       Time.now,
       Time.now
-  ])
+  ])[0]['id']
   addresses.append(address_customer2)
 
   customer_name = Faker::Name.name_with_middle
-  customer = connection.exec_prepared('create_customer',[
+  customer = connection.exec_prepared('create_customer', [
       customer_name,
       address_customer1,
       address_customer2,
       Time.now,
       Time.now
-  ])
+  ])[0]['id']
   customers.append(customer)
 
-  users.append(connection.exec_prepared('create_user',[
+  users.append(connection.exec_prepared('create_user', [
       Faker::Internet.email(customer_name),
       '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm',
       customer,
       Customer.name,
       Time.now,
       Time.now
-  ]))
+  ])[0]['id'])
 end
 
-1000.times do
+100000.times do
   # GENERATE BUSINESS
 
   # Create addresses for the business
@@ -94,7 +95,7 @@ end
       Faker::PhoneNumber.cell_phone,
       Time.now,
       Time.now
-  ])
+  ])[0]['id']
   addresses.append(address_business1)
 
   address_business2 = connection.exec_prepared('create_address', [
@@ -107,7 +108,7 @@ end
       Faker::PhoneNumber.cell_phone,
       Time.now,
       Time.now
-  ])
+  ])[0]['id']
   addresses.append(address_business2)
 
   # Create the business
@@ -119,13 +120,13 @@ end
       business_created,
       Time.now,
       Time.now
-  ])
+  ])[0]['id']
   businesses.append(business)
 
   # GENERATE BUSINESS OWNERS AND RELATIONSHIPS
 
   # Randomly generate the number of the business owners to create
-  business_owners_count = 1 + Random.rand(100)
+  business_owners_count = 1 + Random.rand(9)
   business_owners_count.times do
     businesses_owner_name = Faker::Name.name_with_middle
     # Create addresses for the business
@@ -139,7 +140,7 @@ end
         Faker::PhoneNumber.cell_phone,
         Time.now,
         Time.now
-    ])
+    ])[0]['id']
     addresses.append(address_business_owner1)
 
     address_business_owner2 = connection.exec_prepared('create_address', [
@@ -152,28 +153,28 @@ end
         Faker::PhoneNumber.cell_phone,
         Time.now,
         Time.now
-    ])
+    ])[0]['id']
     addresses.append(address_business_owner2)
 
-    business_owner = connection.exec_prepared('create_businessowner',[
+    business_owner = connection.exec_prepared('create_businessowner', [
         businesses_owner_name,
         address_business_owner1,
         address_business_owner2,
         Time.now,
         Time.now
-    ])
+    ])[0]['id']
     business_owners.append(business_owner)
 
-    users.append(connection.exec_prepared('create_user',[
+    users.append(connection.exec_prepared('create_user', [
         Faker::Internet.email(businesses_owner_name),
         '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm',
         business_owner,
         BusinessOwner.name,
         Time.now,
         Time.now
-    ]))
+    ])[0]['id'])
 
-    connection.exec_prepared('create_business_businessowner',[
+    connection.exec_prepared('create_business_businessowner', [
         business,
         business_owner,
         Faker::Date.between(10.year.ago, 2.years.ago),
@@ -185,7 +186,7 @@ end
   # GENERATE EMPLOYEES AND RELATIONSHIPS
   employees = []
   # Randomly generate the number of the business services to create
-  employees_count = 1 + Random.rand(10000)
+  employees_count = business_owners_count + Random.rand(1000)
   employees_count.times do
     employee_name = Faker::Name.name_with_middle
     # Create addresses for the business
@@ -199,7 +200,7 @@ end
         Faker::PhoneNumber.cell_phone,
         Time.now,
         Time.now
-    ])
+    ])[0]['id']
     addresses.append(address_employee1)
 
     address_employee2 = connection.exec_prepared('create_address', [
@@ -212,7 +213,7 @@ end
         Faker::PhoneNumber.cell_phone,
         Time.now,
         Time.now
-    ])
+    ])[0]['id']
     addresses.append(address_employee2)
 
     employee = connection.exec_prepared('create_employee', [
@@ -222,17 +223,17 @@ end
         address_employee2,
         Time.now,
         Time.now
-    ])
+    ])[0]['id']
     employees.append(employee)
 
-    users.append(connection.exec_prepared('create_user',[
+    users.append(connection.exec_prepared('create_user', [
         Faker::Internet.email(employee_name),
         '$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm',
         employee,
         Employee.name,
         Time.now,
         Time.now
-    ]))
+    ])[0]['id'])
   end
 
 
@@ -240,7 +241,7 @@ end
 
   business_services = []
   # Randomly generate the number of the business services to create
-  businesses_services_count = 100 + Random.rand(1000)
+  businesses_services_count =  10 + Random.rand(100)
   businesses_services_count.times do
     service_added = Faker::Date.between(business_created, Date.today)
     service = connection.exec_prepared('create_service', [
@@ -249,43 +250,58 @@ end
         service_added,
         Time.now,
         Time.now
-    ])
+    ])[0]['id']
     services.append(service)
 
-    connection.exec_prepared('create_business_service', [
+    business_services.append(connection.exec_prepared('create_business_service', [
         business,
         service,
         Faker::Number.decimal(1 + Random.rand(3)),
         service_added,
         Time.now,
         Time.now
-    ])
+    ])[0]['id'])
   end
 
   # GENERATE ORDERS AND RELATIONSHIPS
 
   # Randomly generate the number of the orders to create
   order_services = []
-  orders_count = 100 + Random.rand(100000)
+  orders_count = Random.rand(1000)
   orders_count.times do
     order_created = Faker::Date.between(10.year.ago, Time.now)
-    order = connection.exec_prepared('create_order',[
+    order = connection.exec_prepared('create_order', [
         customers[Random.rand(customers.length - 1)],
         order_created,
         Time.now,
         Time.now
-    ])
-    order_services_count = 1 + Random.rand(99)
+    ])[0]['id']
+    order_services_count = Random.rand(5)
     order_services_count.times do
-      order_service = connection.exec_prepared('create_business_service_order',
+      order_service = connection.exec_prepared('create_business_service_order', [
           business_services[Random.rand(business_services.length - 1)],
           order,
           Faker::Lorem.word,
           Faker::Lorem.paragraph,
-          Faker::Date.between(order_created, Time.now)
-      )
+          Faker::Date.between(order_created, Time.now),
+          Time.now,
+          Time.now
+      ])[0]['id']
       order_services.append(order_service)
     end
+  end
+end
+
+business_owners = BusinessOwner.all
+businesses = Business.all
+relationships = business_owners.count
+while relationships > 0 do
+  business_owner = business_owners[Random.rand(business_owners.count - 1)]
+  business = businesses[Random.rand(businesses.count - 1)]
+
+  if !business_owner.businesses.find_by(id: business.id)
+    connection.exec_prepared('create_business_businessowner', [business.id, business_owner.id, Faker::Date.between(10.year.ago, Time.now), Time.now, Time.now])
+    relationships -= 1
   end
 end
 

@@ -1,4 +1,5 @@
 class BusinessOwnersController < ApplicationController
+  load_and_authorize_resource
   before_action :authenticate_user!, only: [:edit, :update, :destroy, :new_employee, :invite_employee]
   before_action :set_business_owner, only: [:edit, :update, :destroy]
 

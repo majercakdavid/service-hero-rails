@@ -1,27 +1,32 @@
 <% provide(:title, @user.role.name) %>
-<p id="notice"><%= notice %></p>
-
 <div class="row">
-  <aside class="col-md-4">
-    <section class="user_info">
-      <%= gravatar_for @user%>
-      <h1><%= @user.role.name %></h1>
-      <small><%= @user.email %></small><br />
-      <small><%= link_to 'Edit account', edit_business_owner_path(@user.role.id) %></small><br />
-      <small><%= link_to 'Add employee', business_owners_invite_employee_path %></small>
-    </section>
-  </aside>
-  <article class="col-md-4">
-    <section>
-      <h1>Businesses</h1>
-      <table>
-        <% @user.role.businesses.each do |business| %>
-            <tr>
-              <td><%= business.name %></td>
-            </tr>
-        <% end %>
-      </table>
-    </section>
-  </article>
+  <section class="col-md-8 col-md-offset-2">
+    <h1>Businesses</h1>
+    <%= link_to 'Create new', new_business_path %>
+    <table class="table panel panel-default">
+      <thead class="panel-heading">
+      <tr>
+        <td>Name</td>
+        <td>Profit</td>
+        <td>Edit</td>
+      </tr>
+      </thead>
+      <tbody class="panel-body">
+      <% @user.role.businesses.each do |business| %>
+          <tr>
+            <td><%= business.name %></td>
+            <td><%= business_profit business %></td>
+            <td><%= link_to 'Edit', edit_business_path(business.id) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </section>
+  <section class="col-md-8 col-md-offset-2">
+    <h1>Latest orders</h1>
+  </section>
+  <script type="text/javascript">
+      displayLatestOrders(0, 5);
+  </script>
 </div>
 
