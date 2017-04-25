@@ -2,12 +2,6 @@ class BusinessesController < ApplicationController
   load_and_authorize_resource
   before_action :authenticate_user!, :set_business, only: [:show, :edit, :update, :destroy]
 
-  # GET /businesses
-  # GET /businesses.json
-  def index
-    @businesses = Business.all
-  end
-
   # GET /businesses/1
   # GET /businesses/1.json
   def show

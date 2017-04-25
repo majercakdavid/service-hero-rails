@@ -1,48 +1,13 @@
 class AdministratorsController < ApplicationController
   before_action :authenticate_user!, :set_administrator, only: [:edit, :update, :destroy]
 
-  # GET /administrators
-  # GET /administrators.json
-  def index
-    @administrators = Administrator.all
-  end
-
   # GET /administrators/1
   # GET /administrators/1.json
   def show
   end
 
-  # GET /administrators/new
-  def new
-    @administrator = Administrator.new
-  end
-
   # GET /administrators/1/edit
   def edit
-  end
-
-  # POST /administrators
-  # POST /administrators.json
-  def create
-    @administrator = Administrator.new(administrator_params)
-    @user = User.new(administrator_user_params)
-    @user.role_type = @administrator.class.name
-    respond_to do |format|
-      if @administrator.save
-        @user.role_id = @administrator.id
-        if @user.save
-          flash[:success] = 'Administrator was successfully created.'
-          format.html { redirect_to dashboard_path, notice: 'Administrator was successfully created.' }
-          format.json { render :show, status: :created, location: @administrator }
-        else
-          format.html { render :new }
-          format.json { render json: @administrator.errors, status: :unprocessable_entity }
-        end
-      else
-        format.html { render :new }
-        format.json { render json: @administrator.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /administrators/1
