@@ -7,9 +7,12 @@ class Ability
       can :manage, :all
     elsif user.is_business_owner?
       can :manage, BusinessOwner, :id => user.role.id
-      can :manage, Business, :business_owners do |bo|
+      can [:edit, :update], Business, :business_owners do |bo|
         user.role.in?(bo.business_owners)
       end
+      can [:new, :create], Business
+      can :get_latest_businesses_orders, :all
+      can :get_my_businesses, :all
     elsif user.is_employee?
       can :manage, Employee, :id => user.role.id
     elsif user.is_customer?

@@ -13,7 +13,11 @@ Rails.application.routes.draw do
   get '/contact', to: 'static_pages#contact'
 
   get '/dashboard', to: 'dashboards#index'
-  get '/latest_businesses_orders', to: 'dashboards#latest_businesses_orders'
+  # Administrator's Dashboard
+  get '/get_most_profitable_businesses', to: 'dashboards#get_most_profitable_businesses'
+  # BusinessOwner's Dashboard
+  get '/get_latest_businesses_orders', to: 'dashboards#get_latest_businesses_orders'
+  get '/get_my_businesses', to: 'dashboards#get_my_businesses'
 
   get '/sign_up_customer', to: 'customers#new'
   post '/sign_up_customer', to: 'customers#create'
@@ -34,7 +38,7 @@ Rails.application.routes.draw do
   #resources :business_business_owners
   #resources :documents
   #resources :addresses
-  resources :businesses, only: [:new, :edit, :update, :destroy]
+  resources :businesses, only: [:new, :create, :edit, :update, :destroy]
   resources :administrators, only: [:edit, :update]
   resources :business_owners, only: [:edit, :update, :destroy]
   resources :customers, only: [:edit, :update, :destroy]

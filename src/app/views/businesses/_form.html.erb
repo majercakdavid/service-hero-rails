@@ -16,9 +16,6 @@
         <%= f.label :name %>
         <%= f.text_field :name, class: 'form-control' %>
 
-        <%= f.label :date_joined %>
-        <%= f.date_select :date_joined, class: 'form-control' %>
-
         <section class="col-md-6">
           <h2><%= :shipping_address.to_s.humanize %></h2>
           <%= f.fields_for :billing_address do |a| %>
@@ -76,4 +73,9 @@
         </div>
     <% end %>
   </div>
+  <script type="application/javascript">
+      $(function () {
+          $('.datepicker').datetimepicker({defaultDate: "<%= business.date_joined.to_date %>"});
+      });
+  </script>
 </div>

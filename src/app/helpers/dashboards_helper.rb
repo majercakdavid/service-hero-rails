@@ -7,18 +7,9 @@ module DashboardsHelper
     image_tag(gravatar_url, alt: user.role.name, class: "gravatar #{options[:class]}", style: options[:styles])
   end
 
-  def most_profitable_businesses
-    Business.select("businesses.name, sum(business_services.price)")
-        .joins("JOIN business_services ON business_services.business_id = businesses.id")
-        .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
-        .group("businesses.name").limit(5)
-  end
-
-  def business_profit(business)
-    Business.all
-        .joins("JOIN business_services ON business_services.business_id = businesses.id")
-        .joins("JOIN business_service_orders ON business_service_orders. business_service_id = business_services.id")
-        .where("businesses.id = #{business.id}")
-        .sum("business_services.price")
+  def show_svg(path)
+    File.open("app/assets/images/#{path}", "rb") do |file|
+      raw file.read
+    end
   end
 end

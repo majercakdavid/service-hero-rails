@@ -1,25 +1,24 @@
 <% provide(:title, @user.role.name) %>
 <div class="row">
-  <aside class="col-md-4">
-    <section class="user_info">
-      <%= gravatar_for @user%>
-      <h1><%= @user.role.name %></h1>
-      <small><%= @user.email %></small><br />
-      <small><%= link_to 'Edit account', edit_administrator_path(@user.role.id) %></small>
-    </section>
-  </aside>
-  <article class="col-md-4">
+  <article class="">
     <section>
       <h1>Businesses</h1>
-      <table>
-        <% most_profitable_businesses.each do |business| %>
-        <tr>
-          <td><%= business.name %></td>
-          <td><%= business.sum %></td>
-        </tr>
-        <% end %>
-      </table>
+
+      <div class="form-group">
+        <label for="exampleInputEmail1">Business name</label>
+        <input type="text" class="form-control" id="input-business-name" placeholder="Business name">
+      </div>
+
+      <div id="most-profitable-businesses" class="">
+      </div>
     </section>
   </article>
+  <script>
+      var seacrchQuery = document.getElementById('input-business-name');
+      var loadingImage = '<%= show_svg("loading.svg") %>';
+      var most_profitable_businesses_section = document.getElementById("most-profitable-businesses");
+      var mostProfitableBusinessesDynamicTable = new createDynamicTable(0, 5, '/get_most_profitable_businesses', most_profitable_businesses_section, loadingImage, seacrchQuery);
+      mostProfitableBusinessesDynamicTable.executeQuery();
+  </script>
 </div>
 

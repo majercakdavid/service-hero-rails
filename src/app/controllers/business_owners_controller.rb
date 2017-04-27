@@ -37,7 +37,7 @@ class BusinessOwnersController < ApplicationController
     respond_to do |format|
       if @business_owner.persisted?
         format.html { redirect_to dashboard_path, notice: 'Your account was successfully created.' }
-        format.json { render :show, status: :created, location: @business_owner }
+        format.json { render :show, status: :created, location: dashboard_path }
       else
         format.html { render :new }
         format.json { render json: @business_owner.errors, status: :unprocessable_entity }

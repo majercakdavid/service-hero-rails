@@ -1,57 +1,30 @@
 <% provide(:title, @user.role.name) %>
 <div class="row">
-  <section class="col-md-8 col-md-offset-2">
+  <section class="col-md-6 col-md-offset-0">
     <h1>Businesses</h1>
     <%= link_to 'Create new', new_business_path %>
-    <table class="table panel panel-default">
-      <thead class="panel-heading">
-      <tr>
-        <td>Name</td>
-        <td>Profit</td>
-        <td>Edit</td>
-      </tr>
-      </thead>
-      <tbody class="panel-body">
-      <% @user.role.businesses.each do |business| %>
-          <tr>
-            <td><%= business.name %></td>
-            <td><%= business_profit business %></td>
-            <td><%= link_to 'Edit', edit_business_path(business.id) %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <div id="my-businesses-section" class="col-md-offset-5">
+      <% show_svg("loading.svg") %>
+    </div>
   </section>
-  <section class="col-md-8 col-md-offset-2">
+  <section class="col-md-6 col-md-offset-0">
     <h1>Latest orders</h1>
-
-    <table class="table panel panel-default">
-      <thead class="panel-heading">
-      <tr>
-        <td>Business name</td>
-        <td>Service name</td>
-        <td>Price</td>
-        <td>Price</td>
-      </tr>
-      </thead>
-      <tbody id="latest-orders-table" class="panel-body">
-      <tr>
-        <td style="text-align: center">
-          <%= image_tag("ripple.gif", alt: "Loading...") %>
-          <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <div>
-      <button class="btn btn-primary" onclick="loadPreviousPage()">Previous page</button>
-      <button class="btn btn-primary" onclick="loadNextPage()">Next page</button>
+    <br/>
+    <div id="latest-orders-section" class="col-md-offset-5">
+      <% show_svg("loading.svg") %>
     </div>
   </section>
   <script type="text/javascript">
-      window.onload = function () {
-          initialize_business_owner_dashboard(0, 5);
-      }
+      //window.onload = function () {
+          var loadingImage = '<%= show_svg("loading.svg") %>';
+          var latest_orders_section = document.getElementById("latest-orders-section");
+          var ordersDynamicTable = new createDynamicTable(0, 5, '/get_latest_businesses_orders', latest_orders_section, loadingImage);
+          ordersDynamicTable.executeQuery();
+
+          var my_businesses_section = document.getElementById("my-businesses-section");
+          var myBusinesses = new createDynamicTable(0,5,'/get_my_businesses', my_businesses_section, loadingImage);
+          myBusinesses.executeQuery();
+      //}
   </script>
 </div>
 
