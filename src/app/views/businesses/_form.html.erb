@@ -4,7 +4,6 @@
         <% if business.errors.any? %>
             <div id="error_explanation">
               <h2><%= pluralize(business.errors.count, "error") %> prohibited this business from being saved:</h2>
-
               <ul>
                 <% business.errors.full_messages.each do |message| %>
                     <li><%= message %></li>
@@ -15,6 +14,11 @@
 
         <%= f.label :name %>
         <%= f.text_field :name, class: 'form-control' %>
+
+        <% if !business.date_joined.nil? %>
+            <%= f.label :date_joined %>
+            <%= f.text_field :date_joined, class: 'form-control datepicker', active: true %>
+        <% end %>
 
         <section class="col-md-6">
           <h2><%= :shipping_address.to_s.humanize %></h2>
@@ -75,7 +79,17 @@
   </div>
   <script type="application/javascript">
       $(function () {
-          $('.datepicker').datetimepicker({defaultDate: "<%= business.date_joined.to_date %>"});
+          <% if !business.date_joined.nil? %>
+          if (<%= business.date_joined %>) {
+              $('.datepicker').datetimepicker({defaultDate: "<%= business.date_joined.to_date %>"});
+              var datePickers = $('.datepicker');
+              for (d in datePickers) {
+                  datePickers[d].focus();
+                  datePickers[d].blur();
+                  datePickers[d].disabled = true;
+              }
+          }
+          <% end %>
       });
   </script>
 </div>

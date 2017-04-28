@@ -16,14 +16,16 @@ var createDynamicTable = function (offset, count, url, section_to_append, loadin
         }, "json").error(_this.errorHandler);
     };
 
-    var queryTimeout = null;
-    queryElement.oninput = function () {
-        clearTimeout(queryTimeout);
-        queryTimeout = setTimeout(function(){
-            searchQuery = queryElement.value;
-            _this.executeQuery();
-        }, 500);
-    };
+    if(queryElement){
+        var queryTimeout = null;
+        queryElement.oninput = function () {
+            clearTimeout(queryTimeout);
+            queryTimeout = setTimeout(function(){
+                searchQuery = queryElement.value;
+                _this.executeQuery();
+            }, 500);
+        };
+    }
 
     this.insertDataToTable = function (data) {
         section_to_append.innerHTML = "";

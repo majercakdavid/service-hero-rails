@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170415060308) do
+ActiveRecord::Schema.define(version: 20170428201720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20170415060308) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.index ["business_service_id"], name: "index_business_service_orders_on_business_service_id", using: :btree
+    t.index ["date_created"], name: "index_business_service_orders_on_date_created", using: :btree
     t.index ["order_id"], name: "index_business_service_orders_on_order_id", using: :btree
   end
 
@@ -88,6 +89,7 @@ ActiveRecord::Schema.define(version: 20170415060308) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.index ["billing_address_id"], name: "index_businesses_on_billing_address_id", using: :btree
+    t.index ["name"], name: "index_businesses_on_name", using: :btree
     t.index ["shipping_address_id"], name: "index_businesses_on_shipping_address_id", using: :btree
   end
 

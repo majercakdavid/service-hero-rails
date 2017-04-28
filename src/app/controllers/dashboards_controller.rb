@@ -12,10 +12,11 @@ class DashboardsController < ApplicationController
     @items = Business.select("businesses.name, businesses.id, sum(business_services.price)")
                  .joins("JOIN business_services ON business_services.business_id = businesses.id")
                  .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
-                 .group("businesses.name, businesses.id").having("businesses.name ILIKE ?", "%#{@params[:query]}%")
+                 .where("businesses.name ILIKE ?", "%#{@params[:query]}%")
+                 .group("2,1")
                  .order("2 DESC")
                  .offset(@params[:offset]).limit(@params[:count]).as_json
-    @count = Business.select("count(*)")
+    @count = Business.select("count(businesses.id)")
                  .joins("JOIN business_services ON business_services.business_id = businesses.id")
     @columns = [Business.name.humanize, "Profit", "View"]
 
@@ -36,7 +37,7 @@ class DashboardsController < ApplicationController
 
   def get_my_businesses
     @params = orders_params
-    @response = my_businesses_helper(current_user.role, @params[:offset], @params[:count]).as_json(except: [:id])
+    @response = my_businesses_helper(current_user.role, @params[:offset], @params[:count]).as_json(except: [:id, 'id'])
     authorize!(:get_my_businesses, current_user)
     render json: @response
   end
@@ -65,19 +66,23 @@ class DashboardsController < ApplicationController
   end
 
   def my_businesses_helper(business_owner, offset, count)
-    @items = BusinessOwner.select("businesses.name, sum(business_services.price)")
+    @items = BusinessOwner.select("businesses.name, businesses.id, COALESCE(sum(business_services.price), 0)")
                  .joins("JOIN business_business_owners ON business_business_owners.business_owner_id = business_owners.id")
                  .joins("JOIN businesses ON business_business_owners.business_id = businesses.id")
-                 .joins("JOIN business_services ON business_services.business_id = businesses.id")
-                 .joins("JOIN business_service_orders ON business_service_orders. business_service_id = business_services.id")
+                 .joins("LEFT JOIN business_services ON business_services.business_id = businesses.id")
+                 .joins("LEFT JOIN business_service_orders ON business_service_orders. business_service_id = business_services.id")
                  .where("business_owners.id = ?", "#{business_owner.id}")
-                 .group("businesses.name")
-                 .offset(offset).limit(count)
-    @count = BusinessOwner.select("count(*)")
+                 .group("2,1")
+                 .offset(offset).limit(count).as_json
+    @count = BusinessOwner.select("count(businesses.id)")
                  .joins("JOIN business_business_owners ON business_business_owners.business_owner_id = business_owners.id")
                  .joins("JOIN businesses ON business_business_owners.business_id = businesses.id")
                  .where("business_owners.id = ?", "#{business_owner.id}")
-    @columns = [Business.name.humanize, "Profit"]
+    @columns = [Business.name.humanize, "Profit", "View"]
+
+    @items.each do |item|
+      item['edit_url'] = [business_url(item['id']), "View"]
+    end
     return {items: @items, columns: @columns, count: @count}
   end
 
