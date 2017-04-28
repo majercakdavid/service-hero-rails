@@ -16,9 +16,13 @@ var createDynamicTable = function (offset, count, url, section_to_append, loadin
         }, "json").error(_this.errorHandler);
     };
 
-    queryElement.onchange = function () {
-        searchQuery = queryElement.value;
-        _this.executeQuery();
+    var queryTimeout = null;
+    queryElement.oninput = function () {
+        clearTimeout(queryTimeout);
+        queryTimeout = setTimeout(function(){
+            searchQuery = queryElement.value;
+            _this.executeQuery();
+        }, 500);
     };
 
     this.insertDataToTable = function (data) {
@@ -46,7 +50,11 @@ var createDynamicTable = function (offset, count, url, section_to_append, loadin
             var body_row = document.createElement('tr');
             for (var information in data["items"][element]) {
                 var body_cell = document.createElement('td');
-                body_cell.innerText = data["items"][element][information];
+                if (information.match('link') || information.match('url')) {
+                    body_cell.innerHTML = "<a href=" + data['items'][element][information][0] + " class='btn btn-default'>" + data['items'][element][information][1] + "</a>"
+                } else {
+                    body_cell.innerText = data["items"][element][information];
+                }
                 body_row.appendChild(body_cell);
             }
             table_body.appendChild(body_row);

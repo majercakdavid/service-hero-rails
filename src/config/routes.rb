@@ -38,7 +38,9 @@ Rails.application.routes.draw do
   #resources :business_business_owners
   #resources :documents
   #resources :addresses
-  resources :businesses, only: [:new, :create, :edit, :update, :destroy]
+  resources :businesses
+  get '/get_business_statistics', to: 'businesses#get_business_statistics'
+
   resources :administrators, only: [:edit, :update]
   resources :business_owners, only: [:edit, :update, :destroy]
   resources :customers, only: [:edit, :update, :destroy]

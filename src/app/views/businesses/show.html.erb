@@ -1,29 +1,106 @@
+<% provide(:title, @business.name) %>
 <p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <h1><%= @business.name %></h1>
+    <section class="col-md-4 col-md-offset-1">
+      <h2><strong>Basic Information:</strong></h2>
+      <p>
+        <strong>Name:</strong>
+        <%= @business.name %>
+      </p>
 
-<p>
-  <strong>Primary address:</strong>
-  <%= @business.primary_address_id %>
-</p>
+      <p>
+        <strong>Date joined:</strong>
+        <%= @business.date_joined.to_date %>
+      </p>
+    </section>
+    <section id="business-statistics-section" class="col-md-4 col-md-offset-1">
+    </section>
+  </div>
+  <div class="row">
+    <section class="col-md-4 col-md-offset-1">
+      <h2><strong>Shipping Address:</strong></h2>
+      <p>
+        <strong>Name:</strong>
+        <%= @business.shipping_address.name %>
+      </p>
 
-<p>
-  <strong>Secondary address:</strong>
-  <%= @business.secondary_address_id %>
-</p>
+      <p>
+        <strong>Street:</strong>
+        <%= @business.shipping_address.street %>
+      </p>
 
-<p>
-  <strong>Administrator:</strong>
-  <%= @business.administrator %>
-</p>
+      <p>
+        <strong>City:</strong>
+        <%= @business.shipping_address.city %>
+      </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @business.name %>
-</p>
+      <p>
+        <strong>Zip:</strong>
+        <%= @business.shipping_address.ZIP %>
+      </p>
 
-<p>
-  <strong>Date joined:</strong>
-  <%= @business.date_joined %>
-</p>
+      <p>
+        <strong>State:</strong>
+        <%= @business.shipping_address.state %>
+      </p>
+
+      <p>
+        <strong>Country:</strong>
+        <%= @business.shipping_address.country %>
+      </p>
+
+      <p>
+        <strong>Phone:</strong>
+        <%= @business.shipping_address.phone %>
+      </p>
+    </section>
+    <section class="col-md-4 col-md-offset-1">
+      <h2><strong>Billing Address:</strong></h2>
+      <p>
+        <strong>Name:</strong>
+        <%= @business.billing_address.name %>
+      </p>
+
+      <p>
+        <strong>Street:</strong>
+        <%= @business.billing_address.street %>
+      </p>
+
+      <p>
+        <strong>City:</strong>
+        <%= @business.billing_address.city %>
+      </p>
+
+      <p>
+        <strong>Zip:</strong>
+        <%= @business.billing_address.ZIP %>
+      </p>
+
+      <p>
+        <strong>State:</strong>
+        <%= @business.billing_address.state %>
+      </p>
+
+      <p>
+        <strong>Country:</strong>
+        <%= @business.billing_address.country %>
+      </p>
+
+      <p>
+        <strong>Phone:</strong>
+        <%= @business.billing_address.phone %>
+      </p>
+    </section>
+  </div>
+  <script type="application/javascript">
+      var loadingImage = '<%= show_svg("loading.svg") %>';
+      var businessStatisticsSection = document.getElementById("business-statistics-section");
+      var businessStatistics = new createDynamicStatistics("/get_business_statistics", <%= @business[:id] %>, businessStatisticsSection, loadingImage);
+      businessStatistics.executeQuery();
+  </script>
+</div>
 
 <%= link_to 'Edit', edit_business_path(@business) %> |
 <%= link_to 'Back', businesses_path %>

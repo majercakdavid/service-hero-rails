@@ -1,6 +1,6 @@
 class BusinessesController < ApplicationController
   load_and_authorize_resource
-  before_action :authenticate_user!, :set_business, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_business, only: [:show, :edit, :update, :destroy, :get_business_statistics]
 
   # GET /businesses/1
   # GET /businesses/1.json
@@ -68,6 +68,58 @@ class BusinessesController < ApplicationController
       format.html {redirect_to businesses_url, notice: 'Business was successfully destroyed.'}
       format.json {head :no_content}
     end
+  end
+
+  def get_business_statistics
+    @profit = Business.select("sum(business_services.price)")
+        .joins("JOIN business_services ON business_services.business_id = businesses.id")
+        .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
+        .where("businesses.id=?", "#{@business[:id]}")
+    @annual_profit = Business.select("sum(business_services.price)")
+                         .joins("JOIN business_services ON business_services.business_id = businesses.id")
+                         .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
+                         .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?" , "#{@business[:id]}", 1.years.ago.beginning_of_year, Time.now.beginning_of_year)
+    @monthly_profit = Business.select("sum(business_services.price)")
+                          .joins("JOIN business_services ON business_services.business_id = businesses.id")
+                          .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
+                          .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?" , "#{@business[:id]}", 1.months.ago.beginning_of_month, Time.now.beginning_of_month)
+    @services_count = Business.select("count(*)")
+                          .joins("JOIN business_services ON business_services.business_id = businesses.id")
+    @employees_count = Business.select("count(*)")
+                           .joins("JOIN employees ON employees.business_id = businesses.id")
+    @annual_growth = nil
+    if @business.date_joined <= 2.years.ago
+      @last_year_profit = Business.select("sum(business_services.price)")
+                              .joins("JOIN business_services ON business_services.business_id = businesses.id")
+                              .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
+                              .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?" , "#{@business[:id]}", 1.years.ago.beginning_of_year, 1.years.ago)
+                              .as_json[0]['sum']
+      @this_year_profit = Business.select("sum(business_services.price)")
+                              .joins("JOIN business_services ON business_services.business_id = businesses.id")
+                              .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
+                              .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?" , "#{@business[:id]}", Time.now.beginning_of_year, Time.now)
+                              .as_json[0]['sum']
+      @annual_growth = (@this_year_profit - @last_year_profit)/@last_year_profit
+      @annual_growth = @annual_growth.round(4).to_s + "%"
+    end
+
+    @monthly_growth = nil
+    if @business.date_joined <= 2.months.ago
+      @last_month_profit = Business.select("sum(business_services.price)")
+                              .joins("JOIN business_services ON business_services.business_id = businesses.id")
+                              .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
+                              .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?" , "#{@business[:id]}", 1.months.ago.beginning_of_month, 1.months.ago)
+                              .as_json[0]['sum']
+      @this_month_profit = Business.select("sum(business_services.price)")
+                              .joins("JOIN business_services ON business_services.business_id = businesses.id")
+                              .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
+                              .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?" , "#{@business[:id]}", Time.now.beginning_of_month, Time.now)
+                               .as_json[0]['sum']
+      @monthly_growth = (@this_month_profit - @last_month_profit)/@last_month_profit
+      @monthly_growth = @monthly_growth.round(4).to_s + "%"
+    end
+
+    render json: {"Profit": @profit.as_json[0]['sum'], "Annual Profit": @annual_profit.as_json[0]['sum'], "Monthly Profit": @monthly_profit.as_json[0]['sum'], "Services Count": @services_count.as_json[0]['count'], "Annual Growth": @annual_growth, "Monthly Growth": @monthly_growth}.as_json(except: [:id])
   end
 
   private

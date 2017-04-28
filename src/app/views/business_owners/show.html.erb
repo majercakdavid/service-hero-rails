@@ -1,18 +1,83 @@
 <p id="notice"><%= notice %></p>
-
-<p>
+<div>
   <strong>Shipping Address:</strong>
-  <%= @business_owner.shipping_address %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @business_owner.shipping_address.name %>
+  </p>
 
-<p>
+  <p>
+    <strong>Street:</strong>
+    <%= @business_owner.shipping_address.street %>
+  </p>
+
+  <p>
+    <strong>City:</strong>
+    <%= @business_owner.shipping_address.city %>
+  </p>
+
+  <p>
+    <strong>Zip:</strong>
+    <%= @business_owner.shipping_address.ZIP %>
+  </p>
+
+  <p>
+    <strong>State:</strong>
+    <%= @business_owner.shipping_address.state %>
+  </p>
+
+  <p>
+    <strong>Country:</strong>
+    <%= @business_owner.shipping_address.country %>
+  </p>
+
+  <p>
+    <strong>Phone:</strong>
+    <%= @business_owner.shipping_address.phone %>
+  </p>
+</div>
+
+<div>
   <strong>Billing Address:</strong>
-  <%= @business_owner.billing_address %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @business_owner.billing_address.name %>
+  </p>
+
+  <p>
+    <strong>Street:</strong>
+    <%= @business_owner.billing_address.street %>
+  </p>
+
+  <p>
+    <strong>City:</strong>
+    <%= @business_owner.billing_address.city %>
+  </p>
+
+  <p>
+    <strong>Zip:</strong>
+    <%= @business_owner.billing_address.ZIP %>
+  </p>
+
+  <p>
+    <strong>State:</strong>
+    <%= @business_owner.billing_address.state %>
+  </p>
+
+  <p>
+    <strong>Country:</strong>
+    <%= @business_owner.billing_address.country %>
+  </p>
+
+  <p>
+    <strong>Phone:</strong>
+    <%= @business_owner.billing_address.phone %>
+  </p>
+</div>
 
 <p>
   <strong>Email:</strong>
-  <%= @business_owner.email %>
+  <%= @business_owner.user.email %>
 </p>
 
 <p>
