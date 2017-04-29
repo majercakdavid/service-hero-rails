@@ -4,275 +4,273 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>66</x>
-      <y>66</y>
+      <x>44</x>
+      <y>77</y>
       <w>231</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>*administrators*
+--
+*&lt;PK&gt; id: integer*
+--
+name: varchar</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1122</x>
+      <y>77</y>
+      <w>275</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>*Administrator*
+    <panel_attributes>*business_owners*
 --
-&lt;PK&gt; id: Guid
-email: string
-password: text
-name: string</panel_attributes>
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; billing_address_id: integer*
+*&lt;FK&gt; shipping_address_id: integer*
+--
+name: varchar</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1155</x>
-      <y>66</y>
-      <w>253</w>
+      <x>781</x>
+      <y>253</y>
+      <w>286</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>*employees*
+--
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; business_id: integer*
+*&lt;FK&gt; billing_address_id: integer*
+*&lt;FK&gt; shipping_address_id: integer*
+--
+name: varchar</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>44</x>
+      <y>704</y>
+      <w>286</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>*customers*
+--
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; billing_address_id: integer*
+*&lt;FK&gt; shipping_address_id: integer*
+--
+name: varchar
+date_joined: timestamp</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>407</x>
+      <y>484</y>
+      <w>231</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>*orders*
+--
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; customer_id: integer*
+--
+date_created: timestamp</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>396</x>
+      <y>253</y>
+      <w>264</w>
       <h>143</h>
     </coordinates>
-    <panel_attributes>*BusinessOwner*
+    <panel_attributes>*business_service_orders*
 --
-&lt;PK&gt; id: Guid
-&lt;FK&gt; primary_address_id: Guid
-&lt;FK&gt; secondary_address_id: Guid
-email: string
-password: text
-name: string</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>792</x>
-      <y>209</y>
-      <w>253</w>
-      <h>176</h>
-    </coordinates>
-    <panel_attributes>*Employee*
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; business_service_id: integer*
+*&lt;FK&gt; order_id: integer*
 --
-&lt;PK&gt; id: Guid
-&lt;FK&gt; business_id: Guid
-&lt;FK&gt; branch_id: Guid
-&lt;FK&gt; primary_address_id: Guid
-&lt;FK&gt; secondary_address_id: Guid
-email: string
-password: text
-name: string</panel_attributes>
+label: varchar
+description: text
+date_created: datetime</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>55</x>
-      <y>616</y>
-      <w>231</w>
-      <h>198</h>
+      <y>253</y>
+      <w>209</w>
+      <h>132</h>
     </coordinates>
-    <panel_attributes>*Customer*
+    <panel_attributes>*business_services*
 --
-&lt;PK&gt; id: Guid
-&lt;FK&gt; primary_address_id: Guid
-&lt;FK&gt; secondary_address_id: Guid
-email: string
-password: text
-facebook_account: text
-google_account: text
-name: string
-join_date: Date</panel_attributes>
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; business_id: integer*
+*&lt;FK&gt; service_id: integer*
+--
+price: numeric
+date_added: timestamp</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>451</x>
-      <y>517</y>
-      <w>231</w>
-      <h>88</h>
-    </coordinates>
-    <panel_attributes>*Order*
---
-&lt;PK&gt; id: Guid
-&lt;FK&gt; customer_id: Guid
-date: Date</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>440</x>
-      <y>286</y>
-      <w>231</w>
-      <h>143</h>
-    </coordinates>
-    <panel_attributes>*Business_Service_Order*
---
-&lt;PK&gt; id: Guid
-&lt;FK&gt; business_service_id: Guid
-&lt;FK&gt; order_id: Guid
-label: string
-description: text
-date: Date</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>66</x>
-      <y>209</y>
-      <w>231</w>
-      <h>121</h>
-    </coordinates>
-    <panel_attributes>*Business_Service*
---
-&lt;PK&gt; id: Guid
-&lt;FK&gt; business_id: Guid
-&lt;FK&gt; service_id: Guid
-price: Numeric
-date: Date</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>792</x>
-      <y>88</y>
+      <x>781</x>
+      <y>77</y>
       <w>253</w>
-      <h>110</h>
+      <h>132</h>
     </coordinates>
-    <panel_attributes>*Business_BusinessOwner*
+    <panel_attributes>*business_business_owners*
 --
-&lt;FK&gt; business_id: Guid
-&lt;FK&gt; businessowner_id: Guid
-date_from: Date
-date_to: Date</panel_attributes>
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; business_id: integer*
+*&lt;FK&gt; business_owner_id: integer*
+--
+date_from: timestamp
+date_to: timestamp</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>55</x>
-      <y>429</y>
+      <x>44</x>
+      <y>484</y>
       <w>231</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>*Service*
+    <panel_attributes>*services*
 --
-&lt;PK&gt; id: Guid
-label: string
+*&lt;PK&gt; id: integer*
+--
+label: varchar
 description: text
-date: Date</panel_attributes>
+date_added: timestamp</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>66</y>
-      <w>231</w>
-      <h>165</h>
+      <x>396</x>
+      <y>77</y>
+      <w>286</w>
+      <h>132</h>
     </coordinates>
-    <panel_attributes>*Business*
+    <panel_attributes>*businesses*
 --
-&lt;PK&gt; id: Guid
-&lt;FK&gt; primary_address_id: Guid
-&lt;FK&gt; secondary_address_id: Guid
-name: string
-ICO: string
-DIC: string
-date_created: Date</panel_attributes>
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; primary_address_id: integer*
+*&lt;FK&gt; secondary_address_id: integer*
+--
+name: varchar
+date_joined: timestamp</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>286</x>
-      <y>110</y>
-      <w>176</w>
-      <h>44</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>660</x>
-      <y>110</y>
+      <x>264</x>
+      <y>121</y>
       <w>154</w>
       <h>44</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
-m2=1..n</panel_attributes>
+m2=0..n</panel_attributes>
     <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1034</x>
-      <y>110</y>
-      <w>143</w>
+      <x>671</x>
+      <y>99</y>
+      <w>132</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1..n</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1023</x>
+      <y>99</y>
+      <w>121</w>
       <h>44</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1..n
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>286</x>
-      <y>209</y>
-      <w>176</w>
-      <h>44</h>
+      <x>77</x>
+      <y>154</y>
+      <w>341</w>
+      <h>121</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=0..n</panel_attributes>
-    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>290.0;10.0;10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>154</x>
-      <y>319</y>
+      <x>143</x>
+      <y>374</y>
       <w>55</w>
       <h>132</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=1..n
+m1=0..n
 m2=1</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>286</x>
-      <y>286</y>
-      <w>176</w>
+      <x>253</x>
+      <y>275</y>
+      <w>165</w>
       <h>44</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>275</x>
-      <y>594</y>
-      <w>330</w>
-      <h>143</h>
+      <x>66</x>
+      <y>572</y>
+      <w>418</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=0..n</panel_attributes>
-    <additional_attributes>10.0;100.0;260.0;100.0;260.0;10.0</additional_attributes>
+    <additional_attributes>10.0;120.0;10.0;70.0;110.0;70.0;110.0;40.0;340.0;40.0;340.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>550</x>
-      <y>418</y>
+      <x>506</x>
+      <y>385</y>
       <w>55</w>
       <h>121</h>
     </coordinates>
@@ -284,31 +282,32 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
-      <y>209</y>
-      <w>154</w>
-      <h>44</h>
+      <x>671</x>
+      <y>132</y>
+      <w>286</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0;90.0;80.0;220.0;80.0;220.0;110.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>803</x>
-      <y>473</y>
+      <x>792</x>
+      <y>484</y>
       <w>253</w>
       <h>165</h>
     </coordinates>
-    <panel_attributes>*Document*
+    <panel_attributes>*documents*
 --
-&lt;PK&gt; id: Guid
-&lt;FK&gt; documentable_id: Guid
-documentable_type: string
-label: string
-data: blob
+*&lt;PK&gt; id: Guid*
+*&lt;FK&gt; documentable_id: Guid*
+*documentable_type: varchar*
+--
+label: varchar
+data: bytea
 dataurl: text
 description: text</panel_attributes>
     <additional_attributes/>
@@ -316,246 +315,308 @@ description: text</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>275</x>
-      <y>561</y>
-      <w>550</w>
-      <h>231</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..1
-m2=0..n</panel_attributes>
-    <additional_attributes>10.0;180.0;380.0;180.0;380.0;10.0;480.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>649</x>
-      <y>418</y>
-      <w>176</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..1
-m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;140.0;70.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>286</x>
-      <y>242</y>
-      <w>616</w>
-      <h>253</h>
+      <y>583</y>
+      <w>528</w>
+      <h>143</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..1
 m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;440.0;10.0;440.0;180.0;520.0;180.0;520.0;210.0</additional_attributes>
+    <additional_attributes>10.0;110.0;10.0;40.0;260.0;40.0;260.0;10.0;460.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>627</x>
+      <y>385</y>
+      <w>187</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..1
+m2=0..n</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;110.0;60.0;110.0;120.0;150.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>209</x>
+      <y>209</y>
+      <w>682</w>
+      <h>297</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..1
+m2=0..n</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0;500.0;10.0;500.0;220.0;580.0;220.0;580.0;250.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>22</x>
-      <y>528</y>
-      <w>803</w>
+      <y>583</y>
+      <w>792</w>
       <h>330</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..1
 m2=0..n</panel_attributes>
-    <additional_attributes>110.0;10.0;110.0;50.0;10.0;50.0;10.0;280.0;620.0;280.0;620.0;80.0;710.0;80.0</additional_attributes>
+    <additional_attributes>100.0;10.0;100.0;50.0;10.0;50.0;10.0;280.0;610.0;280.0;610.0;40.0;700.0;40.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>891</x>
+      <x>880</x>
       <y>374</y>
       <w>55</w>
-      <h>121</h>
+      <h>132</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..1
 m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>154</x>
+      <x>132</x>
       <y>11</y>
-      <w>1298</w>
-      <h>605</h>
+      <w>1309</w>
+      <h>616</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..1
 m2=0..n</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0;1160.0;10.0;1160.0;520.0;820.0;520.0</additional_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0;1170.0;10.0;1170.0;530.0;830.0;530.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>495</x>
+      <x>396</x>
       <y>22</y>
-      <w>946</w>
-      <h>572</h>
+      <w>1034</w>
+      <h>583</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..1
 m2=0..n</panel_attributes>
-    <additional_attributes>10.0;40.0;10.0;10.0;840.0;10.0;840.0;490.0;510.0;490.0</additional_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;920.0;10.0;920.0;500.0;590.0;500.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1045</x>
-      <y>198</y>
-      <w>220</w>
-      <h>374</h>
+      <x>1034</x>
+      <y>176</y>
+      <w>165</w>
+      <h>407</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..1
 m2=0..n</panel_attributes>
-    <additional_attributes>160.0;10.0;160.0;310.0;10.0;310.0</additional_attributes>
+    <additional_attributes>110.0;10.0;110.0;340.0;10.0;340.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>803</x>
-      <y>671</y>
+      <y>704</y>
       <w>253</w>
       <h>176</h>
     </coordinates>
-    <panel_attributes>*Address*
+    <panel_attributes>*addresses*
 --
-&lt;PK&gt; id: Guid
-name: string
-street: string
-city: string
-ZIP: string
-state: string
-country: string
-phone: string</panel_attributes>
+*&lt;PK&gt; id: integer*
+--
+name: varchar
+street: varchar
+city: varchar
+ZIP: varchar
+state: varchar
+country: varchar
+phone: varchar
+latitude: numeric
+longitude: numeric</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>88</x>
-      <y>803</y>
-      <w>858</w>
-      <h>99</h>
+      <x>77</x>
+      <y>825</y>
+      <w>869</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=0..n
+m1=0..1
 m2=2</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;750.0;70.0;750.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0;760.0;80.0;760.0;50.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>594</x>
       <y>0</y>
-      <w>869</w>
+      <w>858</w>
       <h>726</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=0..n
+m1=0..1
 m2=2</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0;770.0;10.0;770.0;630.0;420.0;630.0</additional_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;760.0;10.0;760.0;600.0;200.0;600.0;200.0;640.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>880</x>
+      <y>176</y>
+      <w>462</w>
+      <h>550</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..1
+m2=2</panel_attributes>
+    <additional_attributes>380.0;10.0;380.0;450.0;10.0;450.0;10.0;480.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>1045</x>
-      <y>198</y>
-      <w>308</w>
-      <h>550</h>
+      <y>330</y>
+      <w>110</w>
+      <h>440</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=0..n
+m1=0..1
 m2=2</panel_attributes>
-    <additional_attributes>240.0;10.0;240.0;470.0;10.0;470.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1034</x>
-      <y>352</y>
-      <w>99</w>
-      <h>418</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=0..n
-m2=2</panel_attributes>
-    <additional_attributes>10.0;10.0;70.0;10.0;70.0;350.0;20.0;350.0</additional_attributes>
+    <additional_attributes>20.0;10.0;80.0;10.0;80.0;370.0;10.0;370.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1133</x>
-      <y>737</y>
+      <x>1144</x>
+      <y>704</y>
       <w>253</w>
       <h>132</h>
     </coordinates>
-    <panel_attributes>*User*
+    <panel_attributes>*users*
 --
-&lt;PK&gt; id: Guid
-&lt;FK&gt; role_id: Guid
-role_type: String
-email: string
-password: text</panel_attributes>
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; role_id: integer*
+*role_type: varchar*
+--
+email: varchar
+encrypted_password: varchar</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>803</y>
+      <x>209</x>
+      <y>825</y>
       <w>1034</w>
-      <h>154</h>
+      <h>121</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
-m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;120.0;900.0;120.0;900.0;60.0</additional_attributes>
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0;920.0;90.0;920.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1034</x>
-      <y>308</y>
-      <w>275</w>
-      <h>451</h>
+      <x>1056</x>
+      <y>286</y>
+      <w>176</w>
+      <h>440</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
-m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;210.0;10.0;210.0;390.0</additional_attributes>
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;10.0;140.0;380.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>0</x>
-      <y>99</y>
-      <w>1287</w>
-      <h>891</h>
+      <y>110</y>
+      <w>1276</w>
+      <h>847</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=0..n
+m1=1
 m2=1</panel_attributes>
-    <additional_attributes>1130.0;700.0;1130.0;790.0;10.0;790.0;10.0;10.0;60.0;10.0</additional_attributes>
+    <additional_attributes>1140.0;660.0;1140.0;750.0;10.0;750.0;10.0;10.0;40.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1375</x>
-      <y>132</y>
-      <w>99</w>
-      <h>715</h>
+      <x>1254</x>
+      <y>33</y>
+      <w>209</w>
+      <h>748</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0;170.0;10.0;170.0;650.0;130.0;650.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>418</x>
+      <y>704</y>
+      <w>231</w>
+      <h>143</h>
+    </coordinates>
+    <panel_attributes>*invites*
+--
+*&lt;PK&gt; id: integer*
+*&lt;FK&gt; business_id: integer*
+*&lt;FK&gt; sender_id: integer*
+*&lt;FK&gt; recipient_id: integer*
+--
+email: varchar
+token: varchar</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>165</y>
+      <w>143</w>
+      <h>561</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=0..n</panel_attributes>
-    <additional_attributes>30.0;10.0;70.0;10.0;70.0;620.0;10.0;620.0</additional_attributes>
+    <additional_attributes>70.0;10.0;110.0;10.0;110.0;460.0;10.0;460.0;10.0;490.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>429</x>
+      <y>176</y>
+      <w>1045</w>
+      <h>792</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..n</panel_attributes>
+    <additional_attributes>840.0;10.0;840.0;50.0;930.0;50.0;930.0;700.0;10.0;700.0;10.0;610.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>363</y>
+      <w>539</w>
+      <h>616</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..1
+m2=0..n</panel_attributes>
+    <additional_attributes>420.0;10.0;470.0;10.0;470.0;540.0;10.0;540.0;10.0;440.0</additional_attributes>
   </element>
 </diagram>
