@@ -1,6 +1,6 @@
 ﻿-- CREATE ADDRESSES
 
-CREATE TABLE public.addresses
+CREATE TABLE addresses
 (
   id integer NOT NULL DEFAULT nextval('addresses_id_seq'::regclass),
   name character varying,
@@ -10,6 +10,8 @@ CREATE TABLE public.addresses
   state character varying,
   country character varying,
   phone character varying,
+  latitude numeric,
+  longitude numeric,
   created_at timestamp without time zone NOT NULL,
   updated_at timestamp without time zone NOT NULL,
   CONSTRAINT addresses_pkey PRIMARY KEY (id)
@@ -17,11 +19,9 @@ CREATE TABLE public.addresses
 
 -- CREATE ADMINISTRATORS
 
-CREATE TABLE public.administrators
+CREATE TABLE administrators
 (
   id integer NOT NULL DEFAULT nextval('administrators_id_seq'::regclass),
-  email character varying,
-  password_digest character varying,
   name character varying,
   created_at timestamp without time zone NOT NULL,
   updated_at timestamp without time zone NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE public.administrators
 
 -- CREATE BUSINESS_BUSINESS_OWNERS
 
-CREATE TABLE public.business_business_owners
+CREATE TABLE business_business_owners
 (
   id integer NOT NULL DEFAULT nextval('business_business_owners_id_seq'::regclass),
   business_id integer,
@@ -50,13 +50,11 @@ CREATE TABLE public.business_business_owners
 
 -- CREATE BUSINESS_OWNERS
 
-CREATE TABLE public.business_owners
+CREATE TABLE business_owners
 (
   id integer NOT NULL DEFAULT nextval('business_owners_id_seq'::regclass),
   billing_address_id integer,
   shipping_address_id integer,
-  email character varying,
-  password_digest character varying,
   name character varying,
   created_at timestamp without time zone NOT NULL,
   updated_at timestamp without time zone NOT NULL,
@@ -71,7 +69,7 @@ CREATE TABLE public.business_owners
 
 -- CREATE SERVICE_ORDERS
 
-CREATE TABLE public.business_service_orders
+CREATE TABLE business_service_orders
 (
   id integer NOT NULL DEFAULT nextval('business_service_orders_id_seq'::regclass),
   business_service_id integer,
@@ -92,7 +90,7 @@ CREATE TABLE public.business_service_orders
 
 -- CREATE BUSINESS_SERVICES
 
-CREATE TABLE public.business_services
+CREATE TABLE business_services
 (
   id integer NOT NULL DEFAULT nextval('business_services_id_seq'::regclass),
   business_id integer,
@@ -112,12 +110,11 @@ CREATE TABLE public.business_services
 
 -- CREATE BUSINESSES
 
-CREATE TABLE public.businesses
+CREATE TABLE businesses
 (
   id integer NOT NULL DEFAULT nextval('businesses_id_seq'::regclass),
   billing_address_id integer,
   shipping_address_id integer,
-  administrator_id integer,
   name character varying,
   date_joined timestamp without time zone,
   created_at timestamp without time zone NOT NULL,
@@ -128,21 +125,16 @@ CREATE TABLE public.businesses
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_rails_bdc5efd4e6 FOREIGN KEY (billing_address_id)
       REFERENCES public.addresses (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_rails_da95b6171c FOREIGN KEY (administrator_id)
-      REFERENCES public.administrators (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 
 -- CREATE CUSTOMERS
 
-CREATE TABLE public.customers
+CREATE TABLE customers
 (
   id integer NOT NULL DEFAULT nextval('customers_id_seq'::regclass),
   billing_address_id integer,
   shipping_address_id integer,
-  email character varying,
-  password_digest character varying,
   name character varying,
   date_joined timestamp without time zone,
   created_at timestamp without time zone NOT NULL,
@@ -158,7 +150,7 @@ CREATE TABLE public.customers
 
 -- CREATE DOCUMENTS
 
-REATE TABLE public.documents
+CREATE TABLE documents
 (
   id integer NOT NULL DEFAULT nextval('documents_id_seq'::regclass),
   documentable_type character varying,
@@ -174,14 +166,12 @@ REATE TABLE public.documents
 
 -- CREATE EMPLOYEES
 
-CREATE TABLE public.employees
+CREATE TABLE employees
 (
   id integer NOT NULL DEFAULT nextval('employees_id_seq'::regclass),
   business_id integer,
   billing_address_id integer,
   shipping_address_id integer,
-  email character varying,
-  password_digest character varying,
   name character varying,
   created_at timestamp without time zone NOT NULL,
   updated_at timestamp without time zone NOT NULL,
@@ -197,9 +187,33 @@ CREATE TABLE public.employees
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 
+-- CREATE INVITES
+
+CREATE TABLE invites
+(
+  id integer NOT NULL DEFAULT nextval('invites_id_seq'::regclass),
+  email character varying,
+  business_id integer,
+  sender_id integer,
+  recipient_id integer,
+  token character varying,
+  created_at timestamp without time zone NOT NULL,
+  updated_at timestamp without time zone NOT NULL,
+  CONSTRAINT invites_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_rails_7d173ce79f FOREIGN KEY (sender_id)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_rails_919a33ece7 FOREIGN KEY (recipient_id)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_rails_9feda0a35a FOREIGN KEY (business_id)
+      REFERENCES public.businesses (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+
 -- CREATE ORDERS
 
-CREATE TABLE public.orders
+CREATE TABLE orders
 (
   id integer NOT NULL DEFAULT nextval('orders_id_seq'::regclass),
   customer_id integer,
@@ -214,7 +228,7 @@ CREATE TABLE public.orders
 
 -- CREATE SERVICES
 
-CREATE TABLE public.services
+CREATE TABLE services
 (
   id integer NOT NULL DEFAULT nextval('services_id_seq'::regclass),
   label character varying,
@@ -223,4 +237,33 @@ CREATE TABLE public.services
   created_at timestamp without time zone NOT NULL,
   updated_at timestamp without time zone NOT NULL,
   CONSTRAINT services_pkey PRIMARY KEY (id)
+)
+
+-- CREATE USERS
+
+CREATE TABLE users
+(
+  id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass),
+  role_type character varying,
+  role_id integer,
+  email character varying NOT NULL DEFAULT ''::character varying,
+  encrypted_password character varying NOT NULL DEFAULT ''::character varying,
+  reset_password_token character varying,
+  reset_password_sent_at timestamp without time zone,
+  remember_created_at timestamp without time zone,
+  sign_in_count integer NOT NULL DEFAULT 0,
+  current_sign_in_at timestamp without time zone,
+  last_sign_in_at timestamp without time zone,
+  current_sign_in_ip inet,
+  last_sign_in_ip inet,
+  confirmation_token character varying,
+  confirmed_at timestamp without time zone,
+  confirmation_sent_at timestamp without time zone,
+  unconfirmed_email character varying,
+  failed_attempts integer NOT NULL DEFAULT 0,
+  unlock_token character varying,
+  locked_at timestamp without time zone,
+  created_at timestamp without time zone NOT NULL,
+  updated_at timestamp without time zone NOT NULL,
+  CONSTRAINT users_pkey PRIMARY KEY (id)
 )
