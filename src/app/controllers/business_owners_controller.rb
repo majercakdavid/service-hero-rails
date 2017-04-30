@@ -1,5 +1,6 @@
 class BusinessOwnersController < ApplicationController
-  load_and_authorize_resource
+  skip_authorization_check :only => [:new, :create]
+  load_and_authorize_resource :only => [:edit, :update, :destroy, :new_employee, :invite_employee]
   before_action :authenticate_user!, only: [:edit, :update, :destroy, :new_employee, :invite_employee]
   before_action :set_business_owner, only: [:edit, :update, :destroy]
 
@@ -36,6 +37,7 @@ class BusinessOwnersController < ApplicationController
 
     respond_to do |format|
       if @business_owner.persisted?
+        sign_in(User, @business_owner)
         format.html { redirect_to dashboard_path, notice: 'Your account was successfully created.' }
         format.json { render :show, status: :created, location: dashboard_path }
       else
@@ -53,6 +55,11 @@ class BusinessOwnersController < ApplicationController
       BusinessOwner.transaction do
         User.transaction do
           Address.transaction do
+            @business_owner.update(user_params)
+            @business_owner.role.update(business_owner_params)
+            @business_owner.role.shipping_address.update(shipping_address_params)
+            @business_owner.role.billing_address.update(billing_address_params)
+
             format.html { redirect_to dashboard_path, notice: 'Account was successfully updated.' }
             format.json { render :show, status: :ok, location: dashboard_path }
             @responded = true
@@ -71,7 +78,7 @@ class BusinessOwnersController < ApplicationController
   def destroy
     @business_owner.destroy
     respond_to do |format|
-      format.html { redirect_to business_owners_url, notice: 'Business owner was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Business owner was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

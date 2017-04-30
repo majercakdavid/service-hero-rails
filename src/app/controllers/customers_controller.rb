@@ -1,4 +1,6 @@
 class CustomersController < ApplicationController
+  skip_authorization_check :only => [:new, :create]
+  load_and_authorize_resource :only => [:edit, :update, :destroy]
   before_action :authenticate_user!, :set_customer, only: [:edit, :update, :destroy]
 
   # GET /customers
@@ -67,7 +69,12 @@ class CustomersController < ApplicationController
       Customer.transaction do
         User.transaction do
           Address.transaction do
-            format.html { redirect_to @customer, notice: 'Account was successfully updated.' }
+            @customer.update(user_params)
+            @customer.role.update(customer_params)
+            @customer.role.shipping_address.update(shipping_address_params)
+            @customer.role.billing_address.update(billing_address_params)
+
+            format.html { redirect_to dashboard_path, notice: 'Account was successfully updated.' }
             format.json { render :show, status: :ok, location: @customer }
             @responded = true
           end

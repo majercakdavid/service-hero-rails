@@ -1,8 +1,8 @@
 class BusinessOwner < ApplicationRecord
   self.table_name = 'business_owners'
 
-  belongs_to :billing_address, :class_name => 'Address'
-  belongs_to :shipping_address, :class_name => 'Address'
+  belongs_to :billing_address, :class_name => 'Address', dependent: :destroy
+  belongs_to :shipping_address, :class_name => 'Address', dependent: :destroy
 
   has_many :documents, :as => :documentable
   has_many :business_business_owners, dependent: :destroy
