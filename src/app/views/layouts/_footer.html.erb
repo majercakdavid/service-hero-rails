@@ -1,12 +1,16 @@
-<footer class="footer">
-  <small>
-    The <a href="http://www.servicehero.sk/">Service Hero</a>
-    by David Majercak
-  </small>
-  <nav>
-    <ul>
-      <li><%= link_to "About", about_path %></li>
-      <li><%= link_to "Contact", contact_path %></li>
-    </ul>
-  </nav>
+<footer class="uk-position-bottom">
+  <section class="uk-block uk-block-muted uk-margin-remove">
+    <div class="uk-container uk-container-center">
+      <div class="uk-panel-space uk-flex uk-flex-middle uk-flex-space-between">
+        <ul class="uk-breadcrumb uk-margin-bottom-remove">
+          <li><%= link_to "About", about_path %></li>
+          <li><%= link_to "Contact", contact_path %></li>
+        </ul>
+        <span class="uk-text-contrast">
+          The <a href="http://www.servicehero.sk/">Service Hero</a>
+          by David Majercak
+        </span>
+      </div>
+    </div>
+  </section>
 </footer>

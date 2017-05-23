@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'hello_world', to: 'hello_world#index'
   #devise_for :users
   devise_scope :users do
   end
@@ -19,10 +20,10 @@ Rails.application.routes.draw do
   get '/get_latest_businesses_orders', to: 'dashboards#get_latest_businesses_orders'
   get '/get_my_businesses', to: 'dashboards#get_my_businesses'
 
-  get '/sign_up_customer', to: 'customers#new'
-  post '/sign_up_customer', to: 'customers#create'
-  get '/sign_up_business_owner', to: 'business_owners#new'
-  post '/sign_up_business_owner', to: 'business_owners#create'
+  #get '/sign_up_customer', to: 'customers#new'
+  #post '/sign_up_customer', to: 'customers#create'
+  #get '/sign_up_business_owner', to: 'business_owners#new'
+  #Wpost '/sign_up_business_owner', to: 'business_owners#create'
 
   get '/business_owners/invite_employee', to: 'business_owners#new_employee'
   post '/business_owners/invite_employee', to: 'business_owners#invite_employee'
@@ -42,8 +43,8 @@ Rails.application.routes.draw do
   get '/get_business_statistics', to: 'businesses#get_business_statistics'
 
   resources :administrators, only: [:edit, :update]
-  resources :business_owners, only: [:edit, :update, :destroy]
-  resources :customers, only: [:edit, :update, :destroy]
+  resources :business_owners, only: [:new, :create, :edit, :update, :destroy]
+  resources :customers, only: [:new, :create, :edit, :update, :destroy]
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

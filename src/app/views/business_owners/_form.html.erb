@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
-    <%= form_for(business_owner, url: business_owner_path) do |f| %>
+    <%= form_for(business_owner, url: business_owners_path) do |f| %>
         <% if business_owner.errors.any? %>
             <div id="error_explanation">
               <h2><%= pluralize(business_owner.errors.count, "error") %> prohibited this business_owner from being

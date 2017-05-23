@@ -1,12 +1,16 @@
 <% provide(:title, "Home") %>
-<div class="center jumbotron">
-  <h1>Welcome to the Service Hero</h1>
-
-  <h2>
-    This is the perfect place for the businesses to offer their services, but also for
-    customers to discover the best services within their neighborhood.
-  </h2>
-
-  <%= link_to "Customer sign up", sign_up_customer_path, class: "btn btn-lg btn-primary" %>
-  <%= link_to "Business Owner sign up", sign_up_business_owner_path, class: "btn btn-lg btn-primary" %>
+<div class="uk-cover-background uk-position-cover uk-margin-large-top home-page">
+  <div class="uk-flex uk-flex-middle uk-flex-center uk-position-cover">
+    <div class="uk-panel uk-panel-box uk-width-large-1-2 uk-width-medium-1-1">
+      <div class="uk-panel-title uk-flex uk-flex-center">
+        <h1>Offer services, discover services</h1>
+      </div>
+      <div class="uk-panel-body">
+        <div class="uk-margin uk-flex uk-flex-space-between">
+          <%= link_to "Customer sign up", new_customer_path, class: "uk-button-danger uk-button-large uk-border-rounded uk-width-large-1-3 uk-width-medium-1-2 uk-margin-right" %>
+          <%= link_to "Business Owner sign up", new_business_owner_path, class: "uk-button-danger uk-button-large uk-border-rounded uk-width-large-1-3 uk-width-medium-1-2 uk-margin-left" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -59,11 +59,19 @@ class BusinessesController < ApplicationController
   # PATCH/PUT /businesses/1
   # PATCH/PUT /businesses/1.json
   def update
+    @responded = false
     respond_to do |format|
-      if @business.update(business_params)
-        format.html {redirect_to dashboard_path, notice: 'Business was successfully updated.'}
-        format.json {render :show, status: :ok, location: dashboard_path}
-      else
+      Business.transaction do
+        Address.transaction do
+          @business.update(business_params)
+          @business.shipping_address.update(shipping_address_params)
+          @business.billing_address.update(billing_address_params)
+          format.html {redirect_to dashboard_path, notice: 'Business was successfully updated.'}
+          format.json {render :show, status: :ok, location: dashboard_path}
+          @responded = true
+        end
+      end
+      if !@responded
         format.html {render :edit}
         format.json {render json: @business.errors, status: :unprocessable_entity}
       end
@@ -125,6 +133,15 @@ class BusinessesController < ApplicationController
                                .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
                                .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?", "#{@business[:id]}", Time.now.beginning_of_month, Time.now)
                                .as_json[0]['sum']
+
+      if @last_month_profit.nil?
+        @last_month_profit = 0
+      end
+
+      if @this_month_profit.nil?
+        @this_month_profit = 0
+      end
+
       @monthly_growth = (@this_month_profit - @last_month_profit)/@last_month_profit
       @monthly_growth = @monthly_growth.round(4).to_s + "%"
     end

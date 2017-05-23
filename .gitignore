@@ -17,3 +17,15 @@ src/tmp/
 
 # Ignore Byebug command history file.
 .byebug_history
+/src/app/assets/images/accountant.jpg
+/src/app/assets/images/barber.jpg
+/src/app/assets/images/dentist.jpg
+/src/app/assets/images/gardener.jpg
+/src/app/assets/images/law.jpg
+/src/app/assets/images/mower.jpg
+/src/log/development.log
+/brand.afdesign
+/homepage.afdesign
+/logo.afdesign
+/logo1.afdesign
+/src/node_modules

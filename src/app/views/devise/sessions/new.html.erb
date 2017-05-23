@@ -1,24 +1,41 @@
 <% provide(:title, "Log in") %>
 <h1>Log in</h1>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<div class="uk-flex uk-flex-middle uk-flex-center uk-position-cover">
+  <div class="uk-panel uk-panel-box uk-width-large-1-2 uk-width-medium-1-1">
+    <div class="uk-panel-body">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "uk-form"}) do |f| %>
+          <fieldset data-uk-margin>
+            <div class="uk-form-row">
+              <%= f.label :email %>
+            </div>
+            <div class="uk-form-row">
+              <%= f.email_field :email, autofocus: true, class: "uk-form-width-large" %>
+            </div>
 
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+            <div class="uk-form-row">
+              <%= f.label :password %>
+            </div>
+            <div class="uk-form-row">
+              <%= f.password_field :password, autocomplete: "off", class: "uk-form-width-large" %>
+            </div>
 
-        <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+            <% if devise_mapping.rememberable? -%>
+                <div class="uk-form-row">
+                  <%= f.check_box :remember_me, class: 'uk-form-row' %>
+                  <%= f.label :remember_me %>
+                </div>
+            <% end -%>
+            <div class="uk-form-row">
+              <%= f.submit "Log in", class: "uk-button uk-form-width-large" %>
+            </div>
 
-        <% if devise_mapping.rememberable? -%>
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
-        <% end -%>
+            <div class="uk-form-row">
+              <p>New user? <%= link_to "Sign up now!", user_session_path %></p>
+            </div>
+          </fieldset>
+      <% end %>
 
-        <%= f.submit "Log in", class: "btn btn-primary" %>
-    <% end %>
-
-    <p>New user? <%= link_to "Sign up now!", user_session_path %></p>
+    </div>
   </div>
 </div>
