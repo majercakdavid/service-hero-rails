@@ -1,108 +1,136 @@
 <% provide(:title, @business.name) %>
 <p id="notice"><%= notice %></p>
-<div class="container">
-  <div class="row">
-    <h1><%= @business.name %></h1>
-    <section class="col-md-4 col-md-offset-1">
-      <h2><strong>Basic Information:</strong></h2>
-      <p>
-        <strong>Name:</strong>
-        <%= @business.name %>
-      </p>
+<h1><%= @business.name %></h1>
+<div class="uk-container uk-float-left">
+  <section class="uk-container uk-float-left">
+    <h2><strong>Basic Information:</strong></h2>
+    <p>
+      <strong>Name:</strong>
+      <%= @business.name %>
+    </p>
 
-      <p>
-        <strong>Date joined:</strong>
-        <%= @business.date_joined.to_date %>
-      </p>
-    </section>
-    <section id="business-statistics-section" class="col-md-4 col-md-offset-1">
-    </section>
-  </div>
-  <div class="row">
-    <section class="col-md-4 col-md-offset-1">
-      <h2><strong>Shipping Address:</strong></h2>
-      <p>
-        <strong>Name:</strong>
-        <%= @business.shipping_address.name %>
-      </p>
-
-      <p>
-        <strong>Street:</strong>
-        <%= @business.shipping_address.street %>
-      </p>
-
-      <p>
-        <strong>City:</strong>
-        <%= @business.shipping_address.city %>
-      </p>
-
-      <p>
-        <strong>Zip:</strong>
-        <%= @business.shipping_address.ZIP %>
-      </p>
-
-      <p>
-        <strong>State:</strong>
-        <%= @business.shipping_address.state %>
-      </p>
-
-      <p>
-        <strong>Country:</strong>
-        <%= @business.shipping_address.country %>
-      </p>
-
-      <p>
-        <strong>Phone:</strong>
-        <%= @business.shipping_address.phone %>
-      </p>
-    </section>
-    <section class="col-md-4 col-md-offset-1">
-      <h2><strong>Billing Address:</strong></h2>
-      <p>
-        <strong>Name:</strong>
-        <%= @business.billing_address.name %>
-      </p>
-
-      <p>
-        <strong>Street:</strong>
-        <%= @business.billing_address.street %>
-      </p>
-
-      <p>
-        <strong>City:</strong>
-        <%= @business.billing_address.city %>
-      </p>
-
-      <p>
-        <strong>Zip:</strong>
-        <%= @business.billing_address.ZIP %>
-      </p>
-
-      <p>
-        <strong>State:</strong>
-        <%= @business.billing_address.state %>
-      </p>
-
-      <p>
-        <strong>Country:</strong>
-        <%= @business.billing_address.country %>
-      </p>
-
-      <p>
-        <strong>Phone:</strong>
-        <%= @business.billing_address.phone %>
-      </p>
-    </section>
-  </div>
-  <script type="application/javascript">
-      var loadingImage = '<%= show_svg("loading.svg") %>';
-      var businessStatisticsSection = document.getElementById("business-statistics-section");
-      var businessStatistics = new createDynamicStatistics("/get_business_statistics", <%= @business[:id] %>, businessStatisticsSection, loadingImage);
-      businessStatistics.executeQuery();
-  </script>
+    <p>
+      <strong>Date joined:</strong>
+      <%= @business.date_joined.to_date %>
+    </p>
+  </section>
+  <% if current_user.is_business_owner? %>
+      <section class="uk-container uk-float-left" id="business-statistics-section" class="uk-width-1-3">
+      </section>
+      <section class="uk-container uk-float-left" id="business-services-section" class="uk-width-1-3">
+      </section>
+  <% end %>
 </div>
-<div class="row col-md-4 col-md-offset-4">
-  <%= link_to 'Edit', edit_business_path(@business), :class => 'btn btn-info' %>
-  <%= link_to 'Delete', business_path(@business), method: :delete , :class => 'btn btn-danger' %>
-  <%= link_to 'Back', dashboard_path, :class => 'btn btn-default' %>
+<div class="uk-container uk-float-left">
+  <section class="uk-container uk-float-left">
+    <h2><strong>Shipping Address:</strong></h2>
+    <p>
+      <strong>Name:</strong>
+      <%= @business.shipping_address.name %>
+    </p>
+
+    <p>
+      <strong>Street:</strong>
+      <%= @business.shipping_address.street %>
+    </p>
+
+    <p>
+      <strong>City:</strong>
+      <%= @business.shipping_address.city %>
+    </p>
+
+    <p>
+      <strong>Zip:</strong>
+      <%= @business.shipping_address.ZIP %>
+    </p>
+
+    <p>
+      <strong>State:</strong>
+      <%= @business.shipping_address.state %>
+    </p>
+
+    <p>
+      <strong>Country:</strong>
+      <%= @business.shipping_address.country %>
+    </p>
+
+    <p>
+      <strong>Phone:</strong>
+      <%= @business.shipping_address.phone %>
+    </p>
+  </section>
+  <section class="uk-container uk-float-left">
+    <h2><strong>Billing Address:</strong></h2>
+    <p>
+      <strong>Name:</strong>
+      <%= @business.billing_address.name %>
+    </p>
+
+    <p>
+      <strong>Street:</strong>
+      <%= @business.billing_address.street %>
+    </p>
+
+    <p>
+      <strong>City:</strong>
+      <%= @business.billing_address.city %>
+    </p>
+
+    <p>
+      <strong>Zip:</strong>
+      <%= @business.billing_address.ZIP %>
+    </p>
+
+    <p>
+      <strong>State:</strong>
+      <%= @business.billing_address.state %>
+    </p>
+
+    <p>
+      <strong>Country:</strong>
+      <%= @business.billing_address.country %>
+    </p>
+
+    <p>
+      <strong>Phone:</strong>
+      <%= @business.billing_address.phone %>
+    </p>
+  </section>
 </div>
+<% if current_user.is_customer? %>
+    <div class="uk-container uk-container-center">
+      <div class="uk-margin">
+        <div id="time-slots-calendar"></div>
+      </div>
+    </div>
+<% end %>
+<div class="uk-flex uk-flex-space-around uk-width-1-1">
+  <% if current_user.is_business_owner? %>
+      <%= link_to 'Edit', edit_business_path(@business), :class => 'uk-button uk-form-width-medium' %>
+      <%= link_to 'Manage Time Slots', businesses_services_path(:business => {:id => @business.id}), :class => 'uk-button uk-form-width-medium' %>
+      <%= link_to 'Delete', business_path(@business), method: :delete, :class => 'uk-button uk-form-width-medium' %>
+  <% end %>
+  <%= link_to 'Back', dashboard_path, :class => 'uk-button uk-form-width-medium' %>
+</div>
+<script type="application/javascript">
+    $(document).on('turbolinks:load', function () {
+        <% if current_user.is_business_owner? %>
+        var loadingImage = '<%= show_svg("loading.svg") %>';
+        var businessStatisticsSection = document.getElementById("business-statistics-section");
+        if (businessStatisticsSection) {
+            var businessStatistics = new createDynamicStatistics("/get_business_statistics", <%= @business[:id] %>, businessStatisticsSection, loadingImage);
+            businessStatistics.executeQuery();
+        }
+
+        var businessServicesSection = document.getElementById("business-services-section");
+        if (businessServicesSection) {
+            var businessServices = new createDynamicTable(0, 5, "/get_business_services", businessServicesSection, loadingImage, {business: {id: <%= @business[:id] %>}}, "Business Services", true, false, "<%= new_business_service_path %>", 'Create Service');
+            businessServices.executeQuery();
+        }
+        <% elsif current_user.is_customer? %>
+        var calendarElement = document.getElementById("time-slots-calendar");
+        var timeSlotsCalendar = new createDynamicCalendar(calendarElement, [<%= @business.id %>]);
+        timeSlotsCalendar.initialize();
+        <% end %>
+    });
+</script>

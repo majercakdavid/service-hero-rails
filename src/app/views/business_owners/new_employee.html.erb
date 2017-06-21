@@ -1,18 +1,21 @@
 <% provide(:title, "Invite") %>
 <h1>Invite new employee</h1>
 
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <%= form_for(@invite, url: business_owners_invite_employee_path) do |f| %>
-        <%= f.label :email %>
-        <%= f.text_field :email, class: 'form-control' %>
+<%= form_for(@invite, url: business_owners_invite_employee_path, :html => {:class => 'uk-form uk-flex-item-1 uk-flex-column uk-flex-middle'}) do |f| %>
+    <section class="uk-flex uk-flex-column uk-container">
+      <%= f.label :email %>
+      <%= f.text_field :email, class: 'form-control', placeholder: :email %>
 
-        <%= f.label :business %>
-        <%= f.select :business_id, options_for_select(@invite.sender.role.businesses.map{|b|[b.name, b.id]}), class: 'form-control' %>
+      <%= f.label :business %>
+      <%= f.select :business_id, options_for_select(@invite.sender.role.businesses.map {|b| [b.name, b.id]}), class: 'form-control' %>
 
-        <%= f.submit :class => 'btn btn-primary' %>
-    <% end %>
-  </div>
-</div>
-
-<%= link_to 'Back to Dashboard', dashboard_path %>
+      <div class="uk-margin uk-flex uk-flex-center">
+        <h2>
+          <%= f.submit :class => 'uk-button uk-button-large' %>
+        </h2>
+      </div>
+      <div class="uk-margin uk-flex uk-flex-center">
+        <%= link_to 'Back to Dashboard', dashboard_path %>
+      </div>
+    </section>
+<% end %>

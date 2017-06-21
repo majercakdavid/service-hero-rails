@@ -1,5 +1,3 @@
-//= require webpack-bundle
-
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -14,12 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require jquery-ui/widgets/autocomplete
+//= require autocomplete-rails
+//= require jquery-ui
+//= require moment
+//= require fullcalendar
+//= require locale-all.js
 //= require uikit
 //= require uikit-components
-//= require react
-//= require react_ujs
-//= require components
+//= require turbolinks
 //= require_tree .
 
 /*

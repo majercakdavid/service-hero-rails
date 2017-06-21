@@ -1,33 +1,255 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Business Services</h1>
-
-<table>
-  <thead>
+<div class="uk-container uk-container-center">
+  <table class="uk-table">
+    <thead>
     <tr>
       <th>Business</th>
       <th>Service</th>
       <th>Price</th>
       <th>Date added</th>
+      <th>Enabled time slots</th>
       <th colspan="3"></th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
+    <tbody>
     <% @business_services.each do |business_service| %>
-      <tr>
-        <td><%= business_service.business %></td>
-        <td><%= business_service.service %></td>
-        <td><%= business_service.price %></td>
-        <td><%= business_service.date_added %></td>
-        <td><%= link_to 'Show', business_service %></td>
-        <td><%= link_to 'Edit', edit_business_service_path(business_service) %></td>
-        <td><%= link_to 'Destroy', business_service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <tr>
+          <td><%= business_service.business.name %></td>
+          <td><%= business_service.service.label %></td>
+          <td><%= business_service.price %></td>
+          <td><%= business_service.date_added %></td>
+          <% if business_service.has_attribute?(:enable_time_slots) %>
+              <td><%= business_service.enable_time_slots %></td>
+          <% else %>
+              <td>false</td>
+          <% end %>
+          <td><%# link_to 'Show', business_service %></td>
+          <td><%# link_to 'Edit', edit_business_service_path(business_service) %></td>
+          <td><%# link_to 'Destroy', business_service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
+<div class="uk-container uk-container-center">
+  <div class="uk-float-left uk-width-large-1-5 uk-width-small-1-1 uk-container uk-container-center uk-flex uk-flex-column uk-flex-middle">
+    <h4>Business Service</h4>
+    <label>Drag'n'drop business services to the desired time slot</label>
+    <ul id="external-events" class="uk-padding-remove"></ul>
+  </div>
+  <div class="uk-margin uk-float-right uk-width-large-4-5 uk-width-small-1-1">
+    <div id="calendar"></div>
+  </div>
+</div>
+<script>
+    function _handleError(err) {
+        var msg = JSON.stringify(err);
+        console.log(msg);
+        alert(msg)
+    }
 
-<br>
+    function removeTimeSlotById(id) {
+        var event = $('#calendar').fullCalendar('clientEvents', [id])[0];
+        if (!confirm(event.title + " on Start: " + event.start.format() + ", End: " + event.end.format() + " is being removed.\n\nAre you sure about this change?")) {
+            return;
+        }
+        $.ajax({
+            type: "DELETE",
+            url: '/business_service_time_slot',
+            data: {
+                "time_slot": {
+                    "id": id
+                }
+            },
+            dataType: "json"
+        }).done(function () {
+            $('#calendar').fullCalendar('removeEvents', [id]);
+            $('#calendar').fullCalendar('refresh');
+        }).fail(function (err) {
+            var errEvent = $('#calendar').fullCalendar('clientEvents', [id])[0];
+            if (errEvent)
+                UIkit.modal.alert("Error saving event: " + JSON.stringify(err));
+        });
+    }
 
-<%= link_to 'New Business Service', new_business_service_path %>
+    $(document).on('turbolinks:load', function () {
+      /* initialize the external events
+       -----------------------------------------------------------------*/
+        function appendBusinessServices(data) {
+            if (!data) {
+                document.getElementById("external-events").innerHTML = "";
+                document.getElementById("calendar").innerHTML = "";
+                return;
+            }
+            var parentElement = document.getElementById('external-events');
+            var businessesIds = [];
+            var businessCounter = 0;
+            var events = [];
+            for (var d in data) {
+                var divEl = document.createElement("LI");
+                divEl.className = "fc-event";
+                divEl.setAttribute("value", data[d].id);
+                divEl.innerText = data[d].service_label;
+
+                $(divEl).data('event', {
+                    title: data[d].service_label, // use the element's text as the event title
+                    stick: true, // maintain when user navigates (see docs on the renderEvent method)
+                    business_service_id: data[d].id,
+                    business_id: data[d].business_id
+                });
+
+                if (businessesIds.indexOf(data[d].business_id) === -1)
+                    businessesIds.push(data[d].business_id)
+
+                // make the event draggable using jQuery UI
+                $(divEl).draggable({
+                    zIndex: 999,
+                    revert: true,      // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
+                });
+
+                parentElement.appendChild(divEl);
+            }
+
+            for (var b in businessesIds) {
+                $.ajax({
+                    type: "GET",
+                    url: '/business_service_time_slots',
+                    data: {
+                        "business_id": businessesIds[b]
+                    },
+                    dataType: "json"
+                }).done(function (data) {
+                        businessCounter++;
+                        for (var d in data) {
+                            switch (data[d].state) {
+                                case 0:
+                                    data[d].color = '#526F35';
+                                    break;
+                                case 1:
+                                    data[d].color = '#BD2F3A';
+                                    break;
+                                case 2:
+                                    data[d].color = '#1d3557';
+                                    break;
+                            }
+                        }
+                        events = events.concat(data);
+                        if (businessCounter === businessesIds.length)
+                            initializeCalendar(events);
+                    }
+                ).fail(function (err) {
+                    UIkit.modal.alert("Error saving event: " + JSON.stringify(err));
+                });
+            }
+        }
+
+      /* initialize the calendar
+       -----------------------------------------------------------------*/
+        function initializeCalendar(ev) {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'agendaWeek,agendaDay'
+                },
+                events: ev,
+                defaultView: 'agendaWeek',
+                allDayDefault: false,
+                defaultTimedEventDuration: moment.duration(1, 'hours'),
+                forceEventDuration: true,
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar
+                drop: function (event) {
+                    event.business_service_id = this.value;
+                },
+                eventDrop: function (event, delta, revertFunc) {
+                    if (!confirm(event.title + " was dropped on Start: " + event.start.format() + " End: " + event.end.format() + ".\n\nAre you sure about this change?")) {
+                        revertFunc();
+                    } else {
+                        $.ajax({
+                            type: "PUT",
+                            url: '/business_service_time_slot',
+                            data: {
+                                "time_slot": {
+                                    "id": event.id,
+                                    "datetime_from": event.start.format(),
+                                    "datetime_to": event.end.format()
+                                }
+                            },
+                            dataType: "json"
+                        }).fail(function (err) {
+                            UIkit.modal.alert("Error saving event: " + JSON.stringify(err));
+                            revertFunc();
+                        });
+                    }
+                },
+                eventResize: function (event, delta, revertFunc) {
+                    if (!confirm(event.title + " was resized to Start: " + event.start.format() + " End: " + event.end.format() + ".\n\nAre you sure about this change?")) {
+                        revertFunc();
+                    } else {
+                        $.ajax({
+                            type: "PUT",
+                            url: '/business_service_time_slot',
+                            data: {
+                                "time_slot": {
+                                    "id": event.id,
+                                    "datetime_from": event.start.format(),
+                                    "datetime_to": event.end.format()
+                                }
+                            },
+                            dataType: "json"
+                        }).fail(function (err) {
+                            UIkit.modal.alert("Error saving event: " + JSON.stringify(err));
+                            revertFunc();
+                        });
+                    }
+                },
+                eventReceive: function (event) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/business_service_time_slot',
+                        data: {
+                            "time_slot": {
+                                "business_service_id": event["business_service_id"],
+                                "datetime_from": event.start.format(),
+                                "datetime_to": event.end.format()
+                            }
+                        },
+                        dataType: "json"
+                    }).done(function (data) {
+                        event.id = data["id"];
+                        event._id = data["id"];
+                        switch (event.state) {
+                            case 0:
+                                event.color = '#526F35';
+                                break;
+                            case 1:
+                                event.color = '#BD2F3A';
+                                break;
+                            case 2:
+                                events.color = '#1d3557';
+                                break;
+                        }
+                        $('#calendar').fullCalendar('updateEvent', event);
+                    }).fail(function (err) {
+                        UIkit.modal.alert("Error saving event: " + JSON.stringify(err));
+                    });
+                },
+                eventRender: function (event, eventElement) {
+                    eventElement.find("div.fc-title").addClass("uk-float-left");
+                    eventElement.find("div.fc-content").append("<i onclick='removeTimeSlotById(" + event.id + ")' class='uk-icon-close uk-float-right'></i>");
+                }
+            });
+        }
+
+        $.getJSON('/time_slottable_business_services', {business_id: <%= @business_services.first().business_id %>}).done(
+            appendBusinessServices
+        ).fail(
+            _handleError
+        );
+    });
+</script>

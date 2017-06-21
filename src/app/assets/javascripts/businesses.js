@@ -8,9 +8,9 @@ var createDynamicStatistics = function (url, id, section_to_append, loading_imag
         var _this = this;
         $.getJSON(url, {
             id: id
-        }, function (data) {
+        }).done(function (data) {
             _this.printData(data);
-        }, "json").error(_this.errorHandler);
+        }).fail(_this.errorHandler);
     };
 
 

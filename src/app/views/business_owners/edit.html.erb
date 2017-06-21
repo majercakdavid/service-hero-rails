@@ -1,16 +1,14 @@
 <% provide(:title, "Edit") %>
-<h1>Editing Business Owner</h1>
+<h1 class="uk-container uk-container-center">Editing Business Owner</h1>
 
 <%= render 'form', business_owner: @business_owner.role %>
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <p>
-      Unhappy?
-      <%= button_to "Cancel my account", business_owner_path,
-                    data: {confirm: "Are you sure?"}, method: :delete,
-                    class: "btn btn-sm btn-danger" %>
-    </p>
-  </div>
+<div class="uk-container uk-margin uk-width-1-1">
+  <p class="uk-width-1-1">
+    Unhappy?
+    <%= button_to "Cancel my account", business_owner_path,
+                  data: {confirm: "Are you sure?"}, method: :delete,
+                  class: "uk-button uk-width-1-1" %>
+  </p>
 </div>
 
 <%= link_to 'Back to Dashboard', dashboard_path %>

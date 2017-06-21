@@ -6,12 +6,15 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%# javascript_include_tag "autocomplete-rails.js" %>
+    <%# javascript_include_tag 'jquery.autocomplete.js' %>
+    <%= javascript_include_tag "autocomplete-rails" %>
     <%= render 'layouts/shim' %>
   </head>
 
-  <body>
+  <body class="uk-flex uk-flex-column uk-position-cover">
     <%= render 'layouts/header' %>
-    <main>
+    <main class="uk-flex uk-flex-column uk-flex-middle uk-flex-item-1">
       <% flash.each do |message_type, message| %>
           <div class="alert alert-<%= message_type %>"><%= message %></div>
        <% end %>

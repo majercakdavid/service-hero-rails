@@ -1,30 +1,34 @@
 <% provide(:title, @user.role.name) %>
-<div class="row">
-  <section class="col-md-6 col-md-offset-0">
-    <h1>Businesses</h1>
+<div class="uk-float-left uk-container">
+  <section class="uk-float-left uk-width-large-1-2 uk-width-medium-1-1 uk-width-small-1-1">
+      <h1>Businesses</h1>
     <%= link_to 'Create new', new_business_path %>
     <div id="my-businesses-section" class="col-md-offset-5">
       <% show_svg("loading.svg") %>
     </div>
   </section>
-  <section class="col-md-6 col-md-offset-0">
+  <section class="uk-float-left uk-width-large-1-2 uk-width-medium-1-1 uk-width-small-1-1">
     <h1>Latest orders</h1>
     <br/>
-    <div id="latest-orders-section" class="col-md-offset-5">
+    <div id="latest-orders-section">
       <% show_svg("loading.svg") %>
     </div>
   </section>
   <script type="text/javascript">
-      //window.onload = function () {
+      $(document).on('turbolinks:load', function() {
           var loadingImage = '<%= show_svg("loading.svg") %>';
-          var latest_orders_section = document.getElementById("latest-orders-section");
-          var ordersDynamicTable = new createDynamicTable(0, 5, '/get_latest_businesses_orders', latest_orders_section, loadingImage);
-          ordersDynamicTable.executeQuery();
+          var latestOrdersSection = document.getElementById("latest-orders-section");
+          if(latestOrdersSection){
+            var ordersDynamicTable = new createDynamicTable(0, 5, '/get_latest_businesses_orders', latestOrdersSection, loadingImage);
+            ordersDynamicTable.executeQuery();
+          }
 
-          var my_businesses_section = document.getElementById("my-businesses-section");
-          var myBusinesses = new createDynamicTable(0,5,'/get_my_businesses', my_businesses_section, loadingImage);
-          myBusinesses.executeQuery();
-      //}
+          var myBusinessesSection = document.getElementById("my-businesses-section");
+          if(myBusinessesSection){
+            var myBusinesses = new createDynamicTable(0,5,'/get_my_businesses', myBusinessesSection, loadingImage);
+            myBusinesses.executeQuery();
+          }
+      });
   </script>
 </div>
 

@@ -11,64 +11,146 @@
  * It is generally better to create a new file per style scope.
  *
  */
-/*@import "bootstrap-sprockets";
-@import "bootstrap";
-@import 'bootstrap-datetimepicker';*/
 @import "uikit-mixins";
 /* add here file with mixins */
-$base-body-background:                           #f5f7f4 !default;
-$base-body-font-family:                          "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$base-heading-font-family:                       "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$navbar-nav-font-family:                         "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$base-body-color:                                #1D3557 !default;
+@import "fullcalendar";
 
-$navbar-background:                              #f5f7f4 !default;
-$navbar-nav-height:                              60px !default;
-$navbar-nav-line-height:                         60px !default;
-$navbar-nav-padding-horizontal:                  10px !default;
-$navbar-nav-font-size:                           20px !default;
-$navbar-link-color:                              #1d3557 !default;
-$navbar-link-hover-color:                        #1d3557 !default;
-$navbar-nav-hover-background:                    #DCE4D9 !default;
-$navbar-nav-hover-color:                         #1d3557 !default;
+@font-face {
+  font-family: 'Berlin Sans FB Demi';
+  //src: url('webfont.eot'); /* IE9 Compat Modes */
+  //src: url('webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  //url('webfont.woff2') format('woff2'), /* Super Modern Browsers */
+  //url('webfont.woff') format('woff'), /* Pretty Modern Browsers */
+  src: url('Berlin Sans FB Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
 
-$button-background:                              #DCE4D9 !default;
-$button-color:                                   #1d3557 !default;
-$button-hover-background:                        #1d3557 !default;
-$button-hover-color:                             #DCE4D9 !default;
+$base-body-background: #f5f7f4 !default;
+$base-body-font-family: "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$base-heading-font-family: "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$navbar-nav-font-family: "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$base-body-color: #1D3557 !default;
 
-$button-danger-background:                       #BD2F3A !default;
-$button-danger-color:                            #DCE4D9 !default;
-$button-danger-hover-background:                 #1d3557 !default;
-$button-danger-hover-color:                      #DCE4D9 !default;
+$navbar-background: #f5f7f4 !default;
+$navbar-nav-height: 60px !default;
+$navbar-nav-line-height: 60px !default;
+$navbar-nav-padding-horizontal: 10px !default;
+$navbar-nav-font-size: 20px !default;
+$navbar-link-color: #1d3557 !default;
+$navbar-link-hover-color: #1d3557 !default;
+$navbar-nav-hover-background: #DCE4D9 !default;
+$navbar-nav-hover-color: #1d3557 !default;
 
-$button-large-font-size:                         24px !default;
-$button-large-height:                            60px !default;
-$button-large-line-height:                       60px !default;
+$button-background: #1d3557 !default;
+$button-color: (#DCE4D9 !important) !default;
+$button-hover-background: #BD2F3A !default;
+$button-hover-color: #DCE4D9 !default;
 
-$panel-box-background:                           rgba(245,247,244, 0.75) !default;
+$button-danger-background: #BD2F3A !default;
+$button-danger-color: #DCE4D9 !default;
+$button-danger-hover-background: #1d3557 !default;
+$button-danger-hover-color: #DCE4D9 !default;
 
-$utility-border-rounded:                         15px !default;
-$utility-margin-large:                           100px !default;
-$utility-margin:                                 20px !default;
+$button-large-font-size: 24px !default;
+$button-large-height: 60px !default;
+$button-large-line-height: 60px !default;
+
+$panel-box-background: rgba(245, 247, 244, 0.75) !default;
+
+$utility-border-rounded: 15px !default;
+$utility-margin-large: 100px !default;
+$utility-margin: 20px !default;
 @import "uikit-variables";
 @import "uikit";
 @import "uikit-components";
+@import "jquery-ui";
+/*@import "jquery-ui/core"
+@import "jquery-ui/theme"
+@import "jquery-ui/draggable"
+@import "jquery-ui/resizable"
+@import "jquery-ui/selectable"
+@import "jquery-ui/sortable"
+@import "jquery-ui/accordion"
+@import "jquery-ui/autocomplete"
+@import "jquery-ui/button"
+@import "jquery-ui/datepicker"
+@import "jquery-ui/dialog"
+@import "jquery-ui/menu"
+@import "jquery-ui/progressbar"
+@import "jquery-ui/selectmenu"
+@import "jquery-ui/slider"
+@import "jquery-ui/spinner"
+@import "jquery-ui/tabs"
+@import "jquery-ui/tooltip"*/
 
-.home-page{
+//@import "fullcalendar.print.min";
+//@import "fullcalendar.min";
+
+.home-page {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-image: image-url('background.jpg');
 }
 
-.uk-navbar-nav > li:hover > a, .uk-navbar-nav > li > a:focus, .uk-navbar-nav > li.uk-open > a{
-  /*border: 5px solid #1d3557;
-  padding-top: -5px;
-  text-decoration: underline;*/
+.uk-navbar-nav > li:hover > a, .uk-navbar-nav > li > a:focus, .uk-navbar-nav > li.uk-open > a {
   border-bottom: 10px solid #1d3557;
 }
 
-.uk-navbar-brand{
+.uk-navbar-brand {
   height: 60px;
+}
+
+.fc-event {
+  font-size: $base-body-font-size;
+  line-height: $base-body-line-height;
+  padding: 0 10px;
+  margin: 2.5px 0;
+}
+
+.ui-autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  display: none;
+  min-width: 160px;
+  _width: 160px;
+  padding: 4px 0;
+  margin: 2px 0 0 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+  .ui-menu-item > a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap;
+    &.ui-state-hover, &.ui-state-active {
+      color: #ffffff;
+      text-decoration: none;
+      background-color: #0088cc;
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      -moz-border-radius: 0px;
+      background-image: none;
+    }
+  }
 }

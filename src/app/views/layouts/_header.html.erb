@@ -37,7 +37,11 @@
                     <li><%= link_to "Settings", eval("edit_#{current_user.role.class.table_name.singularize}_path(current_user.role.id)") %></li>
                     <% if current_user.is_business_owner? %>
                         <li class="uk-nav-divider"></li>
-                        <li><%= link_to 'Add employee', business_owners_invite_employee_path %></li>
+                        <li><%= link_to 'New Business', new_business_path %></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><%= link_to 'New Employee', business_owners_invite_employee_path %></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><%= link_to 'New Service', new_business_service_path %></li>
                     <% end %>
                     <li class="uk-nav-divider"></li>
                     <li>

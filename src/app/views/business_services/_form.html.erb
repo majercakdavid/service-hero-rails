@@ -1,37 +1,63 @@
-<%= form_for(business_service) do |f| %>
-  <% if business_service.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(business_service.errors.count, "error") %> prohibited this business_service from being saved:</h2>
+<%= form_for(business_service, :html => {:class => 'uk-form uk-flex-item-1 uk-flex-column uk-flex-middle'}) do |f| %>
+    <% if business_service.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(business_service.errors.count, "error") %> prohibited this business_service from being
+            saved:</h2>
 
-      <ul>
-      <% business_service.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+          <ul>
+            <% business_service.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <section class="uk-flex uk-flex-column uk-container">
+      <%= fields_for :business, business_service.business do |b| %>
+          <% if current_user.is_business_owner? && !business_service.persisted? %>
+              <%= b.label :id, Business.name.humanize + " name: " %>
+              <%= b.select :id, options_for_select(current_user.role.businesses.map {|b| [b.name, b.id]}), class: 'form-control'%>
+          <% elsif current_user.is_business_owner? && business_service.persisted? %>
+              <%= b.label :name, Business.name.humanize + " name: " %>
+              <%= b.object.name %>
+          <% else %>
+              <%= b.label :id, Business.name.humanize + " name: " %>
+              <%= b.select :id, options_for_select(Business.all.map {|b| [b.name, b.id]}), class: 'form-control' %>
+          <% end %>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :business_id %>
-    <%= f.text_field :business_id %>
-  </div>
+      <%= f.label :price %>
+      <%= f.text_field :price %>
 
-  <div class="field">
-    <%= f.label :service_id %>
-    <%= f.text_field :service_id %>
-  </div>
+      <%= f.label :enable_time_slots %>
+      <p>
+        <%= f.radio_button :enable_time_slots, true %>
+        <%= label_tag(:enable_time_slots_true, "Enable time slots") %>
+        <%= f.radio_button :enable_time_slots, false %>
+        <%= label_tag(:enable_time_slots_false, "Disable time slots") %>
+      </p>
 
-  <div class="field">
-    <%= f.label :price %>
-    <%= f.text_field :price %>
-  </div>
+      <%= fields_for :service, business_service.service do |s| %>
+          <h2>Either choose existing one...</h2>
+          <% if current_user.is_business_owner? && business_service.persisted? %>
+              <%= s.label :label, Service.name.humanize + " label: " %>
+              <%= s.object.label %>
+          <% else %>
+              <%= s.label :id, Service.name.humanize + " name: " %>
+              <%= s.hidden_field :id, :id => 'service-id-element' %>
+              <%= s.autocomplete_field :label, autocomplete_service_label_business_services_path, :id_element => '#service-id-element', 'data-auto-focus' => true%>
+          <% end %>
+          <h2>or create new one.</h2>
+          <%= s.label :label, Service.name.humanize + " label:" %>
+          <%= s.text_field :label, class: 'form-control', placeholder: Service.name.humanize + " label" %>
 
-  <div class="field">
-    <%= f.label :date_added %>
-    <%= f.datetime_select :date_added %>
-  </div>
+          <%= s.label :description, Service.name.humanize + " description:" %>
+          <%= s.text_field :description, class: 'form-control', placeholder: Service.name.humanize + " description" %>
+      <% end %>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+      <div class="uk-margin uk-flex uk-flex-center">
+        <h2>
+          <%= f.submit :class => 'uk-button uk-button-large' %>
+        </h2>
+      </div>
 <% end %>
+</section>

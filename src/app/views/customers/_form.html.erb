@@ -1,92 +1,92 @@
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <%= form_for(customer, url: customers_path) do |f| %>
-        <% if customer.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
+<%= form_for(customer, url: customers_path, :html => {:class => 'uk-form uk-flex-item-1 uk-flex-column uk-flex-middle'}) do |f| %>
+    <% if customer.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
 
-              <ul>
-                <% customer.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
-
-        <%= f.fields_for :user do |u| %>
-            <%= u.label :email %><br/>
-            <%= u.email_field :email, autofocus: true, class: 'form-control' %>
-
-            <%= u.label :password %> <i>(leave blank if you don't want to change it)</i><br/>
-            <%= u.password_field :password, autocomplete: "off", class: 'form-control' %>
-            <% if @minimum_password_length %>
-                <br/>
-                <em><%= @minimum_password_length %> characters minimum</em>
+          <ul>
+            <% customer.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
             <% end %>
-
-            <%= u.label :password_confirmation %><br/>
-            <%= u.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
-        <% end %>
-
-
-        <%= f.label :name %>
-        <%= f.text_field :name, class: 'form-control' %>
-
-        <section class="col-md-6">
-          <h2><%= :shipping_address.to_s.humanize %></h2>
-          <%= f.fields_for :billing_address do |a| %>
-              <%= a.label :name %>
-              <%= a.text_field :name, class: 'form-control' %>
-
-              <%= a.label :street %>
-              <%= a.text_field :street, class: 'form-control' %>
-
-              <%= a.label :city %>
-              <%= a.text_field :city, class: 'form-control' %>
-
-              <%= a.label :ZIP %>
-              <%= a.text_field :ZIP, class: 'form-control' %>
-
-              <%= a.label :state %>
-              <%= a.text_field :state, class: 'form-control' %>
-
-              <%= a.label :country %>
-              <%= a.text_field :country, class: 'form-control' %>
-
-              <%= a.label :phone %>
-              <%= a.text_field :phone, class: 'form-control' %>
-          <% end %>
-        </section>
-
-        <section class="col-md-6">
-          <h2><%= :billing_address.to_s.humanize %></h2>
-          <%= f.fields_for :shipping_address do |a| %>
-              <%= a.label :name %>
-              <%= a.text_field :name, class: 'form-control' %>
-
-              <%= a.label :street %>
-              <%= a.text_field :street, class: 'form-control' %>
-
-              <%= a.label :city %>
-              <%= a.text_field :city, class: 'form-control' %>
-
-              <%= a.label :ZIP %>
-              <%= a.text_field :ZIP, class: 'form-control' %>
-
-              <%= a.label :state %>
-              <%= a.text_field :state, class: 'form-control' %>
-
-              <%= a.label :country %>
-              <%= a.text_field :country, class: 'form-control' %>
-
-              <%= a.label :phone %>
-              <%= a.text_field :phone, class: 'form-control' %>
-          <% end %>
-        </section>
-
-        <div class="actions">
-          <%= f.submit :class => 'btn btn-primary' %>
+          </ul>
         </div>
     <% end %>
-  </div>
-</div>
+    <section class="uk-flex uk-flex-column uk-container">
+      <%= f.fields_for :user do |u| %>
+          <%= u.label :email %>
+          <%= u.email_field :email, autofocus: true, class: 'form-control', placeholder: :email %>
+          <br/>
+          <%= u.label :password %> <i>(leave blank if you don't want to change it)</i>
+          <%= u.password_field :password, autocomplete: "off", class: 'form-control', placeholder: :password %>
+          <% if @minimum_password_length %>
+              <br/>
+              <em><%= @minimum_password_length %> characters minimum</em>
+          <% end %>
+          <br/>
+          <%= u.label :password_confirmation %>
+          <%= u.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: :password_confirmation %>
+      <% end %>
+      <br/>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </section>
+
+    <section class="uk-container uk-margin">
+      <section class="uk-float-left uk-flex uk-flex-column uk-container">
+        <h2><%= :shipping_address.to_s.humanize %></h2>
+        <%= f.fields_for :billing_address do |a| %>
+            <%= a.label :name %>
+            <%= a.text_field :name, class: 'form-control', placeholder: :name %>
+
+            <%= a.label :street %>
+            <%= a.text_field :street, class: 'form-control', placeholder: :street %>
+
+            <%= a.label :city %>
+            <%= a.text_field :city, class: 'form-control', placeholder: :city %>
+
+            <%= a.label :ZIP %>
+            <%= a.text_field :ZIP, class: 'form-control', placeholder: :ZIP %>
+
+            <%= a.label :state %>
+            <%= a.text_field :state, class: 'form-control', placeholder: :state %>
+
+            <%= a.label :country %>
+            <%= a.text_field :country, class: 'form-control', placeholder: :country %>
+
+            <%= a.label :phone %>
+            <%= a.text_field :phone, class: 'form-control', placeholder: :phone %>
+        <% end %>
+      </section>
+
+      <section class="uk-float-left uk-flex uk-flex-column uk-container">
+        <h2><%= :billing_address.to_s.humanize %></h2>
+        <%= f.fields_for :shipping_address do |a| %>
+            <%= a.label :name %>
+            <%= a.text_field :name, class: 'form-control', placeholder: :name %>
+
+            <%= a.label :street %>
+            <%= a.text_field :street, class: 'form-control', placeholder: :street %>
+
+            <%= a.label :city %>
+            <%= a.text_field :city, class: 'form-control', placeholder: :city %>
+
+            <%= a.label :ZIP %>
+            <%= a.text_field :ZIP, class: 'form-control', placeholder: :ZIP %>
+
+            <%= a.label :state %>
+            <%= a.text_field :state, class: 'form-control', placeholder: :state %>
+
+            <%= a.label :country %>
+            <%= a.text_field :country, class: 'form-control', placeholder: :country %>
+
+            <%= a.label :phone %>
+            <%= a.text_field :phone, class: 'form-control', placeholder: :phone %>
+        <% end %>
+      </section>
+    </section>
+
+    <div class="uk-margin uk-flex uk-flex-center">
+      <h2>
+        <%= f.submit :class => 'uk-button uk-button-large' %>
+      </h2>
+    </div>
+<% end %>

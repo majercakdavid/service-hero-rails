@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428201720) do
+ActiveRecord::Schema.define(version: 20170618055158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,9 +65,11 @@ ActiveRecord::Schema.define(version: 20170428201720) do
     t.datetime "date_created"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.integer  "time_slot_id"
     t.index ["business_service_id"], name: "index_business_service_orders_on_business_service_id", using: :btree
     t.index ["date_created"], name: "index_business_service_orders_on_date_created", using: :btree
     t.index ["order_id"], name: "index_business_service_orders_on_order_id", using: :btree
+    t.index ["time_slot_id"], name: "index_business_service_orders_on_time_slot_id", using: :btree
   end
 
   create_table "business_services", force: :cascade do |t|
@@ -75,8 +77,9 @@ ActiveRecord::Schema.define(version: 20170428201720) do
     t.integer  "service_id"
     t.decimal  "price"
     t.datetime "date_added"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "enable_time_slots", default: false
     t.index ["business_id"], name: "index_business_services_on_business_id", using: :btree
     t.index ["service_id"], name: "index_business_services_on_service_id", using: :btree
   end
@@ -158,6 +161,15 @@ ActiveRecord::Schema.define(version: 20170428201720) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "time_slots", force: :cascade do |t|
+    t.datetime "datetime_from"
+    t.datetime "datetime_to"
+    t.integer  "business_service_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.index ["business_service_id"], name: "index_time_slots_on_business_service_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "role_type"
     t.integer  "role_id"
@@ -206,4 +218,5 @@ ActiveRecord::Schema.define(version: 20170428201720) do
   add_foreign_key "invites", "users", column: "recipient_id"
   add_foreign_key "invites", "users", column: "sender_id"
   add_foreign_key "orders", "customers"
+  add_foreign_key "time_slots", "business_services"
 end

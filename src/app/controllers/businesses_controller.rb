@@ -117,8 +117,10 @@ class BusinessesController < ApplicationController
                               .joins("JOIN business_service_orders ON business_service_orders.business_service_id = business_services.id")
                               .where("businesses.id=? and business_service_orders.date_created>=? and business_service_orders.date_created<?", "#{@business[:id]}", Time.now.beginning_of_year, Time.now)
                               .as_json[0]['sum']
-      @annual_growth = (@this_year_profit - @last_year_profit)/@last_year_profit
-      @annual_growth = @annual_growth.round(4).to_s + "%"
+      if @last_year_profit > 0
+        @annual_growth = (@this_year_profit - @last_year_profit)/@last_year_profit
+        @annual_growth = @annual_growth.round(4).to_s + "%"
+      end
     end
 
     @monthly_growth = nil
@@ -142,8 +144,10 @@ class BusinessesController < ApplicationController
         @this_month_profit = 0
       end
 
-      @monthly_growth = (@this_month_profit - @last_month_profit)/@last_month_profit
-      @monthly_growth = @monthly_growth.round(4).to_s + "%"
+      if @last_month_profit > 0
+        @monthly_growth = (@this_month_profit - @last_month_profit)/@last_month_profit
+        @monthly_growth = @monthly_growth.round(4).to_s + "%"
+      end
     end
 
     render json: {"Profit": @profit.as_json[0]['sum'], "Annual Profit": @annual_profit.as_json[0]['sum'], "Monthly Profit": @monthly_profit.as_json[0]['sum'], "Services Count": @services_count.as_json[0]['count'], "Annual Growth": @annual_growth, "Monthly Growth": @monthly_growth}.as_json(except: [:id])

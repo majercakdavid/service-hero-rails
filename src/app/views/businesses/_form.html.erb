@@ -1,95 +1,96 @@
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <%= form_for(business) do |f| %>
-        <% if business.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(business.errors.count, "error") %> prohibited this business from being saved:</h2>
-              <ul>
-                <% business.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-        <% end %>
-
-        <%= f.label :name %>
-        <%= f.text_field :name, class: 'form-control' %>
-
-        <% if !business.date_joined.nil? %>
-            <%= f.label :date_joined %>
-            <%= f.text_field :date_joined, class: 'form-control datepicker', active: true %>
-        <% end %>
-
-        <section class="col-md-6">
-          <h2><%= :shipping_address.to_s.humanize %></h2>
-          <%= f.fields_for :billing_address do |a| %>
-              <%= a.label :name %>
-              <%= a.text_field :name, class: 'form-control' %>
-
-              <%= a.label :street %>
-              <%= a.text_field :street, class: 'form-control' %>
-
-              <%= a.label :city %>
-              <%= a.text_field :city, class: 'form-control' %>
-
-              <%= a.label :ZIP %>
-              <%= a.text_field :ZIP, class: 'form-control' %>
-
-              <%= a.label :state %>
-              <%= a.text_field :state, class: 'form-control' %>
-
-              <%= a.label :country %>
-              <%= a.text_field :country, class: 'form-control' %>
-
-              <%= a.label :phone %>
-              <%= a.text_field :phone, class: 'form-control' %>
-          <% end %>
-        </section>
-
-        <section class="col-md-6">
-          <h2><%= :billing_address.to_s.humanize %></h2>
-          <%= f.fields_for :shipping_address do |a| %>
-              <%= a.label :name %>
-              <%= a.text_field :name, class: 'form-control' %>
-
-              <%= a.label :street %>
-              <%= a.text_field :street, class: 'form-control' %>
-
-              <%= a.label :city %>
-              <%= a.text_field :city, class: 'form-control' %>
-
-              <%= a.label :ZIP %>
-              <%= a.text_field :ZIP, class: 'form-control' %>
-
-              <%= a.label :state %>
-              <%= a.text_field :state, class: 'form-control' %>
-
-              <%= a.label :country %>
-              <%= a.text_field :country, class: 'form-control' %>
-
-              <%= a.label :phone %>
-              <%= a.text_field :phone, class: 'form-control' %>
-          <% end %>
-        </section>
-
-        <div class="actions">
-          <%= f.submit :class => 'btn btn-primary' %>
+<%= form_for(business, :html => {:class => 'uk-form uk-flex-item-1 uk-flex-column uk-flex-middle'}) do |f| %>
+    <% if business.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(business.errors.count, "error") %> prohibited this business from being saved:</h2>
+          <ul>
+            <% business.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
         </div>
     <% end %>
-  </div>
-  <script type="application/javascript">
-      $(function () {
-          <% if !business.date_joined.nil? %>
-          if (<%= business.date_joined %>) {
-              $('.datepicker').datetimepicker({defaultDate: "<%= business.date_joined.to_date %>"});
-              var datePickers = $('.datepicker');
-              for (d in datePickers) {
-                  datePickers[d].focus();
-                  datePickers[d].blur();
-                  datePickers[d].disabled = true;
-              }
-          }
-          <% end %>
-      });
-  </script>
-</div>
+    <section class="uk-flex uk-flex-column uk-container">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', placeholder: :name %>
+
+      <% if !business.date_joined.nil? %>
+          <%= f.label :date_joined %>
+          <%= f.text_field :date_joined, class: 'form-control datepicker', active: true, placeholder: :date_joined %>
+      <% end %>
+    </section>
+
+    <section class="uk-container uk-margin">
+      <section class="uk-float-left uk-flex uk-flex-column uk-container">
+        <h2><%= :shipping_address.to_s.humanize %></h2>
+        <%= f.fields_for :billing_address do |a| %>
+            <%= a.label :name %>
+            <%= a.text_field :name, class: 'form-control', placeholder: :name %>
+
+            <%= a.label :street %>
+            <%= a.text_field :street, class: 'form-control', placeholder: :street %>
+
+            <%= a.label :city %>
+            <%= a.text_field :city, class: 'form-control', placeholder: :city %>
+
+            <%= a.label :ZIP %>
+            <%= a.text_field :ZIP, class: 'form-control', placeholder: :ZIP %>
+
+            <%= a.label :state %>
+            <%= a.text_field :state, class: 'form-control', placeholder: :state %>
+
+            <%= a.label :country %>
+            <%= a.text_field :country, class: 'form-control', placeholder: :country %>
+
+            <%= a.label :phone %>
+            <%= a.text_field :phone, class: 'form-control', placeholder: :phone %>
+        <% end %>
+      </section>
+
+      <section class="uk-float-left uk-flex uk-flex-column uk-container">
+        <h2><%= :billing_address.to_s.humanize %></h2>
+        <%= f.fields_for :shipping_address do |a| %>
+            <%= a.label :name %>
+            <%= a.text_field :name, class: 'form-control', placeholder: :name %>
+
+            <%= a.label :street %>
+            <%= a.text_field :street, class: 'form-control', placeholder: :street %>
+
+            <%= a.label :city %>
+            <%= a.text_field :city, class: 'form-control', placeholder: :city %>
+
+            <%= a.label :ZIP %>
+            <%= a.text_field :ZIP, class: 'form-control', placeholder: :ZIP %>
+
+            <%= a.label :state %>
+            <%= a.text_field :state, class: 'form-control', placeholder: :state %>
+
+            <%= a.label :country %>
+            <%= a.text_field :country, class: 'form-control', placeholder: :country %>
+
+            <%= a.label :phone %>
+            <%= a.text_field :phone, class: 'form-control', placeholder: :phone %>
+        <% end %>
+      </section>
+    </section>
+
+    <div class="uk-margin uk-flex uk-flex-center">
+      <h2>
+        <%= f.submit :class => 'uk-button uk-button-large' %>
+      </h2>
+    </div>
+<% end %>
+<script type="application/javascript">
+    $(function () {
+        <% if !business.date_joined.nil? %>
+        if (<%= business.date_joined %>) {
+            $('.datepicker').datetimepicker({defaultDate: "<%= business.date_joined.to_date %>"});
+            var datePickers = $('.datepicker');
+            for (d in datePickers) {
+                datePickers[d].focus();
+                datePickers[d].blur();
+                datePickers[d].disabled = true;
+            }
+        }
+        <% end %>
+    });
+</script>

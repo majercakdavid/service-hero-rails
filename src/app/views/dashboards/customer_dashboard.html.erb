@@ -3,12 +3,25 @@
 <div class="row">
   <aside class="col-md-4">
     <section class="user_info">
-      <%= gravatar_for @user%>
+      <%= gravatar_for @user %>
       <h1>
         <%= @user.role.name %>
       </h1>
-      <small><%= @user.email %></small><br />
+      <small><%= @user.email %></small>
+      <br/>
       <small><%= link_to 'Edit Profile', edit_customer_path(@user.role.id) %></small>
+    </section>
+    <section id="filter-services-table-section" class="uk-container uk-container-center">
     </section>
   </aside>
 </div>
+<script>
+    $(document).on('turbolinks:load', function () {
+        var loadingImage = '<%= show_svg("loading.svg") %>';
+        var filterServicesTableSection = document.getElementById("filter-services-table-section");
+        if (filterServicesTableSection) {
+            var filterServicesTable = new createDynamicTable(0, 5, "/filtered_business_services", filterServicesTableSection, loadingImage, null, null, false, true);
+            filterServicesTable.executeQuery();
+        }
+    });
+</script>

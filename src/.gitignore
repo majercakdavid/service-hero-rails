@@ -1,0 +1,20 @@
+.idea
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+log/
+#!src/log/.keep
+tmp/
+#!src/tmp/.keep
+
+/app/assets/images/accountant.jpg
+/app/assets/images/barber.jpg
+/app/assets/images/dentist.jpg
+/app/assets/images/gardener.jpg
+/app/assets/images/law.jpg
+/app/assets/images/mower.jpg
+/log/development.log
+/node_modules
+/client/node_modules

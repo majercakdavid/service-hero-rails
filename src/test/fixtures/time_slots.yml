@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  datetime_from: 2017-06-12 20:20:14
+  datetime_to: 2017-06-12 20:20:14
+  business_service: one
+
+two:
+  datetime_from: 2017-06-12 20:20:14
+  datetime_to: 2017-06-12 20:20:14
+  business_service: two

@@ -8,6 +8,8 @@ class BusinessOwner < ApplicationRecord
   has_many :business_business_owners, dependent: :destroy
   has_many :businesses, through: :business_business_owners
 
+  has_many :business_services, through: :businesses
+
   has_one :user, :as => :role, dependent: :destroy
 
   accepts_nested_attributes_for :billing_address, :businesses, :documents, :shipping_address, :user
