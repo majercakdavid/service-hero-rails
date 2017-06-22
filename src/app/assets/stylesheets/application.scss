@@ -16,18 +16,25 @@
 @import "fullcalendar";
 
 @font-face {
-  font-family: 'Berlin Sans FB Demi';
-  //src: url('webfont.eot'); /* IE9 Compat Modes */
-  //src: url('webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  //url('webfont.woff2') format('woff2'), /* Super Modern Browsers */
-  //url('webfont.woff') format('woff'), /* Pretty Modern Browsers */
-  src: url('Berlin Sans FB Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-family: 'BRLNSR';
+  src: font-url('BRLNSR.eot');
+  src: font-url('BRLNSR.eot?#iefix') format("embedded-opentype"),
+  font-url('BRLNSR.ttf') format("truetype"),
+  font-url('BRLNSR.woff') format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
+/*@font-face {
+	font-family: 'BRLNSR';
+	src: url('../fonts/BRLNSR.eot');
+	src: local('BRLNSR'), url('../fonts/BRLNSR.woff') format('woff'), url('../fonts/BRLNSR.ttf') format('truetype');
+}*/
+/* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_12421">Text with this font applied</p> */
 
 $base-body-background: #f5f7f4 !default;
-$base-body-font-family: "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$base-heading-font-family: "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
-$navbar-nav-font-family: "Berlin Sans FB Demi", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$base-body-font-family: ("BRLNSR", "Helvetica Neue", Helvetica, Arial, sans-serif !important) !default;
+$base-heading-font-family: ("BRLNSR", "Helvetica Neue", Helvetica, Arial, sans-serif !important) !default;
+$navbar-nav-font-family: ("BRLNSR", "Helvetica Neue", Helvetica, Arial, sans-serif !important) !default;
 $base-body-color: #1D3557 !default;
 
 $navbar-background: #f5f7f4 !default;
