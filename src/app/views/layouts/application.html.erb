@@ -1,27 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= yield(:title) %> | ServiceHero</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title><%= yield(:title) %> | ServiceHero</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= analytics_init if GoogleAnalytics.valid_tracker? %>
-    <%= javascript_include_tag "autocomplete-rails" %>
-    <%= render 'layouts/shim' %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= analytics_init if GoogleAnalytics.valid_tracker? %>
+  <%= javascript_include_tag "autocomplete-rails" %>
+  <%= render 'layouts/shim' %>
+</head>
 
-  <body class="uk-flex uk-flex-column uk-position-cover">
-    <%= render 'layouts/header' %>
-    <main class="uk-flex uk-flex-column uk-flex-middle uk-flex-item-1">
-      <% flash.each do |message_type, message| %>
-          <div class="alert alert-<%= message_type %>"><%= message %></div>
-       <% end %>
-      <%= yield %>
-      <div>
-        <%= debug(params) if Rails.env.development? %>
-      </div>
-    </main>
-    <%# render 'layouts/footer' %>
-  </body>
+<body class="uk-flex uk-flex-column uk-position-cover">
+<script>
+    (function (h, o, t, j, a, r) {
+        h.hj = h.hj || function () {
+                (h.hj.q = h.hj.q || []).push(arguments)
+            };
+        h._hjSettings = {hjid: 543400, hjsv: 5};
+        a = o.getElementsByTagName('head')[0];
+        r = o.createElement('script');
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window, document, '//static.hotjar.com/c/hotjar-', '.js?sv=');
+</script>
+<%= render 'layouts/header' %>
+<main class="uk-flex uk-flex-column uk-flex-middle uk-flex-item-1">
+  <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %>"><%= message %></div>
+  <% end %>
+  <%= yield %>
+  <div>
+    <%= debug(params) if Rails.env.development? %>
+  </div>
+</main>
+<%# render 'layouts/footer' %>
+</body>
 </html>
