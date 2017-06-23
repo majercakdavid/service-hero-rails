@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+=begin
 connection = ActiveRecord::Base.connection.raw_connection
 connection.prepare('create_user', 'INSERT INTO "users" ("email", "encrypted_password", "role_id", "role_type", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"')
 connection.prepare('create_administrator', 'INSERT INTO "administrators" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"')
@@ -350,7 +350,7 @@ doc_count.times do
       Time.now
   ])
 end
-
+=end
 =begin
 connection = ActiveRecord::Base.connection.raw_connection
 connection.prepare('create_user', 'INSERT INTO "users" ("email", "encrypted_password", "role_id", "role_type", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"')
@@ -382,3 +382,11 @@ Customer.all.select(:id, :email, :password_digest, :created_at, :updated_at).eac
                                             'Customer', customer.created_at, customer.updated_at ])
 }
 =end
+
+user = User.new
+user.email = 'david1majercak@gmail.com'
+user.encrypted_password='$2a$11$Px6tZ8kzukcjoDB3YgWqZ.ym2Sr2taWFVv.Xl0NWbq5bTcZLfgLcm'
+user.role = Administrator.new
+user.role.name = 'David Majercak'
+user.role.save!
+user.save!
