@@ -24,10 +24,10 @@ class CustomerTest < ActiveSupport::TestCase
         country: Faker::Address.country,
         phone: Faker::PhoneNumber.cell_phone
     )
-    @user = Customer.new(email: "user@example.com",
-                         name: "Example User",
-                         password: "foobar",
-                         password_confirmation: "foobar",
+    @user = User.new(email: "user@example.com",
+                     password: "foobar",
+                     password_confirmation: "foobar")
+    @user.role = Customer.new(name: "Example User",
                          billing_address: address_customer1,
                          shipping_address: address_customer2)
   end

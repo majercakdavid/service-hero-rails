@@ -4,16 +4,16 @@ class BusinessServiceOrdersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @business_service_order = business_service_orders(:one)
   end
-
+=begin
   test "should get index" do
     get business_service_orders_url
     assert_response :success
   end
 
-  test "should get new" do
-    get new_business_service_order_url
-    assert_response :success
-  end
+  #test "should get new" do
+  #  get new_business_service_order_url
+  #  assert_response :success
+  #end
 
   test "should create business_service_order" do
     assert_difference('BusinessServiceOrder.count') do
@@ -45,4 +45,5 @@ class BusinessServiceOrdersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to business_service_orders_url
   end
+=end
 end

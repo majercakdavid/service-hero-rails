@@ -1,11 +1,11 @@
 ## Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 #
-#one:
-#  #documentable: one
-#  label: MyString
-#  data:
-#  dataurl: MyText
-#  description: MyText
+one:
+  documentable: customer_user_one
+  label: MyString
+  data:
+  dataurl: MyText
+  description: MyText
 #
 #two:
 #  #documentable: two

@@ -66,6 +66,11 @@ class BusinessServicesController < ApplicationController
   # GET /business_services/new
   def new
     @business_service = BusinessService.new
+    @business_service.business = Business.new
+    if current_user.is_business_owner?
+      @business_service.business = current_user.role.businesses.first_or_create
+    end
+    @business_service.service = Service.new
   end
 
   # GET /business_services/1/edit
@@ -139,8 +144,8 @@ class BusinessServicesController < ApplicationController
   end
 
   def set_service
-    if !params['service']['id'].nil? && !params['service']['id'].empty?
-      @service = Service.find(params['service']['id'])
+    if !service_params[:id].nil? && !service_params[:id].empty?
+      @service = Service.find(service_params[:id])
     else
       @service = Service.new service_params
     end
@@ -152,7 +157,7 @@ class BusinessServicesController < ApplicationController
   end
 
   def business_params
-    params.require(:business).permit(:id)
+    params.require(:business_service).require(:business_attributes).permit(:id)
   end
 
   def business_business_services_params
@@ -160,6 +165,6 @@ class BusinessServicesController < ApplicationController
   end
 
   def service_params
-    params.require(:service).permit(:label, :description)
+    params.require(:business_service).require(:service_attributes).permit(:label, :description, :id)
   end
 end

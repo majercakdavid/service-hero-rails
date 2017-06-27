@@ -1,8 +1,8 @@
 ## Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 #
-#one:
-#  #customer: one
-#  date_created: 2017-03-19 13:39:29
+one:
+  customer: customer_one
+  date_created: 2017-03-19 13:39:29
 #
 #two:
 #  #customer: two

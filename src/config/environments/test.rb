@@ -1,4 +1,4 @@
-Rails.application.routes.default_url_options[:host] = 'http://localhost:3000'
+Rails.application.routes.default_url_options[:host] = 'http://0.0.0.0:62807'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

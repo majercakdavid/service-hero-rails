@@ -2,7 +2,7 @@ class TimeSlotsController < ApplicationController
   before_action :set_business, only: [:business_service_time_slots, :time_slottable_business_services]
   before_action :set_time_slot, only: [:update_business_service_time_slot, :destroy_business_service_time_slot, :make_time_slot_reservation]
   before_action :set_business_service, only: [:make_time_slot_reservation]
-  load_and_authorize_resource
+  load_and_authorize_resource :unless => [:create]
 
   def time_slottable_business_services
     @business_services = @business.business_services.where(enable_time_slots: true).includes(:business, :service)

@@ -1,19 +1,37 @@
 ## Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 #
-#one:
-#  name: MyString
-#  street: MyString
-#  city: MyString
-#  ZIP: MyString
-#  state: MyString
-#  country: MyString
-#  phone: MyString
-#
-#two:
-#  name: MyString
-#  street: MyString
-#  city: MyString
-#  ZIP: MyString
-#  state: MyString
-#  country: MyString
-#  phone: MyString
+address_billing:
+  name: 'Ms. Palma Ellsworth Boyle'
+  street: '4603 Otto Route'
+  city: 'Leschberg'
+  ZIP: '63948-5967'
+  state: 'Vermont'
+  country: 'Iran'
+  phone: '271-446-1089'
+
+address_shipping:
+  name: 'Miss Chloe Amaya Beahan'
+  street: '90900 Johanna Orchard'
+  city: 'West Ervinshire'
+  ZIP: '26680-3224'
+  state: 'Kansas'
+  country: 'Portugal'
+  phone: '678-196-0697'
+
+customer_one_address_billing:
+  name: 'Ms. Palma Ellsworth Boyle'
+  street: '4603 Otto Route'
+  city: 'Leschberg'
+  ZIP: '63948-5967'
+  state: 'Vermont'
+  country: 'Iran'
+  phone: '271-446-1089'
+
+customer_one_address_shipping:
+  name: 'Miss Chloe Amaya Beahan'
+  street: '90900 Johanna Orchard'
+  city: 'West Ervinshire'
+  ZIP: '26680-3224'
+  state: 'Kansas'
+  country: 'Portugal'
+  phone: '678-196-0697'

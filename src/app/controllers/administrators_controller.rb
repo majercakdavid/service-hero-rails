@@ -1,5 +1,6 @@
 class AdministratorsController < ApplicationController
   before_action :authenticate_user!, :set_administrator, only: [:edit, :update, :destroy]
+  load_and_authorize_resource
 
   # GET /administrators/1
   # GET /administrators/1.json
@@ -16,7 +17,7 @@ class AdministratorsController < ApplicationController
     respond_to do |format|
       if @administrator.update(administrator_params)
         flash[:success] = 'Administrator was successfully updated.'
-        format.html { redirect_to @administrator, notice: 'Administrator was successfully updated.' }
+        format.html { redirect_to dashboard_url, notice: 'Administrator was successfully updated.' }
         format.json { render :show, status: :ok, location: @administrator }
       else
         format.html { render :edit }

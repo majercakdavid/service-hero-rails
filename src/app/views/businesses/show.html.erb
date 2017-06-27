@@ -124,7 +124,7 @@
 
         var businessServicesSection = document.getElementById("business-services-section");
         if (businessServicesSection) {
-            var businessServices = new createDynamicTable(0, 5, "/get_business_services", businessServicesSection, loadingImage, {business: {id: <%= @business[:id] %>}}, "Business Services", true, false, "<%= new_business_service_path %>", 'Create Service');
+            var businessServices = new createDynamicTable(0, 5, "/get_business_services", businessServicesSection, loadingImage, {business_service: {business_attributes: {id: <%= @business[:id] %>}}}, "Business Services", true, false, "<%= new_business_service_path %>", 'Create Service');
             businessServices.executeQuery();
         }
         <% elsif current_user.is_customer? %>

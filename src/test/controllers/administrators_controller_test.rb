@@ -1,48 +1,57 @@
 require 'test_helper'
 
 class AdministratorsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
-    @administrator = administrators(:one)
+    @administrator = users(:admin_user_one)
+    sign_in @administrator
   end
 
-  test "should get index" do
-    get administrators_url
+  test "should get administrator's dashboard" do
+    get dashboard_url(@administrator)
     assert_response :success
   end
-
-  test "should get new" do
-    get new_administrator_url
-    assert_response :success
-  end
-
+=begin
   test "should create administrator" do
     assert_difference('Administrator.count') do
-      post administrators_url, params: { administrator: { email: @administrator.email, name: @administrator.name, password: @administrator.password, password_confirmation: @administrator.password_confirmation } }
+      post administrators_url, params: {
+          administrator: {
+              email: @administrator.email,
+              name: @administrator.role.name,
+              password: @administrator.password,
+              password_confirmation: @administrator.password_confirmation
+          }
+      }
     end
 
     assert_redirected_to administrator_url(Administrator.last)
   end
 
   test "should show administrator" do
-    get administrator_url(@administrator)
+    get dashboard_url(@administrator)
     assert_response :success
   end
-
+=end
   test "should get edit" do
-    get edit_administrator_url(@administrator)
+    sign_in @administrator
+    get edit_administrator_url(@administrator.role)
     assert_response :success
   end
 
   test "should update administrator" do
-    patch administrator_url(@administrator), params: { administrator: { email: @administrator.email, name: @administrator.name, password: @administrator.password, password_confirmation: @administrator.password_confirmation } }
-    assert_redirected_to administrator_url(@administrator)
-  end
-
-  test "should destroy administrator" do
-    assert_difference('Administrator.count', -1) do
-      delete administrator_url(@administrator)
-    end
-
-    assert_redirected_to administrators_url
+    patch administrator_url(@administrator.role), params: {
+        administrator: {
+            user_attributes:{
+                email: 'admin.two@servicehero.com',
+                password: @administrator.password,
+                password_confirmation: @administrator.password_confirmation
+            },
+            name: 'Admin Two'
+        }
+    }
+    #assert_equal @administrator.email, 'admin.two@servicehero.com'
+    #assert_equal 'Admin Two', @administrator.role.name
+    assert_redirected_to dashboard_url
   end
 end

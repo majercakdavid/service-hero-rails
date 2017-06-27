@@ -7,15 +7,20 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   belongs_to :role, polymorphic: true, dependent: :destroy
   accepts_nested_attributes_for :role
+  has_many :invites, dependent: :destroy, foreign_key: :sender_id
 
-  ROLE_TYPES = %w(Customer BusinessOwner)
+  ROLE_TYPES = %w(Customer BusinessOwner Administrator Employee)
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   def build_role(params)
     raise "Unknown client_type: #{role_type}" unless ROLE_TYPES.include?(role_type)
-    self.role = role_type.constantize.new(params)
+    if new_record?
+      self.role = role_type.constantize.new(params)
+    else
+      self.role.update_attributes(params)
+    end
   end
 
   def is_customer?

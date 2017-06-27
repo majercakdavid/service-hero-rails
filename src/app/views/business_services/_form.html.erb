@@ -12,7 +12,7 @@
         </div>
     <% end %>
     <section class="uk-flex uk-flex-column uk-container">
-      <%= fields_for :business, business_service.business do |b| %>
+      <%= f.fields_for :business, business_service.business do |b| %>
           <% if current_user.is_business_owner? && !business_service.persisted? %>
               <%= b.label :id, Business.name.humanize + " name: " %>
               <%= b.select :id, options_for_select(current_user.role.businesses.map {|b| [b.name, b.id]}), class: 'form-control'%>
@@ -36,7 +36,7 @@
         <%= label_tag(:enable_time_slots_false, "Disable time slots") %>
       </p>
 
-      <%= fields_for :service, business_service.service do |s| %>
+      <%= f.fields_for :service, business_service.service do |s| %>
           <h2>Either choose existing one...</h2>
           <% if current_user.is_business_owner? && business_service.persisted? %>
               <%= s.label :label, Service.name.humanize + " label: " %>

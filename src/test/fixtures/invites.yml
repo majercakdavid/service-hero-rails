@@ -1,15 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: MyString
+  email: 'invite_one@servicehero.com'
   business: one
-  sender: one
-  recipient: one
-  token: MyString
+  sender: bo_user_one
+  token: <%= Digest::SHA2.new(512).hexdigest([Time.now, rand].join) %>
 
-two:
-  email: MyString
-  business: two
-  sender: two
-  recipient: two
-  token: MyString
+one:
+  email: 'invite_two@servicehero.com'
+  business: one
+  sender: bo_user_one
+  token: <%= Digest::SHA2.new(512).hexdigest([Time.now, rand].join) %>

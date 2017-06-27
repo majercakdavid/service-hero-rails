@@ -1,6 +1,6 @@
 <% provide(:title, "Register") %>
-<h1>New Customer</h1>
+<h1 class="uk-container uk-container-center">Customer registration</h1>
 
-<%= render 'form', customer: @customer %>
+<%= render 'form', customer: @customer, url: customers_url %>
 
 <%= link_to 'Back', root_path %>

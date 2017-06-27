@@ -1,6 +1,4 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-david:
-  email: davidmajercak@hotmail.com
+admin_one:
   name: David Majercak
-  password_digest: <%= BCrypt::Password.create('password') %>

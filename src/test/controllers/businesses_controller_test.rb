@@ -1,14 +1,17 @@
 require 'test_helper'
 
 class BusinessesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
     @business = businesses(:one)
+    sign_in users(:bo_user_one)
   end
 
-  test "should get index" do
-    get businesses_url
-    assert_response :success
-  end
+  #test "should get index" do
+  #  get businesses_url
+  #  assert_response :success
+  #end
 
   test "should get new" do
     get new_business_url
@@ -17,14 +20,21 @@ class BusinessesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create business" do
     assert_difference('Business.count') do
-      post businesses_url, params: { business: { administrator_id: @business.administrator_id, date_joined: @business.date_joined, name: @business.name, primary_address_id: @business.primary_address_id, secondary_address_id: @business.secondary_address_id } }
+      post businesses_url, params: {
+          business: {
+              date_joined: @business.date_joined,
+              name: @business.name,
+              shipping_address_attributes: @business.shipping_address.as_json,
+              billing_address_attributes: @business.billing_address.as_json
+          }
+      }
     end
 
-    assert_redirected_to business_url(Business.last)
+    assert_redirected_to dashboard_url
   end
 
   test "should show business" do
-    get business_url(@business)
+    get dashboard_url(@business)
     assert_response :success
   end
 
@@ -34,8 +44,15 @@ class BusinessesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update business" do
-    patch business_url(@business), params: { business: { administrator_id: @business.administrator_id, date_joined: @business.date_joined, name: @business.name, primary_address_id: @business.primary_address_id, secondary_address_id: @business.secondary_address_id } }
-    assert_redirected_to business_url(@business)
+    patch business_url(@business), params: {
+        business: {
+            date_joined: @business.date_joined,
+            name: @business.name,
+            billing_address_attributes: @business.billing_address.as_json,
+            shipping_address_attributes: @business.shipping_address.as_json
+        }
+    }
+    assert_redirected_to dashboard_url
   end
 
   test "should destroy business" do
@@ -43,6 +60,6 @@ class BusinessesControllerTest < ActionDispatch::IntegrationTest
       delete business_url(@business)
     end
 
-    assert_redirected_to businesses_url
+    assert_redirected_to dashboard_url
   end
 end

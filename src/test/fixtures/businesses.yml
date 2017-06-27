@@ -1,11 +1,16 @@
 ## Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 #
-#one:
-#  #billing_address_id:
-#  #shipping_address_id:
-#  #administrator: one
-#  name: MyString
-#  date_joined:
+one:
+  billing_address: address_billing
+  shipping_address: address_shipping
+  name: 'Business One'
+  date_joined: <%= Date.today %>
+
+two:
+  billing_address: address_billing
+  shipping_address: address_shipping
+  name: 'Business Two'
+  date_joined: <%= Date.today %>
 #
 #two:
 #  #billing_address_id:

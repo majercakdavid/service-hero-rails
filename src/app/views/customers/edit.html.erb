@@ -1,14 +1,14 @@
 <% provide(:title, "Edit") %>
-<h1>Editing Customer</h1>
+<h1 class="uk-container uk-container-center">Editing Customer</h1>
 
-<%= render 'form', customer: @customer.role %>
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
+<%= render 'form', customer: @customer, url: customer_url %>
+<div class="uk-container uk-margin uk-width-1-1">
+  <div class="uk-width-1-1">
     <p>
       Unhappy?
       <%= button_to "Cancel my account", customer_path,
                     data: {confirm: "Are you sure?"}, method: :delete,
-                    class: "btn btn-sm btn-danger" %>
+                    class:  "uk-button uk-width-1-1" %>
     </p>
   </div>
 </div>

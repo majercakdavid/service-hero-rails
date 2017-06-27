@@ -6,7 +6,12 @@ class AdministratorTest < ActiveSupport::TestCase
   # end
 
   def setup
-    @user = Administrator.new(email: "user@example.com", name: "Example User", password: "foobar", password_confirmation: "foobar")
+    @user = User.new(
+        email: "user@example.com",
+        password: "foobar",
+        password_confirmation: "foobar")
+    @user.role = Administrator.new(
+        name: "Example User")
   end
 
   test "should be valid" do
