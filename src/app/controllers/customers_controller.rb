@@ -17,7 +17,7 @@ class CustomersController < ApplicationController
   # GET /customers/new
   def new
     @customer = User.new
-    @customer.role = User.new
+    @customer.role = Customer.new
     @customer.role.shipping_address = Address.new
     @customer.role.billing_address = Address.new
   end
