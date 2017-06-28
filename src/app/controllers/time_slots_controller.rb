@@ -1,8 +1,8 @@
 class TimeSlotsController < ApplicationController
   before_action :set_business, only: [:business_service_time_slots, :time_slottable_business_services]
-  before_action :set_time_slot, only: [:update_business_service_time_slot, :destroy_business_service_time_slot, :make_time_slot_reservation]
+  before_action :set_time_slot, only: [:update_business_service_time_slot, :destroy_business_service_time_slot, :make_time_slot_reservation, :get_time_slot_reservation]
   before_action :set_business_service, only: [:make_time_slot_reservation]
-  load_and_authorize_resource :unless => [:create]
+  load_and_authorize_resource
 
   def time_slottable_business_services
     @business_services = @business.business_services.where(enable_time_slots: true).includes(:business, :service)
@@ -76,6 +76,14 @@ class TimeSlotsController < ApplicationController
         format.json {render json: @business_service_order.errors, status: :unprocessable_entity}
       end
     end
+  end
+
+  def get_time_slot_reservation
+    @business_service_order = BusinessServiceOrder.where(time_slot_id: @time_slot.id).first()
+    @business_service = @business_service_order.business_service
+    message = "#{@business_service.service.label} was order by #{@business_service_order.order.customer.user.email} on #{@business_service_order.date_created.localtime}"
+
+    render json: {message: message, link: customer_url(@business_service_order.order.customer)}.as_json
   end
 
   private

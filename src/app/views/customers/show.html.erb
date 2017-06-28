@@ -1,29 +1,99 @@
+<% provide(:title, @customer.name) %>
 <p id="notice"><%= notice %></p>
+<h1><%= @customer.name %></h1>
+<div class="uk-container uk-float-left">
+  <section class="uk-container uk-float-left">
+    <h2><strong>Basic Information:</strong></h2>
+    <p>
+      <strong>Name:</strong>
+      <%= @customer.name %>
+    </p>
 
-<p>
-  <strong>Billing address:</strong>
-  <%= render 'addresses/display', address: @customer.billing_address %>
-</p>
+    <p>
+      <strong>Date joined:</strong>
+      <% if @customer.date_joined.nil? %>
+          <%= @customer.created_at.to_date %>
+      <% else %>
+          <%= @customer.date_joined.to_date %>
+      <% end %>
+    </p>
+  </section>
+</div>
+<div class="uk-container uk-float-left">
+  <section class="uk-container uk-float-left">
+    <h2><strong>Shipping Address:</strong></h2>
+    <p>
+      <strong>Name:</strong>
+      <%= @customer.shipping_address.name %>
+    </p>
 
-<p>
-  <strong>Shipping address:</strong>
-  <%= render 'addresses/display', address: @customer.billing_address %>
-</p>
+    <p>
+      <strong>Street:</strong>
+      <%= @customer.shipping_address.street %>
+    </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @customer.email %>
-</p>
+    <p>
+      <strong>City:</strong>
+      <%= @customer.shipping_address.city %>
+    </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @customer.name %>
-</p>
+    <p>
+      <strong>Zip:</strong>
+      <%= @customer.shipping_address.ZIP %>
+    </p>
 
-<p>
-  <strong>Date joined:</strong>
-  <%= @customer.date_joined %>
-</p>
+    <p>
+      <strong>State:</strong>
+      <%= @customer.shipping_address.state %>
+    </p>
 
-<%= link_to 'Edit', edit_customer_path(@customer) %> |
-<%= link_to 'Back', customers_path %>
+    <p>
+      <strong>Country:</strong>
+      <%= @customer.shipping_address.country %>
+    </p>
+
+    <p>
+      <strong>Phone:</strong>
+      <%= @customer.shipping_address.phone %>
+    </p>
+  </section>
+  <section class="uk-container uk-float-left">
+    <h2><strong>Billing Address:</strong></h2>
+    <p>
+      <strong>Name:</strong>
+      <%= @customer.billing_address.name %>
+    </p>
+
+    <p>
+      <strong>Street:</strong>
+      <%= @customer.billing_address.street %>
+    </p>
+
+    <p>
+      <strong>City:</strong>
+      <%= @customer.billing_address.city %>
+    </p>
+
+    <p>
+      <strong>Zip:</strong>
+      <%= @customer.billing_address.ZIP %>
+    </p>
+
+    <p>
+      <strong>State:</strong>
+      <%= @customer.billing_address.state %>
+    </p>
+
+    <p>
+      <strong>Country:</strong>
+      <%= @customer.billing_address.country %>
+    </p>
+
+    <p>
+      <strong>Phone:</strong>
+      <%= @customer.billing_address.phone %>
+    </p>
+  </section>
+</div>
+
+<%= link_to 'Back', dashboard_url %>

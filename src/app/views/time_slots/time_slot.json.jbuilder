@@ -1,7 +1,7 @@
 date_format = '%Y-%m-%dT%H:%M:%S'
 
 state = 0
-if !@time_slot.business_service_order.nil?
+if BusinessServiceOrder.where(time_slot_id: @time_slot.id).any?
   state = 1
 end
 if BusinessServiceOrder.where(time_slot_id: @time_slot.id).joins(:order).where("orders.customer_id = #{current_user.role.id}").any?

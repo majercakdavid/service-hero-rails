@@ -223,7 +223,7 @@
                     }).done(function (data) {
                         event.id = data["id"];
                         event._id = data["id"];
-                        switch (event.state) {
+                        switch (data.state) {
                             case 0:
                                 event.color = '#526F35';
                                 break;
@@ -239,11 +239,33 @@
                         UIkit.modal.alert("Error saving event: " + JSON.stringify(err));
                     });
                 },
+                eventClick: function (event, jsEvent, view) {
+                    $.ajax({
+                        type: "GET",
+                        url: '/get_time_slot_reservation',
+                        data: {
+                            "time_slot": {
+                                "id": event.id,
+                            }
+                        },
+                        dataType: "json"
+                    }).done(function (data) {
+                       if(!data){
+                           UIkit.modal.alert("No reservation made yet!");
+                       }
+                       UIkit.modal.confirm(data["message"],function(){
+                           window.location.replace(data["link"]);
+                       });
+                    }).fail(function (err) {
+                        UIkit.modal.alert("Error getting reservation info: " + JSON.stringify(err));
+                    });
+                },
                 eventRender: function (event, eventElement) {
                     eventElement.find("div.fc-title").addClass("uk-float-left");
                     eventElement.find("div.fc-content").append("<i onclick='removeTimeSlotById(" + event.id + ")' class='uk-icon-close uk-float-right'></i>");
                 }
-            });
+            })
+            ;
         }
 
         $.getJSON('/time_slottable_business_services', {business_id: <%= @business_services.first().business_id %>}).done(

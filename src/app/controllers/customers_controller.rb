@@ -1,7 +1,7 @@
 class CustomersController < ApplicationController
   skip_authorization_check :only => [:new, :create]
-  load_and_authorize_resource :only => [:edit, :update, :destroy]
-  before_action :authenticate_user!, :set_customer, only: [:edit, :update, :destroy]
+  load_and_authorize_resource :only => [:edit, :update, :destroy, :show]
+  before_action :authenticate_user!, :set_customer, only: [:edit, :update, :destroy, :show]
 
   # GET /customers
   # GET /customers.json
@@ -12,6 +12,7 @@ class CustomersController < ApplicationController
   # GET /customers/1
   # GET /customers/1.json
   def show
+    @customer = @customer.role
   end
 
   # GET /customers/new

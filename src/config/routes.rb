@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   put '/business_service_time_slot', to: 'time_slots#update_business_service_time_slot'
   delete '/business_service_time_slot', to: 'time_slots#destroy_business_service_time_slot'
   put '/make_time_slot_reservation', to: 'time_slots#make_time_slot_reservation'
+  get '/get_time_slot_reservation', to: 'time_slots#get_time_slot_reservation'
   #get '/sign_up_customer', to: 'customers#new'
   #post '/sign_up_customer', to: 'customers#create'
   #get '/sign_up_business_owner', to: 'business_owners#new'
@@ -54,6 +55,6 @@ Rails.application.routes.draw do
   resources :business_services do
     get :autocomplete_service_label, :on => :collection
   end
-  resources :customers, only: [:new, :create, :edit, :update, :destroy]
+  resources :customers, only: [:new, :create, :edit, :update, :destroy, :show]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

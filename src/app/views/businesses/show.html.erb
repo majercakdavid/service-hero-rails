@@ -107,7 +107,7 @@
 <div class="uk-flex uk-flex-space-around uk-width-1-1">
   <% if current_user.is_business_owner? %>
       <%= link_to 'Edit', edit_business_path(@business), :class => 'uk-button uk-form-width-medium' %>
-      <%= link_to 'Manage Time Slots', businesses_services_path(:business => {:id => @business.id}), :class => 'uk-button uk-form-width-medium' %>
+      <%= link_to 'Manage Time Slots', businesses_services_path(:business_service=>{:business_attributes => {:id => @business.id}}), :class => 'uk-button uk-form-width-medium' %>
       <%= link_to 'Delete', business_path(@business), method: :delete, :class => 'uk-button uk-form-width-medium' %>
   <% end %>
   <%= link_to 'Back', dashboard_path, :class => 'uk-button uk-form-width-medium' %>

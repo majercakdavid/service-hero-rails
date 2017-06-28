@@ -22,6 +22,7 @@ class Ability
       can :manage, TimeSlot, ["business_service_id in (?)", user.role.business_services] do |ts|
         ts.business_service.in?(user.role.business_services)
       end
+      can :show, Customer
       #can :manage, BusinessService, :id do |bs|
       #  bs.in?(user.role.business_services)
       #end
