@@ -20,7 +20,7 @@ class BusinessOwnersController < ApplicationController
   # POST /business_owners.json
   def create
     @business_owner = User.new
-    @business_owner.role_type = BusinessOwner.name
+    @business_owner.role = BusinessOwner.new
     @business_owner.update business_owner_params
     respond_to do |format|
       if @business_owner.save
