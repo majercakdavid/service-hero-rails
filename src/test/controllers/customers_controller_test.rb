@@ -49,7 +49,7 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
 
   test "should update customer" do
     patch customer_url(@customer), params: {
-        customer: {
+        user: {
             customer_attributes: {
                 date_joined: @customer.date_joined,
                 name: 'Customer Three',
