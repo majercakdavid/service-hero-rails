@@ -21,15 +21,15 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
   test "should create customer" do
     assert_difference('Customer.count') do
       post customers_url, params: {
-          customer: {
-              user_attributes: {
-                  email: 'customer.two@servicehero.com',
-                  password: 'secret',
-                  password_confirmation: 'secret',
+          user: {
+              customer_attributes: {
+                  name: 'Customer Two',
+                  shipping_address_attributes: addresses(:address_shipping).as_json,
+                  billing_address_attributes: addresses(:address_billing).as_json
               },
-              name: 'Customer Two',
-              shipping_address_attributes: addresses(:address_shipping).as_json,
-              billing_address_attributes: addresses(:address_billing).as_json
+              email: 'customer.two@servicehero.com',
+              password: 'secret',
+              password_confirmation: 'secret'
           }
       }
     end
@@ -50,15 +50,15 @@ class CustomersControllerTest < ActionDispatch::IntegrationTest
   test "should update customer" do
     patch customer_url(@customer), params: {
         customer: {
-            user_attributes: {
-                email: 'customer.three@servicehero.com',
-                password: 'secret',
-                password_confirmation: 'secret',
+            customer_attributes: {
+                date_joined: @customer.date_joined,
+                name: 'Customer Three',
+                shipping_address_attributes: addresses(:address_shipping).as_json,
+                billing_address_attributes: addresses(:address_billing).as_json
             },
-            date_joined: @customer.date_joined,
-            name: 'Customer Three',
-            shipping_address_attributes: addresses(:address_shipping).as_json,
-            billing_address_attributes: addresses(:address_billing).as_json
+            email: 'customer.three@servicehero.com',
+            password: 'secret',
+            password_confirmation: 'secret'
         }
     }
     #assert_equal @customer.user.email, 'customer.three@servicehero.com'
