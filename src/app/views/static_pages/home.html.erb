@@ -3,12 +3,12 @@
   <div class="uk-flex uk-flex-middle uk-flex-center uk-position-cover">
     <div class="uk-panel uk-panel-box uk-width-large-1-1 uk-width-medium-1-1">
       <div class="uk-panel-title uk-flex uk-flex-center">
-        <h1>Offer services, discover services</h1>
+        <h1 class="title-main">Offer services, discover services</h1>
       </div>
       <div class="uk-panel-body">
-        <div class="uk-margin">
-          <%= link_to "Customer sign up", new_customer_path, class: "uk-float-left uk-button-danger uk-button-large uk-border-rounded uk-width-large-1-3 uk-width-medium-1-1 uk-flex uk-flex-center" %>
-          <%= link_to "Business Owner sign up", new_business_owner_path, class: "uk-float-right uk-button-danger uk-button-large uk-border-rounded uk-width-large-1-3 uk-width-medium-1-1 uk-flex uk-flex-center" %>
+        <div class="uk-margin signup-buttons">
+          <%= link_to raw("Customer sign&nbsp;up" ), new_customer_path, class: "uk-float-left uk-button-danger uk-button-large uk-border-rounded uk-width-large-1-3 uk-width-medium-1-1 uk-flex uk-flex-center button-signup" %>
+          <%= link_to raw("Business Owner sign&nbsp;up"), new_business_owner_path, class: "uk-float-right uk-button-danger uk-button-large uk-border-rounded uk-width-large-1-3 uk-width-medium-1-1 uk-flex uk-flex-center button-signup" %>
         </div>
       </div>
     </div>

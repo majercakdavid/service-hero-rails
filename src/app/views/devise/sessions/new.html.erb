@@ -1,32 +1,36 @@
 <% provide(:title, "Log in") %>
-<div class="uk-flex uk-flex-middle uk-flex-center uk-flex-item-1">
+<div class="uk-flex uk-flex-middle uk-flex-item-1 login-form-container">
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "uk-form"}) do |f| %>
       <fieldset data-uk-margin>
-        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center">
-          <%= f.label :email %>
-        </div>
-        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center">
-          <%= f.email_field :email, autofocus: true, class: "uk-form-width-large" %>
+        <div class="field-group">
+          <div class="uk-form-row uk-flex uk-flex-middle label">
+            <%= f.label :email %>
+          </div>
+          <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center value">
+            <%= f.email_field :email, autofocus: true, class: "uk-form-width-large" %>
+          </div>
         </div>
 
-        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center">
-          <%= f.label :password %>
-        </div>
-        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center">
-          <%= f.password_field :password, autocomplete: "off", class: "uk-form-width-large" %>
+        <div class="field-group">
+          <div class="uk-form-row uk-flex uk-flex-middle label">
+            <%= f.label :password %>
+          </div>
+          <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center value">
+            <%= f.password_field :password, autocomplete: "off", class: "uk-form-width-large" %>
+          </div>
         </div>
 
         <% if devise_mapping.rememberable? -%>
-            <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center">
+            <div class="uk-form-row uk-flex uk-flex-middle remember-container">
               <%= f.check_box :remember_me, class: 'uk-form-row' %>
               <%= f.label :remember_me %>
             </div>
         <% end -%>
-        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center">
+        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center login-button-container">
           <%= f.submit "Log in", class: "uk-button uk-form-width-large" %>
         </div>
 
-        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center">
+        <div class="uk-form-row uk-flex uk-flex-middle uk-flex-center signup-cta">
           <p>New user? <%= link_to "Sign up now!", user_session_path %></p>
         </div>
       </fieldset>

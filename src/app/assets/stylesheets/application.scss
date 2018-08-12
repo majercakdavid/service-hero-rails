@@ -92,6 +92,110 @@ $utility-margin: 20px !default;
 //@import "fullcalendar.print.min";
 //@import "fullcalendar.min";
 
+// Static pages
+@import "static_pages";
+
+// Login
+.login-form-container {
+  justify-content: flex-start !important;
+
+  @media screen and (max-width: 767px) {
+    width: 90%;
+    transform: translateY(0);
+
+    form {
+      width: 100%;
+
+      fieldset {
+        min-width: 0;
+        width: 100%;
+
+        input {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  form {
+    transform: translateY(-30%);
+
+    .field-group {
+      &:not(:first-child) {
+        margin-top: 16px !important;
+      }
+  
+      .label {
+        font-size: 18px;
+        letter-spacing: 1px;
+      }
+  
+      .value {
+        margin-top: 4px !important;
+  
+        input {
+          border-radius: 4px;
+          padding: 8px;
+          height: 100%;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .remember-container {
+      margin-top: 16px !important;
+
+      label {
+        margin-left: 8px;
+        letter-spacing: 1px;
+      }
+    }
+
+    .login-button-container{
+      margin-top: 16px !important;
+
+      input {
+        font-size: 16px;
+        padding: 12px 8px;
+        transition: .3s all;
+        border-radius: 4px;
+
+        &:hover, &:focus, &:active {
+          background: #3966a7 !important;
+        }
+      }
+    }
+
+    .signup-cta {
+      margin-top: 40px !important;
+      font-size: 18px !important;
+
+      a {
+        text-decoration: none;
+        letter-spacing: 2px;
+        transition: .3s all;
+        padding-bottom: 6px;
+        
+        &:hover {
+          border-bottom: 2px solid $navbar-link-hover-color;
+        }
+      }
+    }
+  }
+}
+
+// Miscellaneous
+
+body {
+  overflow: hidden;
+}
+
+main {
+  @media screen and (max-width: 767px) {
+    margin: 0 5%;
+  }
+}
+
 .home-page {
   background-position: center;
   background-repeat: no-repeat;
@@ -105,6 +209,7 @@ $utility-margin: 20px !default;
 
 .uk-navbar-brand {
   height: 60px;
+  min-width: 80px;
 }
 
 .fc-event {

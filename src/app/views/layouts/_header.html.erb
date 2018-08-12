@@ -1,59 +1,69 @@
 <header>
   <nav class="uk-navbar uk-navbar-attached uk-margin-bottom uk-margin-top">
-    <div class="uk-margin-large-left uk-margin-large-right">
+    <div class="uk-margin-large-left uk-margin-large-right nav-content">
       <%= link_to root_path do %>
           <% image_tag 'header_logo.png', class: "uk-navbar-brand" %>
       <% end %>
-      <a href="#offcanvas-default" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
-      <div class="uk-navbar-flip">
-        <a href="" class="uk-navbar-toggle uk-navbar-toggle-alt uk-visible-small"></a>
-        <ul class="uk-navbar-nav uk-hidden-small">
-          <li><%= link_to "Home", root_path %></li>
-          <li><%= link_to "Help", help_path %></li>
-          <% if user_signed_in? %>
-              <li><%= link_to "Dashboard", dashboard_path %></li>
-              <li class="uk-parent" data-uk-dropdown>
-                <a href="#">
-                  Account<b class="caret"></b> <%= gravatar_for(current_user, {size: 25, class: 'header-gravatar'}) %>
-                </a>
-                <div class="uk-dropdown uk-dropdown-navbar">
-                  <ul class="uk-nav uk-nav-navbar">
-                    <li>
-                      <%= link_to dashboard_path, :action => 'go' do %>
-                          <div class="row">
-                            <%= gravatar_for(current_user, {size: 100, class: 'col-md-8 col-md-offset-2'}) %>
-                          </div>
-                          <div class="row">
+      <a
+        href="#offcanvas-content"
+        class="uk-navbar-toggle uk-visible-small nav-hamburger"
+        data-uk-offcanvas="{mode:'slide'}"
+      >
+      </a>
+      <div class="uk-offcanvas" id="offcanvas-content">
+        <div class="uk-offcanvas-bar">
+          <div class="uk-visible-small search-container">
+            <a href="#" class="uk-navbar-toggle uk-navbar-toggle-alt search-icon"></a>
+            <input placeholder="Search in services" class="search-input" />
+          </div>
+          <ul class="uk-navbar-nav nav-list">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Help", help_path %></li>
+            <% if user_signed_in? %>
+                <li><%= link_to "Dashboard", dashboard_path %></li>
+                <li class="uk-parent" data-uk-dropdown>
+                  <a href="#">
+                    Account<b class="caret"></b> <%= gravatar_for(current_user, {size: 25, class: 'header-gravatar'}) %>
+                  </a>
+                  <div class="uk-dropdown uk-dropdown-navbar">
+                    <ul class="uk-nav uk-nav-navbar">
+                      <li>
+                        <%= link_to dashboard_path, :action => 'go' do %>
+                            <div class="row">
+                              <%= gravatar_for(current_user, {size: 100, class: 'col-md-8 col-md-offset-2'}) %>
+                            </div>
+                            <div class="row">
+                              <div class="uk-nav-divider"></div>
+                              <bigger><%= current_user.role.name %></bigger>
+                              <br/>
+                              <small><%= current_user.email %></small>
+                            </div>
                             <div class="uk-nav-divider"></div>
-                            <bigger><%= current_user.role.name %></bigger>
-                            <br/>
-                            <small><%= current_user.email %></small>
-                          </div>
-                          <div class="uk-nav-divider"></div>
-                          Dashboard
+                            Dashboard
+                        <% end %>
+                      </li>
+                      <li class="uk-nav-divider"></li>
+                      <li><%= link_to "Settings", eval("edit_#{current_user.role.class.table_name.singularize}_path(current_user.role.id)") %></li>
+                      <% if current_user.is_business_owner? %>
+                          <li class="uk-nav-divider"></li>
+                          <li><%= link_to 'New Business', new_business_path %></li>
+                          <li class="uk-nav-divider"></li>
+                          <li><%= link_to 'New Employee', business_owners_invite_employee_path %></li>
+                          <li class="uk-nav-divider"></li>
+                          <li><%= link_to 'New Service', new_business_service_path %></li>
                       <% end %>
-                    </li>
-                    <li class="uk-nav-divider"></li>
-                    <li><%= link_to "Settings", eval("edit_#{current_user.role.class.table_name.singularize}_path(current_user.role.id)") %></li>
-                    <% if current_user.is_business_owner? %>
-                        <li class="uk-nav-divider"></li>
-                        <li><%= link_to 'New Business', new_business_path %></li>
-                        <li class="uk-nav-divider"></li>
-                        <li><%= link_to 'New Employee', business_owners_invite_employee_path %></li>
-                        <li class="uk-nav-divider"></li>
-                        <li><%= link_to 'New Service', new_business_service_path %></li>
-                    <% end %>
-                    <li class="uk-nav-divider"></li>
-                    <li>
-                      <%= link_to "Log out", destroy_user_session_path, method: "delete" %>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-          <% else %>
-              <li><%= link_to "Log in", new_user_session_path %></li>
-          <% end %>
-        </ul>
+                      <li class="uk-nav-divider"></li>
+                      <li>
+                        <%= link_to "Log out", destroy_user_session_path, method: "delete" %>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+            <% else %>
+                <li><%= link_to "Log in", new_user_session_path %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>

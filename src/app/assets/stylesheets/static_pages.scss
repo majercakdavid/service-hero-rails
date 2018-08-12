@@ -1,3 +1,166 @@
 // Place all the styles related to the static_pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// NAVIGATION
+@media screen and (min-width: 768px) {
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    background: transparent;
+  
+    .uk-offcanvas {
+      display: inline-block !important;
+      position: relative !important;
+      background: transparent;
+    
+      &-bar {
+        position: relative !important;
+        display: inline-block !important;
+        transform: none;
+        background: transparent;
+  
+        .nav-list {
+          float: right !important;
+        }
+      }
+    }
+  }
+}
+
+.nav-hamburger {
+  position: absolute;
+  right: 15%;
+  font-size: 30px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+
+  .search-icon {
+    float: none;
+    padding-left: 0;
+
+    @media screen and (max-width: 767px) {
+      color: $base-body-background;
+    }
+  }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    border-radius: 3px;
+    margin-left: 0 12px;
+    padding: 8px;
+    outline: 0;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    li {
+      width: 100%;
+      text-align: center;
+
+      &:hover {
+        background: rgba(255,255,255,0.25);
+  
+        a {
+          background: transparent;
+          border-bottom: none !important;
+          border-left: 10px solid $base-body-color;
+        }
+
+    }
+      a {
+        color: $base-body-background !important;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+      }
+    }
+  }
+}
+
+// HOME PAGE
+
+.signup-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
+
+  a {
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+  .button-signup {
+    transition: .3s all;
+    box-shadow: 0 4px $base-body-color;
+    background-color: $button-danger-background !important;
+    animation: .7s shadeIn 1s backwards;
+  
+    &:hover {
+      box-shadow: 0 2px $base-body-color;
+      transform: translateY(2px);
+    }
+  
+    &:active {
+      box-shadow: 0 0 transparent;
+      transform: translateY(4px);
+    }
+  
+    @media screen and (max-width: 959px) {
+      &:not(:first-child) {
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+.title-main {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  animation: 1.2s flyUp ;
+  text-align: center;
+}
+
+@keyframes flyUp {
+  0% {
+    opacity: 0;
+    transform: translateY(200px);
+  }
+  80% {
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+// HELP PAGE
+
+.help-content {
+  font-size: 18px;
+  margin-top: 20px;
+}
