@@ -94,6 +94,8 @@ $utility-margin: 20px !default;
 
 // Static pages
 @import "static_pages";
+// Customers
+@import "customers";
 
 // Login
 .login-form-container {
@@ -187,7 +189,7 @@ $utility-margin: 20px !default;
 // Miscellaneous
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 main {
