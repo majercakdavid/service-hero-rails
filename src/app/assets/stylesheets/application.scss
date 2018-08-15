@@ -230,13 +230,33 @@ form.signup-form {
       padding: 8px 24px;
       font-size: 20px;
       transition: .3s all;
+
+      @media screen and (max-width: 520px) {
+        width: 100%;
+      }
   
       &:hover, &:focus, &:active {
         background: #3966a7 !important;
       }
     }
-  }
+  } 
+}
+
+@media screen and (max-width: 767px) {
+  form.signup-form {
+    width: 80%;
   
+    .addresses {
+      flex-direction: column;
+  
+      .address {
+        &:last-child {
+          margin-left: 0;
+          margin-top: 32px;
+        }
+      }
+    }
+  }
 }
 
 // Miscellaneous
