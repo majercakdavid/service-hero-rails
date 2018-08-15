@@ -108,7 +108,7 @@
     transition: .3s all;
     box-shadow: 0 4px $base-body-color;
     background-color: $button-danger-background !important;
-    animation: .7s shadeIn 1s backwards;
+    animation: .7s shadeIn 1s backwards 1;
   
     &:hover {
       box-shadow: 0 2px $base-body-color;

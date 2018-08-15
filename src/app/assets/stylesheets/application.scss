@@ -96,6 +96,8 @@ $utility-margin: 20px !default;
 @import "static_pages";
 // Customers
 @import "customers";
+// Businesses
+@import "businesses";
 
 // Login
 .login-form-container {
@@ -184,6 +186,57 @@ $utility-margin: 20px !default;
       }
     }
   }
+}
+
+// Sign up forms
+form.signup-form {
+  width: 50%;
+  margin: 20px 4px 32px 4px;
+
+  .basic-info {
+    label {
+      margin-top: 0;
+    }
+  }
+
+  label {
+    font-size: 18px;
+    margin-top: 8px;
+  }
+
+  input {
+    margin-top: 4px;
+    border-radius: 4px;
+    padding: 16px 8px;
+    font-size: 16px;
+  }
+
+  .addresses {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px !important;
+
+    .address {
+      flex: 1;
+
+      &:last-child {
+        margin-left: 40px;
+      }
+    }
+  }
+
+  .submit-container {
+    .submit-button {
+      padding: 8px 24px;
+      font-size: 20px;
+      transition: .3s all;
+  
+      &:hover, &:focus, &:active {
+        background: #3966a7 !important;
+      }
+    }
+  }
+  
 }
 
 // Miscellaneous
