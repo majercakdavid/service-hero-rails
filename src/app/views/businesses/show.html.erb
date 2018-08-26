@@ -104,13 +104,22 @@
       </div>
     </div>
 <% end %>
-<div class="uk-flex uk-flex-space-around uk-width-1-1">
+<div class="action-container submit-container">
   <% if current_user.is_business_owner? %>
-      <%= link_to 'Edit', edit_business_path(@business), :class => 'uk-button uk-form-width-medium' %>
-      <%= link_to 'Manage Time Slots', businesses_services_path(:business_service=>{:business_attributes => {:id => @business.id}}), :class => 'uk-button uk-form-width-medium' %>
-      <%= link_to 'Delete', business_path(@business), method: :delete, :class => 'uk-button uk-form-width-medium' %>
+      <div class="btn-container">
+        <%= link_to 'Edit', edit_business_path(@business), :class => 'uk-button submit-button' %>
+      </div>
+      <div class="btn-container">
+        <%= link_to 'Manage Time Slots', businesses_services_path(:business_service=>{:business_attributes => {:id => @business.id}}), :class => 'uk-button submit-button' %>
+      </div>
+      <div class="btn-container">
+        <%= link_to 'Delete', business_path(@business), method: :delete, :class => 'uk-button submit-button' %>
+      </div>
   <% end %>
-  <%= link_to 'Back', dashboard_path, :class => 'uk-button uk-form-width-medium' %>
+
+    <div class="btn-container">
+      <%= link_to 'Back', dashboard_path, :class => 'uk-button submit-button' %>
+    </div>
 </div>
 <script type="application/javascript">
     $(document).on('turbolinks:load', function () {

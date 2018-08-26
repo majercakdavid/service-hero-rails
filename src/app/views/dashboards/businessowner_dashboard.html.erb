@@ -1,17 +1,17 @@
 <% provide(:title, @user.role.name) %>
-<div class="uk-float-left uk-container">
+<div class="uk-float-left uk-container dashboard">
   <section class="uk-float-left uk-width-large-1-2 uk-width-medium-1-1 uk-width-small-1-1">
       <h1>Businesses</h1>
     <%= link_to 'Create new', new_business_path %>
-    <div id="my-businesses-section" class="col-md-offset-5">
+    <div id="my-businesses-section" class="col-md-offset-5 business-section">
       <% show_svg("loading.svg") %>
     </div>
   </section>
   <section class="uk-float-left uk-width-large-1-2 uk-width-medium-1-1 uk-width-small-1-1">
     <h1>Latest orders</h1>
     <br/>
-    <div id="latest-orders-section">
-      <% show_svg("loading.svg") %>
+    <div class="business-section" id="latest-orders-section">
+      <% show_svg("loading.svg") %> 
     </div>
   </section>
   <script type="text/javascript">
