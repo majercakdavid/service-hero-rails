@@ -11,7 +11,7 @@
     <% end %>
     <section class="uk-flex uk-flex-column basic-info">
       <%= f.label :name %>
-      <%= f.text_field :name, class: 'form-control', placeholder: :name %>
+      <%= f.text_field :name, class: 'form-control'%>
 
       <% if !business.date_joined.nil? %>
           <%= f.label :date_joined %>
@@ -24,25 +24,25 @@
         <h2><%= :shipping_address.to_s.humanize %></h2>
         <%= f.fields_for :billing_address do |a| %>
             <%= a.label :name %>
-            <%= a.text_field :name, class: 'form-control', placeholder: :name %>
+            <%= a.text_field :name, class: 'form-control' %>
 
             <%= a.label :street %>
-            <%= a.text_field :street, class: 'form-control', placeholder: :street %>
+            <%= a.text_field :street, class: 'form-control' %>
 
             <%= a.label :city %>
-            <%= a.text_field :city, class: 'form-control', placeholder: :city %>
+            <%= a.text_field :city, class: 'form-control' %>
 
             <%= a.label :ZIP %>
-            <%= a.text_field :ZIP, class: 'form-control', placeholder: :ZIP %>
+            <%= a.text_field :ZIP, class: 'form-control'%>
 
             <%= a.label :state %>
-            <%= a.text_field :state, class: 'form-control', placeholder: :state %>
+            <%= a.text_field :state, class: 'form-control' %>
 
             <%= a.label :country %>
-            <%= a.text_field :country, class: 'form-control', placeholder: :country %>
+            <%= a.text_field :country, class: 'form-control' %>
 
             <%= a.label :phone %>
-            <%= a.text_field :phone, class: 'form-control', placeholder: :phone %>
+            <%= a.text_field :phone, class: 'form-control' %>
         <% end %>
       </section>
 
@@ -50,25 +50,25 @@
         <h2><%= :billing_address.to_s.humanize %></h2>
         <%= f.fields_for :shipping_address do |a| %>
             <%= a.label :name %>
-            <%= a.text_field :name, class: 'form-control', placeholder: :name %>
+            <%= a.text_field :name, class: 'form-control' %>
 
             <%= a.label :street %>
-            <%= a.text_field :street, class: 'form-control', placeholder: :street %>
+            <%= a.text_field :street, class: 'form-control' %>
 
             <%= a.label :city %>
-            <%= a.text_field :city, class: 'form-control', placeholder: :city %>
+            <%= a.text_field :city, class: 'form-control' %>
 
             <%= a.label :ZIP %>
-            <%= a.text_field :ZIP, class: 'form-control', placeholder: :ZIP %>
+            <%= a.text_field :ZIP, class: 'form-control' %>
 
             <%= a.label :state %>
-            <%= a.text_field :state, class: 'form-control', placeholder: :state %>
+            <%= a.text_field :state, class: 'form-control' %>
 
             <%= a.label :country %>
-            <%= a.text_field :country, class: 'form-control', placeholder: :country %>
+            <%= a.text_field :country, class: 'form-control'%>
 
             <%= a.label :phone %>
-            <%= a.text_field :phone, class: 'form-control', placeholder: :phone %>
+            <%= a.text_field :phone, class: 'form-control' %>
         <% end %>
       </section>
     </section>

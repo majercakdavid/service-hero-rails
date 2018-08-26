@@ -1,4 +1,4 @@
-<%= form_for(business_service, :html => {:class => 'uk-form uk-flex-item-1 uk-flex-column uk-flex-middle'}) do |f| %>
+<%= form_for(business_service, :html => {:class => 'uk-form uk-flex-item-1 uk-flex-column uk-flex-middle signup-form'}) do |f| %>
     <% if business_service.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(business_service.errors.count, "error") %> prohibited this business_service from being
@@ -29,12 +29,16 @@
       <%= f.text_field :price %>
 
       <%= f.label :enable_time_slots %>
-      <p>
-        <%= f.radio_button :enable_time_slots, true %>
-        <%= label_tag(:enable_time_slots_true, "Enable time slots") %>
-        <%= f.radio_button :enable_time_slots, false %>
-        <%= label_tag(:enable_time_slots_false, "Disable time slots") %>
-      </p>
+      <div class="uk-flex uk-margin-top">
+        <div class="input-group">
+            <%= f.radio_button :enable_time_slots, true %>
+            <%= label_tag(:enable_time_slots_true, "Enable time slots") %>
+        </div>
+        <div class="input-group">
+            <%= f.radio_button :enable_time_slots, false %>
+            <%= label_tag(:enable_time_slots_false, "Disable time slots") %>
+        </div>
+      </div>
 
       <%= f.fields_for :service, business_service.service do |s| %>
           <h2>Either choose existing one...</h2>
@@ -48,16 +52,14 @@
           <% end %>
           <h2>or create new one.</h2>
           <%= s.label :label, Service.name.humanize + " label:" %>
-          <%= s.text_field :label, class: 'form-control', placeholder: Service.name.humanize + " label" %>
+          <%= s.text_field :label, class: 'form-control'%>
 
           <%= s.label :description, Service.name.humanize + " description:" %>
-          <%= s.text_field :description, class: 'form-control', placeholder: Service.name.humanize + " description" %>
+          <%= s.text_field :description, class: 'form-control'%>
       <% end %>
 
-      <div class="uk-margin uk-flex uk-flex-center">
-        <h2>
-          <%= f.submit :class => 'uk-button uk-button-large' %>
-        </h2>
+      <div class="uk-margin uk-flex uk-flex-right submit-container">
+          <%= f.submit :class => 'uk-button uk-button-large submit-button' %>
       </div>
 <% end %>
 </section>

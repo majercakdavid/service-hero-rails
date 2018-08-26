@@ -98,6 +98,8 @@ $utility-margin: 20px !default;
 @import "customers";
 // Businesses
 @import "businesses";
+// Businesses
+@import "business_owners";
 
 // Login
 .login-form-container {
@@ -199,16 +201,30 @@ form.signup-form {
     }
   }
 
+  .input-group {
+    display: inline-block;
+
+    &:not(:first-child) {
+      margin-left: 16px;
+    }
+  }
+
   label {
     font-size: 18px;
     margin-top: 8px;
+    cursor: pointer;
   }
 
-  input {
+  input:not([type="radio"]) {
     margin-top: 4px;
     border-radius: 4px;
-    padding: 16px 8px;
+    padding: 16px 8px !important;
     font-size: 16px;
+  }
+
+  select {
+    border-radius: 4px;
+    padding: 16px 8px;
   }
 
   .addresses {
@@ -224,23 +240,23 @@ form.signup-form {
       }
     }
   }
-
-  .submit-container {
-    .submit-button {
-      padding: 8px 24px;
-      font-size: 20px;
-      transition: .3s all;
-
-      @media screen and (max-width: 520px) {
-        width: 100%;
-      }
-  
-      &:hover, &:focus, &:active {
-        background: #3966a7 !important;
-      }
-    }
-  } 
 }
+
+.submit-container {
+  .submit-button {
+    padding: 8px 24px;
+    font-size: 20px;
+    transition: .3s all;
+
+    @media screen and (max-width: 520px) {
+      width: 100%;
+    }
+
+    &:hover, &:focus, &:active {
+      background: #3966a7 !important;
+    }
+  }
+} 
 
 @media screen and (max-width: 767px) {
   form.signup-form {
